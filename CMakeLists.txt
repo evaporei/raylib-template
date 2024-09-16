@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(Mario VERSION 1.0 LANGUAGES CXX)
+project(Game VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -51,7 +51,7 @@ set(SOURCE_FILES
     "${CMAKE_SOURCE_DIR}/src/main.cpp"
 )
 
-add_executable(mario ${SOURCE_FILES})
-target_compile_options(mario PUBLIC ${MY_FLAGS})
+add_executable(game ${SOURCE_FILES})
+target_compile_options(game PUBLIC ${MY_FLAGS})
 
-target_link_libraries(mario PUBLIC raylib)
+target_link_libraries(game PUBLIC raylib)
