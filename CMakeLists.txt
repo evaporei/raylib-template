@@ -1,0 +1,36 @@
+cmake_minimum_required(VERSION 3.22)
+project(Mario VERSION 1.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+
+# Enable Clangd LSP integration with the project
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Set default build type to Debug if none is specified
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
+endif()
+
+# Add the DEBUG macro when building in Debug mode
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_definitions(-DDEBUG)
+endif()
+
+# ------------------------------------------------------------------------------
+# Third-party dependencies
+# ------------------------------------------------------------------------------
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+
+# ------------------------------------------------------------------------------
+# Source files
+# ------------------------------------------------------------------------------
+
+set(MY_FLAGS "-std=c++20" "-Wall")
+set(SOURCE_FILES
+    "${CMAKE_SOURCE_DIR}/src/main.cpp"
+)
+
+add_executable(mario ${SOURCE_FILES})
+target_compile_options(mario PUBLIC ${MY_FLAGS})
