@@ -30,11 +30,11 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [textures] example - blend modes");
 
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
-    Image bgImage = rlLoadImage("resources/cyberpunk_street_background.png");     // Loaded in CPU memory (RAM)
-    Texture2D bgTexture = rlLoadTextureFromImage(bgImage);          // Image converted to texture, GPU memory (VRAM)
+    rlImage bgImage = rlLoadImage("resources/cyberpunk_street_background.png");     // Loaded in CPU memory (RAM)
+    Texture2D bgTexture = rlLoadTextureFromImage(bgImage);          // rlImage converted to texture, GPU memory (VRAM)
 
-    Image fgImage = rlLoadImage("resources/cyberpunk_street_foreground.png");     // Loaded in CPU memory (RAM)
-    Texture2D fgTexture = rlLoadTextureFromImage(fgImage);          // Image converted to texture, GPU memory (VRAM)
+    rlImage fgImage = rlLoadImage("resources/cyberpunk_street_foreground.png");     // Loaded in CPU memory (RAM)
+    Texture2D fgTexture = rlLoadTextureFromImage(fgImage);          // rlImage converted to texture, GPU memory (VRAM)
 
     // Once image has been converted to texture and uploaded to VRAM, it can be unloaded from RAM
     rlUnloadImage(bgImage);

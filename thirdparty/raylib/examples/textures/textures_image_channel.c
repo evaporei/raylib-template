@@ -30,21 +30,21 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [textures] example - extract channel from image");
 
-    Image fudesumiImage = rlLoadImage("resources/fudesumi.png");
+    rlImage fudesumiImage = rlLoadImage("resources/fudesumi.png");
 
-    Image imageAlpha = rlImageFromChannel(fudesumiImage, 3);
+    rlImage imageAlpha = rlImageFromChannel(fudesumiImage, 3);
     rlImageAlphaMask(&imageAlpha, imageAlpha);
 
-    Image imageRed = rlImageFromChannel(fudesumiImage, 0);
+    rlImage imageRed = rlImageFromChannel(fudesumiImage, 0);
     rlImageAlphaMask(&imageRed, imageAlpha);
 
-    Image imageGreen = rlImageFromChannel(fudesumiImage, 1);
+    rlImage imageGreen = rlImageFromChannel(fudesumiImage, 1);
     rlImageAlphaMask(&imageGreen, imageAlpha);
 
-    Image imageBlue = rlImageFromChannel(fudesumiImage, 2);
+    rlImage imageBlue = rlImageFromChannel(fudesumiImage, 2);
     rlImageAlphaMask(&imageBlue, imageAlpha);
 
-    Image backgroundImage = rlGenImageChecked(screenWidth, screenHeight, screenWidth/20, screenHeight/20, ORANGE, YELLOW);
+    rlImage backgroundImage = rlGenImageChecked(screenWidth, screenHeight, screenWidth/20, screenHeight/20, ORANGE, YELLOW);
 
     Texture2D fudesumiTexture = rlLoadTextureFromImage(fudesumiImage);
     Texture2D textureAlpha = rlLoadTextureFromImage(imageAlpha);
@@ -62,13 +62,13 @@ int main(void)
 
     rlSetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 
-    Rectangle fudesumiRec = {0, 0, fudesumiImage.width, fudesumiImage.height};
+    rlRectangle fudesumiRec = {0, 0, fudesumiImage.width, fudesumiImage.height};
 
-    Rectangle fudesumiPos = {50, 10, fudesumiImage.width*0.8f, fudesumiImage.height*0.8f};
-    Rectangle redPos = { 410, 10, fudesumiPos.width / 2, fudesumiPos.height / 2 };
-    Rectangle greenPos = { 600, 10, fudesumiPos.width / 2, fudesumiPos.height / 2 };
-    Rectangle bluePos = { 410, 230, fudesumiPos.width / 2, fudesumiPos.height / 2 };
-    Rectangle alphaPos = { 600, 230, fudesumiPos.width / 2, fudesumiPos.height / 2 };
+    rlRectangle fudesumiPos = {50, 10, fudesumiImage.width*0.8f, fudesumiImage.height*0.8f};
+    rlRectangle redPos = { 410, 10, fudesumiPos.width / 2, fudesumiPos.height / 2 };
+    rlRectangle greenPos = { 600, 10, fudesumiPos.width / 2, fudesumiPos.height / 2 };
+    rlRectangle bluePos = { 410, 230, fudesumiPos.width / 2, fudesumiPos.height / 2 };
+    rlRectangle alphaPos = { 600, 230, fudesumiPos.width / 2, fudesumiPos.height / 2 };
 
     //--------------------------------------------------------------------------------------
 
@@ -80,12 +80,12 @@ int main(void)
         rlBeginDrawing();
 
             rlDrawTexture(backgroundTexture, 0, 0, WHITE);
-            rlDrawTexturePro(fudesumiTexture, fudesumiRec, fudesumiPos, (Vector2) {0, 0}, 0, WHITE);
+            rlDrawTexturePro(fudesumiTexture, fudesumiRec, fudesumiPos, (rlVector2) {0, 0}, 0, WHITE);
 
-            rlDrawTexturePro(textureRed, fudesumiRec, redPos, (Vector2) {0, 0}, 0, RED);
-            rlDrawTexturePro(textureGreen, fudesumiRec, greenPos, (Vector2) {0, 0}, 0, GREEN);
-            rlDrawTexturePro(textureBlue, fudesumiRec, bluePos, (Vector2) {0, 0}, 0, BLUE);
-            rlDrawTexturePro(textureAlpha, fudesumiRec, alphaPos, (Vector2) {0, 0}, 0, WHITE);
+            rlDrawTexturePro(textureRed, fudesumiRec, redPos, (rlVector2) {0, 0}, 0, RED);
+            rlDrawTexturePro(textureGreen, fudesumiRec, greenPos, (rlVector2) {0, 0}, 0, GREEN);
+            rlDrawTexturePro(textureBlue, fudesumiRec, bluePos, (rlVector2) {0, 0}, 0, BLUE);
+            rlDrawTexturePro(textureAlpha, fudesumiRec, alphaPos, (rlVector2) {0, 0}, 0, WHITE);
 
         rlEndDrawing();
         //----------------------------------------------------------------------------------

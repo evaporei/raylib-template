@@ -42,21 +42,21 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 8.0f, 8.0f, 8.0f };    // Camera position
-    camera.target = (Vector3){ 0.0f, 1.5f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 8.0f, 8.0f, 8.0f };    // Camera position
+    camera.target = (rlVector3){ 0.0f, 1.5f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
-    Model model = rlLoadModel("resources/models/barracks.obj");                   // Load OBJ model
+    rlModel model = rlLoadModel("resources/models/barracks.obj");                   // Load OBJ model
     Texture2D texture = LoadTexture("resources/models/barracks_diffuse.png");   // Load model texture (diffuse map)
     model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;                     // Set model diffuse texture
 
-    Vector3 position = { 0.0f, 0.0f, 0.0f };                                    // Set model position
+    rlVector3 position = { 0.0f, 0.0f, 0.0f };                                    // Set model position
 
     // Load postprocessing shader
     // NOTE: Defining 0 (NULL) for vertex shader forces usage of internal default vertex shader
-    Shader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/swirl.fs", GLSL_VERSION));
+    rlShader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/swirl.fs", GLSL_VERSION));
 
     // Get variable (uniform) location on the shader to connect with the program
     // NOTE: If uniform variable could not be found in the shader, function returns -1
@@ -77,7 +77,7 @@ int main(void)
         //----------------------------------------------------------------------------------
         rlUpdateCamera(&camera, CAMERA_ORBITAL);
         
-        Vector2 mousePosition = rlGetMousePosition();
+        rlVector2 mousePosition = rlGetMousePosition();
 
         swirlCenter[0] = mousePosition.x;
         swirlCenter[1] = screenHeight - mousePosition.y;
@@ -105,7 +105,7 @@ int main(void)
             // Enable shader using the custom uniform
             rlBeginShaderMode(shader);
                 // NOTE: Render texture must be y-flipped due to default OpenGL coordinates (left-bottom)
-                rlDrawTextureRec(target.texture, (Rectangle){ 0, 0, (float)target.texture.width, (float)-target.texture.height }, (Vector2){ 0, 0 }, WHITE);
+                rlDrawTextureRec(target.texture, (rlRectangle){ 0, 0, (float)target.texture.width, (float)-target.texture.height }, (rlVector2){ 0, 0 }, WHITE);
             rlEndShaderMode();
 
             // Draw some 2d text over drawn texture

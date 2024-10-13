@@ -31,13 +31,13 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [models] example - plane rotations (yaw, pitch, roll)");
 
     Camera camera = { 0 };
-    camera.position = (Vector3){ 0.0f, 50.0f, -120.0f };// Camera position perspective
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 0.0f, 50.0f, -120.0f };// Camera position perspective
+    camera.target = (rlVector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 30.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera type
 
-    Model model = rlLoadModel("resources/models/obj/plane.obj");                  // Load model
+    rlModel model = rlLoadModel("resources/models/obj/plane.obj");                  // Load model
     Texture2D texture = LoadTexture("resources/models/obj/plane_diffuse.png");  // Load model texture
     model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;            // Set map diffuse texture
 
@@ -81,7 +81,7 @@ int main(void)
         }
 
         // Tranformation matrix for rotations
-        model.transform = MatrixRotateXYZ((Vector3){ DEG2RAD*pitch, DEG2RAD*yaw, DEG2RAD*roll });
+        model.transform = MatrixRotateXYZ((rlVector3){ DEG2RAD*pitch, DEG2RAD*yaw, DEG2RAD*roll });
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -93,7 +93,7 @@ int main(void)
             // Draw 3D model (recomended to draw 3D always before 2D)
             rlBeginMode3D(camera);
 
-                rlDrawModel(model, (Vector3){ 0.0f, -8.0f, 0.0f }, 1.0f, WHITE);   // Draw 3d model with texture
+                rlDrawModel(model, (rlVector3){ 0.0f, -8.0f, 0.0f }, 1.0f, WHITE);   // Draw 3d model with texture
                 rlDrawGrid(10, 10.0f);
 
             rlEndMode3D();
@@ -105,7 +105,7 @@ int main(void)
             rlDrawText("Roll controlled with: KEY_LEFT / KEY_RIGHT", 40, 400, 10, DARKGRAY);
             rlDrawText("Yaw controlled with: KEY_A / KEY_S", 40, 420, 10, DARKGRAY);
 
-            rlDrawText("(c) WWI Plane Model created by GiaHanLam", screenWidth - 240, screenHeight - 20, 10, DARKGRAY);
+            rlDrawText("(c) WWI Plane rlModel created by GiaHanLam", screenWidth - 240, screenHeight - 20, 10, DARKGRAY);
 
         rlEndDrawing();
         //----------------------------------------------------------------------------------

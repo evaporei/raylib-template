@@ -43,12 +43,12 @@
 
 // Spot data
 typedef struct Spot {
-    Vector2 position;
-    Vector2 speed;
+    rlVector2 position;
+    rlVector2 speed;
     float inner;
     float radius;
 
-    // Shader locations
+    // rlShader locations
     unsigned int positionLoc;
     unsigned int innerLoc;
     unsigned int radiusLoc;
@@ -56,8 +56,8 @@ typedef struct Spot {
 
 // Stars in the star field have a position and velocity
 typedef struct Star {
-    Vector2 position;
-    Vector2 speed;
+    rlVector2 position;
+    rlVector2 speed;
 } Star;
 
 static void UpdateStar(Star *s);
@@ -76,7 +76,7 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [shaders] example - shader spotlight");
     rlHideCursor();
 
-    Texture texRay = LoadTexture("resources/raysan.png");
+    rlTexture texRay = LoadTexture("resources/raysan.png");
 
     Star stars[MAX_STARS] = { 0 };
 
@@ -91,7 +91,7 @@ int main(void)
     int frameCounter = 0;
 
     // Use default vert shader
-    Shader shdrSpot = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/spotlight.fs", GLSL_VERSION));
+    rlShader shdrSpot = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/spotlight.fs", GLSL_VERSION));
 
     // Get the locations of spots in the shader
     Spot spots[MAX_SPOTS];
@@ -124,7 +124,7 @@ int main(void)
     {
         spots[i].position.x = (float)rlGetRandomValue(64, screenWidth - 64);
         spots[i].position.y = (float)rlGetRandomValue(64, screenHeight - 64);
-        spots[i].speed = (Vector2){ 0, 0 };
+        spots[i].speed = (rlVector2){ 0, 0 };
 
         while ((fabs(spots[i].speed.x) + fabs(spots[i].speed.y)) < 2)
         {
@@ -158,7 +158,7 @@ int main(void)
         {
             if (i == 0)
             {
-                Vector2 mp = rlGetMousePosition();
+                rlVector2 mp = rlGetMousePosition();
                 spots[i].position.x = mp.x;
                 spots[i].position.y = screenHeight - mp.y;
             }
@@ -229,7 +229,7 @@ int main(void)
 
 static void ResetStar(Star *s)
 {
-    s->position = (Vector2){ rlGetScreenWidth()/2.0f, rlGetScreenHeight()/2.0f };
+    s->position = (rlVector2){ rlGetScreenWidth()/2.0f, rlGetScreenHeight()/2.0f };
 
     do
     {
@@ -238,7 +238,7 @@ static void ResetStar(Star *s)
 
     } while (!(fabs(s->speed.x) + (fabs(s->speed.y) > 1)));
 
-    s->position = Vector2Add(s->position, Vector2Multiply(s->speed, (Vector2){ 8.0f, 8.0f }));
+    s->position = Vector2Add(s->position, Vector2Multiply(s->speed, (rlVector2){ 8.0f, 8.0f }));
 }
 
 static void UpdateStar(Star *s)

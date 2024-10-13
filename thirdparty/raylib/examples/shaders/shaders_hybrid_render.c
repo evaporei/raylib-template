@@ -52,12 +52,12 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [shaders] example - write depth buffer");
 
-    // This Shader calculates pixel depth and color using raymarch
-    Shader shdrRaymarch = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/hybrid_raymarch.fs", GLSL_VERSION));
+    // This rlShader calculates pixel depth and color using raymarch
+    rlShader shdrRaymarch = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/hybrid_raymarch.fs", GLSL_VERSION));
 
-    // This Shader is a standard rasterization fragment shader with the addition of depth writing
+    // This rlShader is a standard rasterization fragment shader with the addition of depth writing
     // You are required to write depth for all shaders if one shader does it
-    Shader shdrRaster = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/hybrid_raster.fs", GLSL_VERSION));
+    rlShader shdrRaster = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/hybrid_raster.fs", GLSL_VERSION));
 
     // Declare Struct used to store camera locs.
     RayLocs marchLocs = {0};
@@ -68,7 +68,7 @@ int main(void)
     marchLocs.screenCenter = rlGetShaderLocation(shdrRaymarch, "screenCenter");
 
     // Transfer screenCenter position to shader. Which is used to calculate ray direction. 
-    Vector2 screenCenter = {.x = screenWidth/2.0f, .y = screenHeight/2.0f};
+    rlVector2 screenCenter = {.x = screenWidth/2.0f, .y = screenHeight/2.0f};
     rlSetShaderValue(shdrRaymarch, marchLocs.screenCenter , &screenCenter , SHADER_UNIFORM_VEC2);
 
     // Use Customized function to create writable depth texture buffer
@@ -76,9 +76,9 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = {
-        .position = (Vector3){ 0.5f, 1.0f, 1.5f },    // Camera position
-        .target = (Vector3){ 0.0f, 0.5f, 0.0f },      // Camera looking at point
-        .up = (Vector3){ 0.0f, 1.0f, 0.0f },          // Camera up vector (rotation towards target)
+        .position = (rlVector3){ 0.5f, 1.0f, 1.5f },    // Camera position
+        .target = (rlVector3){ 0.0f, 0.5f, 0.0f },      // Camera looking at point
+        .up = (rlVector3){ 0.0f, 1.0f, 0.0f },          // Camera up vector (rotation towards target)
         .fovy = 45.0f,                                // Camera field-of-view Y
         .projection = CAMERA_PERSPECTIVE              // Camera projection type
     };
@@ -100,7 +100,7 @@ int main(void)
         rlSetShaderValue(shdrRaymarch, marchLocs.camPos, &(camera.position), RL_SHADER_UNIFORM_VEC3);
         
         // Update Camera Looking Vector. Vector length determines FOV.
-        Vector3 camDir = Vector3Scale( Vector3Normalize( Vector3Subtract(camera.target, camera.position)) , camDist);
+        rlVector3 camDir = Vector3Scale( Vector3Normalize( Vector3Subtract(camera.target, camera.position)) , camDist);
         rlSetShaderValue(shdrRaymarch, marchLocs.camDir, &(camDir), RL_SHADER_UNIFORM_VEC3);
         //----------------------------------------------------------------------------------
         
@@ -113,16 +113,16 @@ int main(void)
             // Raymarch Scene
             rlEnableDepthTest(); //Manually enable Depth Test to handle multiple rendering methods.
             rlBeginShaderMode(shdrRaymarch);
-                rlDrawRectangleRec((Rectangle){0,0, (float)screenWidth, (float)screenHeight},WHITE);
+                rlDrawRectangleRec((rlRectangle){0,0, (float)screenWidth, (float)screenHeight},WHITE);
             rlEndShaderMode();
             
             // Rasterize Scene
             rlBeginMode3D(camera);
                 rlBeginShaderMode(shdrRaster);
-                    rlDrawCubeWiresV((Vector3){ 0.0f, 0.5f, 1.0f }, (Vector3){ 1.0f, 1.0f, 1.0f }, RED);
-                    rlDrawCubeV((Vector3){ 0.0f, 0.5f, 1.0f }, (Vector3){ 1.0f, 1.0f, 1.0f }, PURPLE);
-                    rlDrawCubeWiresV((Vector3){ 0.0f, 0.5f, -1.0f }, (Vector3){ 1.0f, 1.0f, 1.0f }, DARKGREEN);
-                    rlDrawCubeV((Vector3) { 0.0f, 0.5f, -1.0f }, (Vector3){ 1.0f, 1.0f, 1.0f }, YELLOW);
+                    rlDrawCubeWiresV((rlVector3){ 0.0f, 0.5f, 1.0f }, (rlVector3){ 1.0f, 1.0f, 1.0f }, RED);
+                    rlDrawCubeV((rlVector3){ 0.0f, 0.5f, 1.0f }, (rlVector3){ 1.0f, 1.0f, 1.0f }, PURPLE);
+                    rlDrawCubeWiresV((rlVector3){ 0.0f, 0.5f, -1.0f }, (rlVector3){ 1.0f, 1.0f, 1.0f }, DARKGREEN);
+                    rlDrawCubeV((rlVector3) { 0.0f, 0.5f, -1.0f }, (rlVector3){ 1.0f, 1.0f, 1.0f }, YELLOW);
                     rlDrawGrid(10, 1.0f);
                 rlEndShaderMode();
             rlEndMode3D();
@@ -132,7 +132,7 @@ int main(void)
         rlBeginDrawing();
             rlClearBackground(RAYWHITE);
         
-            rlDrawTextureRec(target.texture, (Rectangle) { 0, 0, (float)screenWidth, (float)-screenHeight }, (Vector2) { 0, 0 }, WHITE);
+            rlDrawTextureRec(target.texture, (rlRectangle) { 0, 0, (float)screenWidth, (float)-screenHeight }, (rlVector2) { 0, 0 }, WHITE);
             rlDrawFPS(10, 10);
         rlEndDrawing();
         //----------------------------------------------------------------------------------
@@ -197,7 +197,7 @@ void UnloadRenderTextureDepthTex(RenderTexture2D target)
 {
     if (target.id > 0)
     {
-        // Color texture attached to FBO is deleted
+        // rlColor texture attached to FBO is deleted
         rlUnloadTexture(target.texture.id);
         rlUnloadTexture(target.depth.id);
 

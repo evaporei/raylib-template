@@ -71,7 +71,7 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib - point particles");
 
-    Shader shader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/point_particle.vs", GLSL_VERSION),
+    rlShader shader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/point_particle.vs", GLSL_VERSION),
                                rlTextFormat("resources/shaders/glsl%i/point_particle.fs", GLSL_VERSION));
 
     int currentTimeLoc = rlGetShaderLocation(shader, "currentTime");
@@ -132,11 +132,11 @@ int main(void)
             
                 glUniform1f(currentTimeLoc, rlGetTime());
 
-                Vector4 color = rlColorNormalize((Color){ 255, 0, 0, 128 });
+                rlVector4 color = rlColorNormalize((rlColor){ 255, 0, 0, 128 });
                 glUniform4fv(colorLoc, 1, (float *)&color);
 
                 // Get the current modelview and projection matrix so the particle system is displayed and transformed
-                Matrix modelViewProjection = MatrixMultiply(rlGetMatrixModelview(), rlGetMatrixProjection());
+                rlMatrix modelViewProjection = MatrixMultiply(rlGetMatrixModelview(), rlGetMatrixProjection());
                 
                 glUniformMatrix4fv(shader.locs[SHADER_LOC_MATRIX_MVP], 1, false, MatrixToFloat(modelViewProjection));
 

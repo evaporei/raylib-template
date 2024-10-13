@@ -31,7 +31,7 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [text] example - raylib fonts");
 
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
-    Font fonts[MAX_FONTS] = { 0 };
+    rlFont fonts[MAX_FONTS] = { 0 };
 
     fonts[0] = rlLoadFont("resources/fonts/alagard.png");
     fonts[1] = rlLoadFont("resources/fonts/pixelplay.png");
@@ -53,7 +53,7 @@ int main(void)
 
     const int spacings[MAX_FONTS] = { 2, 4, 8, 4, 3, 4, 4, 1 };
 
-    Vector2 positions[MAX_FONTS] = { 0 };
+    rlVector2 positions[MAX_FONTS] = { 0 };
 
     for (int i = 0; i < MAX_FONTS; i++)
     {
@@ -66,7 +66,7 @@ int main(void)
     positions[4].y += 2;
     positions[7].y -= 8;
 
-    Color colors[MAX_FONTS] = { MAROON, ORANGE, DARKGREEN, DARKBLUE, DARKPURPLE, LIME, GOLD, RED };
+    rlColor colors[MAX_FONTS] = { MAROON, ORANGE, DARKGREEN, DARKBLUE, DARKPURPLE, LIME, GOLD, RED };
 
     rlSetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------

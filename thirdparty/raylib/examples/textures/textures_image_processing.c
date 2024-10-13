@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [textures] example - Image processing
+*   raylib [textures] example - rlImage processing
 *
 *   NOTE: Images are loaded in CPU memory (RAM); textures are loaded in GPU memory (VRAM)
 *
@@ -57,19 +57,19 @@ int main(void)
 
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
 
-    Image imOrigin = rlLoadImage("resources/parrots.png");   // Loaded in CPU memory (RAM)
+    rlImage imOrigin = rlLoadImage("resources/parrots.png");   // Loaded in CPU memory (RAM)
     rlImageFormat(&imOrigin, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);         // Format image to RGBA 32bit (required for texture update) <-- ISSUE
-    Texture2D texture = rlLoadTextureFromImage(imOrigin);    // Image converted to texture, GPU memory (VRAM)
+    Texture2D texture = rlLoadTextureFromImage(imOrigin);    // rlImage converted to texture, GPU memory (VRAM)
 
-    Image imCopy = rlImageCopy(imOrigin);
+    rlImage imCopy = rlImageCopy(imOrigin);
 
     int currentProcess = NONE;
     bool textureReload = false;
 
-    Rectangle toggleRecs[NUM_PROCESSES] = { 0 };
+    rlRectangle toggleRecs[NUM_PROCESSES] = { 0 };
     int mouseHoverRec = -1;
 
-    for (int i = 0; i < NUM_PROCESSES; i++) toggleRecs[i] = (Rectangle){ 40.0f, (float)(50 + 32*i), 150.0f, 30.0f };
+    for (int i = 0; i < NUM_PROCESSES; i++) toggleRecs[i] = (rlRectangle){ 40.0f, (float)(50 + 32*i), 150.0f, 30.0f };
 
     rlSetTargetFPS(60);
     //---------------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ int main(void)
             rlUnloadImage(imCopy);                // Unload image-copy data
             imCopy = rlImageCopy(imOrigin);     // Restore image-copy from image-origin
 
-            // NOTE: Image processing is a costly CPU process to be done every frame,
+            // NOTE: rlImage processing is a costly CPU process to be done every frame,
             // If image processing is required in a frame-basis, it should be done
             // with a texture and by shaders
             switch (currentProcess)
@@ -133,7 +133,7 @@ int main(void)
                 default: break;
             }
 
-            Color *pixels = rlLoadImageColors(imCopy);    // Load pixel data from image (RGBA 32bit)
+            rlColor *pixels = rlLoadImageColors(imCopy);    // Load pixel data from image (RGBA 32bit)
             UpdateTexture(texture, pixels);             // Update texture with new image data
             rlUnloadImageColors(pixels);                  // Unload pixels data from RAM
 

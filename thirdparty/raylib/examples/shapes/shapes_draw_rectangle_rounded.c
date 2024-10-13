@@ -48,7 +48,7 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-        Rectangle rec = { ((float)rlGetScreenWidth() - width - 250)/2, (rlGetScreenHeight() - height)/2.0f, (float)width, (float)height };
+        rlRectangle rec = { ((float)rlGetScreenWidth() - width - 250)/2, (rlGetScreenHeight() - height)/2.0f, (float)width, (float)height };
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -66,15 +66,15 @@ int main(void)
 
             // Draw GUI controls
             //------------------------------------------------------------------------------
-            GuiSliderBar((Rectangle){ 640, 40, 105, 20 }, "Width", rlTextFormat("%.2f", width), &width, 0, (float)rlGetScreenWidth() - 300);
-            GuiSliderBar((Rectangle){ 640, 70, 105, 20 }, "Height", rlTextFormat("%.2f", height), &height, 0, (float)rlGetScreenHeight() - 50);
-            GuiSliderBar((Rectangle){ 640, 140, 105, 20 }, "Roundness", rlTextFormat("%.2f", roundness), &roundness, 0.0f, 1.0f);
-            GuiSliderBar((Rectangle){ 640, 170, 105, 20 }, "Thickness", rlTextFormat("%.2f", lineThick), &lineThick, 0, 20);
-            GuiSliderBar((Rectangle){ 640, 240, 105, 20}, "Segments", rlTextFormat("%.2f", segments), &segments, 0, 60);
+            GuiSliderBar((rlRectangle){ 640, 40, 105, 20 }, "Width", rlTextFormat("%.2f", width), &width, 0, (float)rlGetScreenWidth() - 300);
+            GuiSliderBar((rlRectangle){ 640, 70, 105, 20 }, "Height", rlTextFormat("%.2f", height), &height, 0, (float)rlGetScreenHeight() - 50);
+            GuiSliderBar((rlRectangle){ 640, 140, 105, 20 }, "Roundness", rlTextFormat("%.2f", roundness), &roundness, 0.0f, 1.0f);
+            GuiSliderBar((rlRectangle){ 640, 170, 105, 20 }, "Thickness", rlTextFormat("%.2f", lineThick), &lineThick, 0, 20);
+            GuiSliderBar((rlRectangle){ 640, 240, 105, 20}, "Segments", rlTextFormat("%.2f", segments), &segments, 0, 60);
 
-            GuiCheckBox((Rectangle){ 640, 320, 20, 20 }, "DrawRoundedRect", &drawRoundedRect);
-            GuiCheckBox((Rectangle){ 640, 350, 20, 20 }, "DrawRoundedLines", &drawRoundedLines);
-            GuiCheckBox((Rectangle){ 640, 380, 20, 20}, "DrawRect", &drawRect);
+            GuiCheckBox((rlRectangle){ 640, 320, 20, 20 }, "DrawRoundedRect", &drawRoundedRect);
+            GuiCheckBox((rlRectangle){ 640, 350, 20, 20 }, "DrawRoundedLines", &drawRoundedLines);
+            GuiCheckBox((rlRectangle){ 640, 380, 20, 20}, "DrawRect", &drawRect);
             //------------------------------------------------------------------------------
 
             rlDrawText(rlTextFormat("MODE: %s", (segments >= 4)? "MANUAL" : "AUTO"), 640, 280, 10, (segments >= 4)? MAROON : DARKGRAY);

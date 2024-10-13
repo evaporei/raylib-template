@@ -30,10 +30,10 @@ int main(void)
 
     int animFrames = 0;
 
-    // Load all GIF animation frames into a single Image
+    // Load all GIF animation frames into a single rlImage
     // NOTE: GIF data is always loaded as RGBA (32bit) by default
     // NOTE: Frames are just appended one after another in image.data memory
-    Image imScarfyAnim = rlLoadImageAnim("resources/scarfy_run.gif", &animFrames);
+    rlImage imScarfyAnim = rlLoadImageAnim("resources/scarfy_run.gif", &animFrames);
 
     // Load texture from image
     // NOTE: We will update this texture when required with next frame data

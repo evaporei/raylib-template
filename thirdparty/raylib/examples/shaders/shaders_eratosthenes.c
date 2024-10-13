@@ -49,7 +49,7 @@ int main(void)
 
     // Load Eratosthenes shader
     // NOTE: Defining 0 (NULL) for vertex shader forces usage of internal default vertex shader
-    Shader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/eratosthenes.fs", GLSL_VERSION));
+    rlShader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/eratosthenes.fs", GLSL_VERSION));
 
     rlSetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ int main(void)
             rlClearBackground(BLACK);     // Clear the render texture
 
             // Draw a rectangle in shader mode to be used as shader canvas
-            // NOTE: Rectangle uses font white character texture coordinates,
+            // NOTE: rlRectangle uses font white character texture coordinates,
             // so shader can not be applied here directly because input vertexTexCoord
             // do not represent full screen coordinates (space where want to apply shader)
             rlDrawRectangle(0, 0, rlGetScreenWidth(), rlGetScreenHeight(), BLACK);
@@ -79,7 +79,7 @@ int main(void)
 
             rlBeginShaderMode(shader);
                 // NOTE: Render texture must be y-flipped due to default OpenGL coordinates (left-bottom)
-                rlDrawTextureRec(target.texture, (Rectangle){ 0, 0, (float)target.texture.width, (float)-target.texture.height }, (Vector2){ 0.0f, 0.0f }, WHITE);
+                rlDrawTextureRec(target.texture, (rlRectangle){ 0, 0, (float)target.texture.width, (float)-target.texture.height }, (rlVector2){ 0.0f, 0.0f }, WHITE);
             rlEndShaderMode();
         rlEndDrawing();
         //----------------------------------------------------------------------------------

@@ -33,7 +33,7 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [core] example - vr simulator");
 
     // VR device parameters definition
-    VrDeviceInfo device = {
+    rlVrDeviceInfo device = {
         // Oculus Rift CV1 parameters for simulator
         .hResolution = 2160,                 // Horizontal resolution in pixels
         .vResolution = 1200,                 // Vertical resolution in pixels
@@ -56,10 +56,10 @@ int main(void)
     };
 
     // Load VR stereo config for VR device parameteres (Oculus Rift CV1 parameters)
-    VrStereoConfig config = rlLoadVrStereoConfig(device);
+    rlVrStereoConfig config = rlLoadVrStereoConfig(device);
 
     // Distortion shader (uses device lens distortion and chroma)
-    Shader distortion = rlLoadShader(0, rlTextFormat("resources/distortion%i.fs", GLSL_VERSION));
+    rlShader distortion = rlLoadShader(0, rlTextFormat("resources/distortion%i.fs", GLSL_VERSION));
 
     // Update distortion shader with lens and distortion-scale parameters
     rlSetShaderValue(distortion, rlGetShaderLocation(distortion, "leftLensCenter"),
@@ -84,19 +84,19 @@ int main(void)
     // NOTE: Screen size should match HMD aspect ratio
     RenderTexture2D target = rlLoadRenderTexture(device.hResolution, device.vResolution);
 
-    // The target's height is flipped (in the source Rectangle), due to OpenGL reasons
-    Rectangle sourceRec = { 0.0f, 0.0f, (float)target.texture.width, -(float)target.texture.height };
-    Rectangle destRec = { 0.0f, 0.0f, (float)rlGetScreenWidth(), (float)rlGetScreenHeight() };
+    // The target's height is flipped (in the source rlRectangle), due to OpenGL reasons
+    rlRectangle sourceRec = { 0.0f, 0.0f, (float)target.texture.width, -(float)target.texture.height };
+    rlRectangle destRec = { 0.0f, 0.0f, (float)rlGetScreenWidth(), (float)rlGetScreenHeight() };
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 5.0f, 2.0f, 5.0f };    // Camera position
-    camera.target = (Vector3){ 0.0f, 2.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector
+    camera.position = (rlVector3){ 5.0f, 2.0f, 5.0f };    // Camera position
+    camera.target = (rlVector3){ 0.0f, 2.0f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector
     camera.fovy = 60.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
-    Vector3 cubePosition = { 0.0f, 0.0f, 0.0f };
+    rlVector3 cubePosition = { 0.0f, 0.0f, 0.0f };
 
     rlDisableCursor();                    // Limit cursor to relative movement inside the window
 
@@ -129,7 +129,7 @@ int main(void)
         rlBeginDrawing();
             rlClearBackground(RAYWHITE);
             rlBeginShaderMode(distortion);
-                rlDrawTexturePro(target.texture, sourceRec, destRec, (Vector2){ 0.0f, 0.0f }, 0.0f, WHITE);
+                rlDrawTexturePro(target.texture, sourceRec, destRec, (rlVector2){ 0.0f, 0.0f }, 0.0f, WHITE);
             rlEndShaderMode();
             rlDrawFPS(10, 10);
         rlEndDrawing();

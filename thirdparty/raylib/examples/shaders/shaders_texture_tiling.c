@@ -34,16 +34,16 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [shaders] example - texture tiling");
 
     // Define the camera to look into our 3d world
-    Camera3D camera = { 0 };
-    camera.position = (Vector3){ 4.0f, 4.0f, 4.0f }; // Camera position
-    camera.target = (Vector3){ 0.0f, 0.5f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    rlCamera3D camera = { 0 };
+    camera.position = (rlVector3){ 4.0f, 4.0f, 4.0f }; // Camera position
+    camera.target = (rlVector3){ 0.0f, 0.5f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
     // Load a cube model
-    Mesh cube = rlGenMeshCube(1.0f, 1.0f, 1.0f);
-    Model model = rlLoadModelFromMesh(cube);
+    rlMesh cube = rlGenMeshCube(1.0f, 1.0f, 1.0f);
+    rlModel model = rlLoadModelFromMesh(cube);
     
     // Load a texture and assign to cube model
     Texture2D texture = LoadTexture("resources/cubicmap_atlas.png");
@@ -51,7 +51,7 @@ int main(void)
 
     // Set the texture tiling using a shader
     float tiling[2] = { 3.0f, 3.0f };
-    Shader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/tiling.fs", GLSL_VERSION));
+    rlShader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/tiling.fs", GLSL_VERSION));
     rlSetShaderValue(shader, rlGetShaderLocation(shader, "tiling"), tiling, SHADER_UNIFORM_VEC2);
     model.materials[0].shader = shader;
 
@@ -67,7 +67,7 @@ int main(void)
         //----------------------------------------------------------------------------------
         rlUpdateCamera(&camera, CAMERA_FREE);
 
-        if (rlIsKeyPressed('Z')) camera.target = (Vector3){ 0.0f, 0.5f, 0.0f };
+        if (rlIsKeyPressed('Z')) camera.target = (rlVector3){ 0.0f, 0.5f, 0.0f };
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -79,7 +79,7 @@ int main(void)
             rlBeginMode3D(camera);
             
                 rlBeginShaderMode(shader);
-                    rlDrawModel(model, (Vector3){ 0.0f, 0.0f, 0.0f }, 2.0f, WHITE);
+                    rlDrawModel(model, (rlVector3){ 0.0f, 0.0f, 0.0f }, 2.0f, WHITE);
                 rlEndShaderMode();
 
                 rlDrawGrid(10, 1.0f);

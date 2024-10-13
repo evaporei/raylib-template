@@ -27,15 +27,15 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [textures] example - procedural images generation");
 
-    Image verticalGradient = rlGenImageGradientLinear(screenWidth, screenHeight, 0, RED, BLUE);
-    Image horizontalGradient = rlGenImageGradientLinear(screenWidth, screenHeight, 90, RED, BLUE);
-    Image diagonalGradient = rlGenImageGradientLinear(screenWidth, screenHeight, 45, RED, BLUE);
-    Image radialGradient = rlGenImageGradientRadial(screenWidth, screenHeight, 0.0f, WHITE, BLACK);
-    Image squareGradient = rlGenImageGradientSquare(screenWidth, screenHeight, 0.0f, WHITE, BLACK);
-    Image checked = rlGenImageChecked(screenWidth, screenHeight, 32, 32, RED, BLUE);
-    Image whiteNoise = rlGenImageWhiteNoise(screenWidth, screenHeight, 0.5f);
-    Image perlinNoise = rlGenImagePerlinNoise(screenWidth, screenHeight, 50, 50, 4.0f);
-    Image cellular = rlGenImageCellular(screenWidth, screenHeight, 32);
+    rlImage verticalGradient = rlGenImageGradientLinear(screenWidth, screenHeight, 0, RED, BLUE);
+    rlImage horizontalGradient = rlGenImageGradientLinear(screenWidth, screenHeight, 90, RED, BLUE);
+    rlImage diagonalGradient = rlGenImageGradientLinear(screenWidth, screenHeight, 45, RED, BLUE);
+    rlImage radialGradient = rlGenImageGradientRadial(screenWidth, screenHeight, 0.0f, WHITE, BLACK);
+    rlImage squareGradient = rlGenImageGradientSquare(screenWidth, screenHeight, 0.0f, WHITE, BLACK);
+    rlImage checked = rlGenImageChecked(screenWidth, screenHeight, 32, 32, RED, BLUE);
+    rlImage whiteNoise = rlGenImageWhiteNoise(screenWidth, screenHeight, 0.5f);
+    rlImage perlinNoise = rlGenImagePerlinNoise(screenWidth, screenHeight, 50, 50, 4.0f);
+    rlImage cellular = rlGenImageCellular(screenWidth, screenHeight, 32);
 
     Texture2D textures[NUM_TEXTURES] = { 0 };
 

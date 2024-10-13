@@ -30,10 +30,10 @@ int main()
     rlInitWindow(screenWidth, screenHeight, "raylib [models] example - waving cubes");
 
     // Initialize the camera
-    Camera3D camera = { 0 };
-    camera.position = (Vector3){ 30.0f, 20.0f, 30.0f }; // Camera position
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    rlCamera3D camera = { 0 };
+    camera.position = (rlVector3){ 30.0f, 20.0f, 30.0f }; // Camera position
+    camera.target = (rlVector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 70.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
@@ -82,7 +82,7 @@ int main()
                             float scatter = sinf(blockScale*20.0f + (float)(time*4.0f));
 
                             // Calculate the cube position
-                            Vector3 cubePos = {
+                            rlVector3 cubePos = {
                                 (float)(x - numBlocks/2)*(scale*3.0f) + scatter,
                                 (float)(y - numBlocks/2)*(scale*2.0f) + scatter,
                                 (float)(z - numBlocks/2)*(scale*3.0f) + scatter
@@ -91,7 +91,7 @@ int main()
                             // Pick a color with a hue depending on cube position for the rainbow color effect
                             // NOTE: This function is quite costly to be done per cube and frame, 
                             // pre-catching the results into a separate array could improve performance
-                            Color cubeColor = rlColorFromHSV((float)(((x + y + z)*18)%360), 0.75f, 0.9f);
+                            rlColor cubeColor = rlColorFromHSV((float)(((x + y + z)*18)%360), 0.75f, 0.9f);
 
                             // Calculate cube size
                             float cubeSize = (2.4f - scale)*blockScale;

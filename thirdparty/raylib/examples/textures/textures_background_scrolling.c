@@ -47,7 +47,7 @@ int main(void)
         scrollingMid -= 0.5f;
         scrollingFore -= 1.0f;
 
-        // NOTE: Texture is scaled twice its size, so it sould be considered on scrolling
+        // NOTE: rlTexture is scaled twice its size, so it sould be considered on scrolling
         if (scrollingBack <= -background.width*2) scrollingBack = 0;
         if (scrollingMid <= -midground.width*2) scrollingMid = 0;
         if (scrollingFore <= -foreground.width*2) scrollingFore = 0;
@@ -60,17 +60,17 @@ int main(void)
             rlClearBackground(rlGetColor(0x052c46ff));
 
             // Draw background image twice
-            // NOTE: Texture is scaled twice its size
-            rlDrawTextureEx(background, (Vector2){ scrollingBack, 20 }, 0.0f, 2.0f, WHITE);
-            rlDrawTextureEx(background, (Vector2){ background.width*2 + scrollingBack, 20 }, 0.0f, 2.0f, WHITE);
+            // NOTE: rlTexture is scaled twice its size
+            rlDrawTextureEx(background, (rlVector2){ scrollingBack, 20 }, 0.0f, 2.0f, WHITE);
+            rlDrawTextureEx(background, (rlVector2){ background.width*2 + scrollingBack, 20 }, 0.0f, 2.0f, WHITE);
 
             // Draw midground image twice
-            rlDrawTextureEx(midground, (Vector2){ scrollingMid, 20 }, 0.0f, 2.0f, WHITE);
-            rlDrawTextureEx(midground, (Vector2){ midground.width*2 + scrollingMid, 20 }, 0.0f, 2.0f, WHITE);
+            rlDrawTextureEx(midground, (rlVector2){ scrollingMid, 20 }, 0.0f, 2.0f, WHITE);
+            rlDrawTextureEx(midground, (rlVector2){ midground.width*2 + scrollingMid, 20 }, 0.0f, 2.0f, WHITE);
 
             // Draw foreground image twice
-            rlDrawTextureEx(foreground, (Vector2){ scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
-            rlDrawTextureEx(foreground, (Vector2){ foreground.width*2 + scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
+            rlDrawTextureEx(foreground, (rlVector2){ scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
+            rlDrawTextureEx(foreground, (rlVector2){ foreground.width*2 + scrollingFore, 70 }, 0.0f, 2.0f, WHITE);
 
             rlDrawText("BACKGROUND SCROLLING & PARALLAX", 10, 10, 20, RED);
             rlDrawText("(c) Cyberpunk Street Environment by Luis Zuno (@ansimuz)", screenWidth - 330, screenHeight - 20, 10, RAYWHITE);

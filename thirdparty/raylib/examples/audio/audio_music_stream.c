@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [audio] example - Music playing (streaming)
+*   raylib [audio] example - rlMusic playing (streaming)
 *
 *   Example originally created with raylib 1.3, last time updated with raylib 4.0
 *
@@ -27,12 +27,12 @@ int main(void)
 
     rlInitAudioDevice();              // Initialize audio device
 
-    Music music = rlLoadMusicStream("resources/country.mp3");
+    rlMusic music = rlLoadMusicStream("resources/country.mp3");
 
     rlPlayMusicStream(music);
 
     float timePlayed = 0.0f;        // Time played normalized [0.0f..1.0f]
-    bool pause = false;             // Music playing paused
+    bool pause = false;             // rlMusic playing paused
 
     rlSetTargetFPS(30);               // Set our game to run at 30 frames-per-second
     //--------------------------------------------------------------------------------------

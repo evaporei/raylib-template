@@ -34,21 +34,21 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 6.0f, 6.0f, 6.0f };    // Camera position
-    camera.target = (Vector3){ 0.0f, 2.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 6.0f, 6.0f, 6.0f };    // Camera position
+    camera.target = (rlVector3){ 0.0f, 2.0f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
     // Load gltf model
-    Model model = rlLoadModel("resources/models/gltf/robot.glb");
-    Vector3 position = { 0.0f, 0.0f, 0.0f }; // Set model position
+    rlModel model = rlLoadModel("resources/models/gltf/robot.glb");
+    rlVector3 position = { 0.0f, 0.0f, 0.0f }; // Set model position
     
     // Load gltf model animations
     int animsCount = 0;
     unsigned int animIndex = 0;
     unsigned int animCurrentFrame = 0;
-    ModelAnimation *modelAnimations = rlLoadModelAnimations("resources/models/gltf/robot.glb", &animsCount);
+    rlModelAnimation *modelAnimations = rlLoadModelAnimations("resources/models/gltf/robot.glb", &animsCount);
 
     rlSetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ int main(void)
         else if (rlIsMouseButtonPressed(MOUSE_BUTTON_LEFT)) animIndex = (animIndex + animsCount - 1)%animsCount;
 
         // Update model animation
-        ModelAnimation anim = modelAnimations[animIndex];
+        rlModelAnimation anim = modelAnimations[animIndex];
         animCurrentFrame = (animCurrentFrame + 1)%anim.frameCount;
         rlUpdateModelAnimation(model, anim, animCurrentFrame);
         //----------------------------------------------------------------------------------

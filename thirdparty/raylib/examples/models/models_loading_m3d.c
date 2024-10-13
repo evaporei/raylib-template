@@ -33,13 +33,13 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 1.5f, 1.5f, 1.5f };    // Camera position
-    camera.target = (Vector3){ 0.0f, 0.4f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 1.5f, 1.5f, 1.5f };    // Camera position
+    camera.target = (rlVector3){ 0.0f, 0.4f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
-    Vector3 position = { 0.0f, 0.0f, 0.0f };            // Set model position
+    rlVector3 position = { 0.0f, 0.0f, 0.0f };            // Set model position
 
     char modelFileName[128] = "resources/models/m3d/cesium_man.m3d";
     bool drawMesh = 1;
@@ -47,12 +47,12 @@ int main(void)
     bool animPlaying = false;   // Store anim state, what to draw
 
     // Load model
-    Model model = rlLoadModel(modelFileName); // Load the bind-pose model mesh and basic data
+    rlModel model = rlLoadModel(modelFileName); // Load the bind-pose model mesh and basic data
 
     // Load animations
     int animsCount = 0;
     int animFrameCounter = 0, animId = 0;
-    ModelAnimation *anims = rlLoadModelAnimations(modelFileName, &animsCount); // Load skeletal animation data
+    rlModelAnimation *anims = rlLoadModelAnimations(modelFileName, &animsCount); // Load skeletal animation data
 
     rlDisableCursor();                    // Limit cursor to relative movement inside the window
 

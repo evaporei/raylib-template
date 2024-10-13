@@ -32,7 +32,7 @@ int main(void)
     const int dpadX = 90;
     const int dpadY = 300;
     const int dpadRad = 25;//radius of each pad
-    Color dpadColor = BLUE;
+    rlColor dpadColor = BLUE;
     int dpadKeydown = -1;//-1 if not down, else 0,1,2,3 
 
     

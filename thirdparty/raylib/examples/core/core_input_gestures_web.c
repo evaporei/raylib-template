@@ -29,12 +29,12 @@
 //--------------------------------------------------------------------------------------
 int screenWidth = 800;                  // Update depending on web canvas
 const int screenHeight = 450;
-Vector2 messagePosition = { 160, 7 };
+rlVector2 messagePosition = { 160, 7 };
 
 // Last gesture variables definitions
 //--------------------------------------------------------------------------------------
 int lastGesture = 0;
-Vector2 lastGesturePosition = { 165, 130 };
+rlVector2 lastGesturePosition = { 165, 130 };
 
 // Gesture log variables definitions and functions declarations
 //--------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ char const *GetGestureName(int i)
    }
 }
 
-Color GetGestureColor(int i)
+rlColor GetGestureColor(int i)
 {
    switch (i)  {
       case 0:   return BLACK;   break;
@@ -81,18 +81,18 @@ Color GetGestureColor(int i)
 
 int logMode = 1; // Log mode values: 0 shows repeated events; 1 hides repeated events; 2 shows repeated events but hide hold events; 3 hides repeated events and hide hold events
 
-Color gestureColor = { 0, 0, 0, 255 };
-Rectangle logButton1 = { 53, 7, 48, 26 };
-Rectangle logButton2 = { 108, 7, 36, 26 };
-Vector2 gestureLogPosition = { 10, 10 };
+rlColor gestureColor = { 0, 0, 0, 255 };
+rlRectangle logButton1 = { 53, 7, 48, 26 };
+rlRectangle logButton2 = { 108, 7, 36, 26 };
+rlVector2 gestureLogPosition = { 10, 10 };
 
 // Protractor variables definitions
 //--------------------------------------------------------------------------------------
 float angleLength = 90.0f;
 float currentAngleDegrees = 0.0f;
-Vector2 finalVector = { 0.0f, 0.0f };
+rlVector2 finalVector = { 0.0f, 0.0f };
 char currentAngleStr[7] = "";
-Vector2 protractorPosition = { 266.0f, 315.0f };
+rlVector2 protractorPosition = { 266.0f, 315.0f };
 
 // Update
 //--------------------------------------------------------------------------------------
@@ -184,14 +184,14 @@ void Update(void)
     }
 
     float currentAngleRadians = ((currentAngleDegrees +90.0f)*PI/180); // Convert the current angle to Radians
-    finalVector = (Vector2){ (angleLength*sinf(currentAngleRadians)) + protractorPosition.x, (angleLength*cosf(currentAngleRadians)) + protractorPosition.y }; // Calculate the final vector for display
+    finalVector = (rlVector2){ (angleLength*sinf(currentAngleRadians)) + protractorPosition.x, (angleLength*cosf(currentAngleRadians)) + protractorPosition.y }; // Calculate the final vector for display
 
     // Handle touch and mouse pointer points
     //--------------------------------------------------------------------------------------
     #define MAX_TOUCH_COUNT     32
 
-    Vector2 touchPosition[MAX_TOUCH_COUNT] = { 0 };
-    Vector2 mousePosition = {0, 0};
+    rlVector2 touchPosition[MAX_TOUCH_COUNT] = { 0 };
+    rlVector2 mousePosition = {0, 0};
     if (currentGesture != GESTURE_NONE)
     {
         if (touchCount != 0)
@@ -223,13 +223,13 @@ void Update(void)
         rlDrawRectangle(lastGesturePosition.x + 40, lastGesturePosition.y + 20, 20, 20, lastGesture == GESTURE_SWIPE_RIGHT ? RED : LIGHTGRAY);
         rlDrawRectangle(lastGesturePosition.x + 20, lastGesturePosition.y + 40, 20, 20, lastGesture == GESTURE_SWIPE_DOWN ? RED : LIGHTGRAY);
         rlDrawCircle(lastGesturePosition.x + 80, lastGesturePosition.y + 16, 10, lastGesture == GESTURE_TAP ? BLUE : LIGHTGRAY);
-        rlDrawRing( (Vector2){lastGesturePosition.x + 103, lastGesturePosition.y + 16}, 6.0f, 11.0f, 0.0f, 360.0f, 0, lastGesture == GESTURE_DRAG ? LIME : LIGHTGRAY);
+        rlDrawRing( (rlVector2){lastGesturePosition.x + 103, lastGesturePosition.y + 16}, 6.0f, 11.0f, 0.0f, 360.0f, 0, lastGesture == GESTURE_DRAG ? LIME : LIGHTGRAY);
         rlDrawCircle(lastGesturePosition.x + 80, lastGesturePosition.y + 43, 10, lastGesture == GESTURE_DOUBLETAP ? SKYBLUE : LIGHTGRAY);
         rlDrawCircle(lastGesturePosition.x + 103, lastGesturePosition.y + 43, 10, lastGesture == GESTURE_DOUBLETAP ? SKYBLUE : LIGHTGRAY);
-        rlDrawTriangle((Vector2){ lastGesturePosition.x + 122, lastGesturePosition.y + 16 }, (Vector2){ lastGesturePosition.x + 137, lastGesturePosition.y + 26 }, (Vector2){ lastGesturePosition.x + 137, lastGesturePosition.y + 6 }, lastGesture == GESTURE_PINCH_OUT? ORANGE : LIGHTGRAY);
-        rlDrawTriangle((Vector2){ lastGesturePosition.x + 147, lastGesturePosition.y + 6 }, (Vector2){ lastGesturePosition.x + 147, lastGesturePosition.y + 26 }, (Vector2){ lastGesturePosition.x + 162, lastGesturePosition.y + 16 }, lastGesture == GESTURE_PINCH_OUT? ORANGE : LIGHTGRAY);
-        rlDrawTriangle((Vector2){ lastGesturePosition.x + 125, lastGesturePosition.y + 33 }, (Vector2){ lastGesturePosition.x + 125, lastGesturePosition.y + 53 }, (Vector2){ lastGesturePosition.x + 140, lastGesturePosition.y + 43 }, lastGesture == GESTURE_PINCH_IN? VIOLET : LIGHTGRAY);
-        rlDrawTriangle((Vector2){ lastGesturePosition.x + 144, lastGesturePosition.y + 43 }, (Vector2){ lastGesturePosition.x + 159, lastGesturePosition.y + 53 }, (Vector2){ lastGesturePosition.x + 159, lastGesturePosition.y + 33 }, lastGesture == GESTURE_PINCH_IN? VIOLET : LIGHTGRAY);
+        rlDrawTriangle((rlVector2){ lastGesturePosition.x + 122, lastGesturePosition.y + 16 }, (rlVector2){ lastGesturePosition.x + 137, lastGesturePosition.y + 26 }, (rlVector2){ lastGesturePosition.x + 137, lastGesturePosition.y + 6 }, lastGesture == GESTURE_PINCH_OUT? ORANGE : LIGHTGRAY);
+        rlDrawTriangle((rlVector2){ lastGesturePosition.x + 147, lastGesturePosition.y + 6 }, (rlVector2){ lastGesturePosition.x + 147, lastGesturePosition.y + 26 }, (rlVector2){ lastGesturePosition.x + 162, lastGesturePosition.y + 16 }, lastGesture == GESTURE_PINCH_OUT? ORANGE : LIGHTGRAY);
+        rlDrawTriangle((rlVector2){ lastGesturePosition.x + 125, lastGesturePosition.y + 33 }, (rlVector2){ lastGesturePosition.x + 125, lastGesturePosition.y + 53 }, (rlVector2){ lastGesturePosition.x + 140, lastGesturePosition.y + 43 }, lastGesture == GESTURE_PINCH_IN? VIOLET : LIGHTGRAY);
+        rlDrawTriangle((rlVector2){ lastGesturePosition.x + 144, lastGesturePosition.y + 43 }, (rlVector2){ lastGesturePosition.x + 159, lastGesturePosition.y + 53 }, (rlVector2){ lastGesturePosition.x + 159, lastGesturePosition.y + 33 }, lastGesture == GESTURE_PINCH_IN? VIOLET : LIGHTGRAY);
         for (i = 0; i < 4; i++) rlDrawCircle(lastGesturePosition.x + 180, lastGesturePosition.y + 7 + i*15, 5, touchCount <= i? LIGHTGRAY : gestureColor);
 
         // Draw gesture log
@@ -238,7 +238,7 @@ void Update(void)
 
         // Loop in both directions to print the gesture log array in the inverted order (and looping around if the index started somewhere in the middle)
         for (i = 0, ii = gestureLogIndex; i < GESTURE_LOG_SIZE; i++, ii = (ii + 1) % GESTURE_LOG_SIZE) rlDrawText(gestureLog[ii], gestureLogPosition.x, gestureLogPosition.y + 410 - i*20, 20, (i == 0 ? gestureColor : LIGHTGRAY));
-        Color logButton1Color, logButton2Color;
+        rlColor logButton1Color, logButton2Color;
         switch (logMode)
         {
             case 3:  logButton1Color=MAROON; logButton2Color=MAROON; break;
@@ -261,10 +261,10 @@ void Update(void)
         const char *angleStringTrim = rlTextSubtext(angleString, 0, angleStringDot + 3);
         rlDrawText( angleStringTrim, protractorPosition.x + 55, protractorPosition.y + 92, 20, gestureColor);
         rlDrawCircle(protractorPosition.x, protractorPosition.y, 80.0f, WHITE);
-        rlDrawLineEx((Vector2){ protractorPosition.x - 90, protractorPosition.y }, (Vector2){ protractorPosition.x + 90, protractorPosition.y }, 3.0f, LIGHTGRAY);
-        rlDrawLineEx((Vector2){ protractorPosition.x, protractorPosition.y - 90 }, (Vector2){ protractorPosition.x, protractorPosition.y + 90 }, 3.0f, LIGHTGRAY);
-        rlDrawLineEx((Vector2){ protractorPosition.x - 80, protractorPosition.y - 45 }, (Vector2){ protractorPosition.x + 80, protractorPosition.y + 45 }, 3.0f, GREEN);
-        rlDrawLineEx((Vector2){ protractorPosition.x - 80, protractorPosition.y + 45 }, (Vector2){ protractorPosition.x + 80, protractorPosition.y - 45 }, 3.0f, GREEN);
+        rlDrawLineEx((rlVector2){ protractorPosition.x - 90, protractorPosition.y }, (rlVector2){ protractorPosition.x + 90, protractorPosition.y }, 3.0f, LIGHTGRAY);
+        rlDrawLineEx((rlVector2){ protractorPosition.x, protractorPosition.y - 90 }, (rlVector2){ protractorPosition.x, protractorPosition.y + 90 }, 3.0f, LIGHTGRAY);
+        rlDrawLineEx((rlVector2){ protractorPosition.x - 80, protractorPosition.y - 45 }, (rlVector2){ protractorPosition.x + 80, protractorPosition.y + 45 }, 3.0f, GREEN);
+        rlDrawLineEx((rlVector2){ protractorPosition.x - 80, protractorPosition.y + 45 }, (rlVector2){ protractorPosition.x + 80, protractorPosition.y - 45 }, 3.0f, GREEN);
         rlDrawText("0", protractorPosition.x + 96, protractorPosition.y - 9, 20, BLACK);
         rlDrawText("30", protractorPosition.x + 74, protractorPosition.y - 68, 20, BLACK);
         rlDrawText("90", protractorPosition.x - 11, protractorPosition.y - 110, 20, BLACK);

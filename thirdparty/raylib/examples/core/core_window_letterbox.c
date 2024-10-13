@@ -38,10 +38,10 @@ int main(void)
 
     // Render texture initialization, used to hold the rendering result so we can easily resize it
     RenderTexture2D target = rlLoadRenderTexture(gameScreenWidth, gameScreenHeight);
-    rlSetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);  // Texture scale filter to use
+    rlSetTextureFilter(target.texture, TEXTURE_FILTER_BILINEAR);  // rlTexture scale filter to use
 
-    Color colors[10] = { 0 };
-    for (int i = 0; i < 10; i++) colors[i] = (Color){ rlGetRandomValue(100, 250), rlGetRandomValue(50, 150), rlGetRandomValue(10, 100), 255 };
+    rlColor colors[10] = { 0 };
+    for (int i = 0; i < 10; i++) colors[i] = (rlColor){ rlGetRandomValue(100, 250), rlGetRandomValue(50, 150), rlGetRandomValue(10, 100), 255 };
 
     rlSetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -57,15 +57,15 @@ int main(void)
         if (rlIsKeyPressed(KEY_SPACE))
         {
             // Recalculate random colors for the bars
-            for (int i = 0; i < 10; i++) colors[i] = (Color){ rlGetRandomValue(100, 250), rlGetRandomValue(50, 150), rlGetRandomValue(10, 100), 255 };
+            for (int i = 0; i < 10; i++) colors[i] = (rlColor){ rlGetRandomValue(100, 250), rlGetRandomValue(50, 150), rlGetRandomValue(10, 100), 255 };
         }
 
         // Update virtual mouse (clamped mouse value behind game screen)
-        Vector2 mouse = rlGetMousePosition();
-        Vector2 virtualMouse = { 0 };
+        rlVector2 mouse = rlGetMousePosition();
+        rlVector2 virtualMouse = { 0 };
         virtualMouse.x = (mouse.x - (rlGetScreenWidth() - (gameScreenWidth*scale))*0.5f)/scale;
         virtualMouse.y = (mouse.y - (rlGetScreenHeight() - (gameScreenHeight*scale))*0.5f)/scale;
-        virtualMouse = Vector2Clamp(virtualMouse, (Vector2){ 0, 0 }, (Vector2){ (float)gameScreenWidth, (float)gameScreenHeight });
+        virtualMouse = Vector2Clamp(virtualMouse, (rlVector2){ 0, 0 }, (rlVector2){ (float)gameScreenWidth, (float)gameScreenHeight });
 
         // Apply the same transformation as the virtual mouse to the real mouse (i.e. to work with raygui)
         //rlSetMouseOffset(-(rlGetScreenWidth() - (gameScreenWidth*scale))*0.5f, -(rlGetScreenHeight() - (gameScreenHeight*scale))*0.5f);
@@ -89,9 +89,9 @@ int main(void)
             rlClearBackground(BLACK);     // Clear screen background
 
             // Draw render texture to screen, properly scaled
-            rlDrawTexturePro(target.texture, (Rectangle){ 0.0f, 0.0f, (float)target.texture.width, (float)-target.texture.height },
-                           (Rectangle){ (rlGetScreenWidth() - ((float)gameScreenWidth*scale))*0.5f, (rlGetScreenHeight() - ((float)gameScreenHeight*scale))*0.5f,
-                           (float)gameScreenWidth*scale, (float)gameScreenHeight*scale }, (Vector2){ 0, 0 }, 0.0f, WHITE);
+            rlDrawTexturePro(target.texture, (rlRectangle){ 0.0f, 0.0f, (float)target.texture.width, (float)-target.texture.height },
+                           (rlRectangle){ (rlGetScreenWidth() - ((float)gameScreenWidth*scale))*0.5f, (rlGetScreenHeight() - ((float)gameScreenHeight*scale))*0.5f,
+                           (float)gameScreenWidth*scale, (float)gameScreenHeight*scale }, (rlVector2){ 0, 0 }, 0.0f, WHITE);
         rlEndDrawing();
         //--------------------------------------------------------------------------------------
     }

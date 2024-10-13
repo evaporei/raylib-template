@@ -133,13 +133,13 @@ void rlClearWindowState(unsigned int flags)
 }
 
 // Set icon for window
-void rlSetWindowIcon(Image image)
+void rlSetWindowIcon(rlImage image)
 {
     TRACELOG(LOG_WARNING, "rlSetWindowIcon() not available on target platform");
 }
 
 // Set icon for window
-void rlSetWindowIcons(Image *images, int count)
+void rlSetWindowIcons(rlImage *images, int count)
 {
     TRACELOG(LOG_WARNING, "rlSetWindowIcons() not available on target platform");
 }
@@ -216,10 +216,10 @@ int rlGetCurrentMonitor(void)
 }
 
 // Get selected monitor position
-Vector2 rlGetMonitorPosition(int monitor)
+rlVector2 rlGetMonitorPosition(int monitor)
 {
     TRACELOG(LOG_WARNING, "rlGetMonitorPosition() not implemented on target platform");
-    return (Vector2){ 0, 0 };
+    return (rlVector2){ 0, 0 };
 }
 
 // Get selected monitor width (currently used by monitor)
@@ -265,17 +265,17 @@ const char *rlGetMonitorName(int monitor)
 }
 
 // Get window position XY on monitor
-Vector2 rlGetWindowPosition(void)
+rlVector2 rlGetWindowPosition(void)
 {
     TRACELOG(LOG_WARNING, "rlGetWindowPosition() not implemented on target platform");
-    return (Vector2){ 0, 0 };
+    return (rlVector2){ 0, 0 };
 }
 
 // Get window scale DPI factor for current monitor
-Vector2 rlGetWindowScaleDPI(void)
+rlVector2 rlGetWindowScaleDPI(void)
 {
     TRACELOG(LOG_WARNING, "rlGetWindowScaleDPI() not implemented on target platform");
-    return (Vector2){ 1.0f, 1.0f };
+    return (rlVector2){ 1.0f, 1.0f };
 }
 
 // Set clipboard text content
@@ -374,7 +374,7 @@ int rlSetGamepadMappings(const char *mappings)
 // Set mouse position XY
 void rlSetMousePosition(int x, int y)
 {
-    CORE.Input.Mouse.currentPosition = (Vector2){ (float)x, (float)y };
+    CORE.Input.Mouse.currentPosition = (rlVector2){ (float)x, (float)y };
     CORE.Input.Mouse.previousPosition = CORE.Input.Mouse.currentPosition;
 }
 
@@ -417,7 +417,7 @@ void rlPollInputEvents(void)
     // Reset touch positions
     // TODO: It resets on target platform the mouse position and not filled again until a move-event,
     // so, if mouse is not moved it returns a (0, 0) position... this behaviour should be reviewed!
-    //for (int i = 0; i < MAX_TOUCH_POINTS; i++) CORE.Input.Touch.position[i] = (Vector2){ 0, 0 };
+    //for (int i = 0; i < MAX_TOUCH_POINTS; i++) CORE.Input.Touch.position[i] = (rlVector2){ 0, 0 };
 
     // Register previous keys states
     // NOTE: Android supports up to 260 keys

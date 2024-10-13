@@ -12,7 +12,7 @@
 *              raylib can load .iqm animations.
 *     - VOX  > Binary file format. MagikaVoxel mesh format:
 *              https://github.com/ephtracy/voxel-model/blob/master/MagicaVoxel-file-format-vox.txt
-*     - M3D  > Binary file format. Model 3D format:
+*     - M3D  > Binary file format. rlModel 3D format:
 *              https://bztsrc.gitlab.io/model3d
 *
 *   Example originally created with raylib 2.0, last time updated with raylib 4.2
@@ -40,19 +40,19 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 50.0f, 50.0f, 50.0f }; // Camera position
-    camera.target = (Vector3){ 0.0f, 10.0f, 0.0f };     // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 50.0f, 50.0f, 50.0f }; // Camera position
+    camera.target = (rlVector3){ 0.0f, 10.0f, 0.0f };     // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;                   // Camera mode type
 
-    Model model = rlLoadModel("resources/models/obj/castle.obj");                 // Load model
+    rlModel model = rlLoadModel("resources/models/obj/castle.obj");                 // Load model
     Texture2D texture = LoadTexture("resources/models/obj/castle_diffuse.png"); // Load model texture
     model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;            // Set map diffuse texture
 
-    Vector3 position = { 0.0f, 0.0f, 0.0f };                    // Set model position
+    rlVector3 position = { 0.0f, 0.0f, 0.0f };                    // Set model position
 
-    BoundingBox bounds = rlGetMeshBoundingBox(model.meshes[0]);   // Set model bounds
+    rlBoundingBox bounds = rlGetMeshBoundingBox(model.meshes[0]);   // Set model bounds
 
     // NOTE: bounds are calculated from the original size of the model,
     // if model is scaled on drawing, bounds must be also scaled
@@ -74,7 +74,7 @@ int main(void)
         // Load new models/textures on drag&drop
         if (rlIsFileDropped())
         {
-            FilePathList droppedFiles = rlLoadDroppedFiles();
+            rlFilePathList droppedFiles = rlLoadDroppedFiles();
 
             if (droppedFiles.count == 1) // Only support one file dropped
             {
@@ -83,7 +83,7 @@ int main(void)
                     rlIsFileExtension(droppedFiles.paths[0], ".glb") ||
                     rlIsFileExtension(droppedFiles.paths[0], ".vox") ||
                     rlIsFileExtension(droppedFiles.paths[0], ".iqm") ||
-                    rlIsFileExtension(droppedFiles.paths[0], ".m3d"))       // Model file formats supported
+                    rlIsFileExtension(droppedFiles.paths[0], ".m3d"))       // rlModel file formats supported
                 {
                     rlUnloadModel(model);                         // Unload previous model
                     model = rlLoadModel(droppedFiles.paths[0]);   // Load new model
@@ -93,7 +93,7 @@ int main(void)
 
                     // TODO: Move camera position from target enough distance to visualize model properly
                 }
-                else if (rlIsFileExtension(droppedFiles.paths[0], ".png"))  // Texture file formats supported
+                else if (rlIsFileExtension(droppedFiles.paths[0], ".png"))  // rlTexture file formats supported
                 {
                     // Unload current model texture and load new one
                     UnloadTexture(texture);

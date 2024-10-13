@@ -27,9 +27,9 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [math] example - vector angle");
 
-    Vector2 v0 = { screenWidth/2, screenHeight/2 };
-    Vector2 v1 = Vector2Add(v0, (Vector2){ 100.0f, 80.0f });
-    Vector2 v2 = { 0 };             // Updated with mouse position
+    rlVector2 v0 = { screenWidth/2, screenHeight/2 };
+    rlVector2 v1 = Vector2Add(v0, (rlVector2){ 100.0f, 80.0f });
+    rlVector2 v2 = { 0 };             // Updated with mouse position
     
     float angle = 0.0f;             // Angle in degrees
     int angleMode = 0;              // 0-Vector2Angle(), 1-Vector2LineAngle()
@@ -56,8 +56,8 @@ int main(void)
         if (angleMode == 0)
         {
             // Calculate angle between two vectors, considering a common origin (v0)
-            Vector2 v1Normal = Vector2Normalize(Vector2Subtract(v1, v0));
-            Vector2 v2Normal = Vector2Normalize(Vector2Subtract(v2, v0));
+            rlVector2 v1Normal = Vector2Normalize(Vector2Subtract(v1, v0));
+            rlVector2 v2Normal = Vector2Normalize(Vector2Subtract(v2, v0));
 
             angle = Vector2Angle(v1Normal, v2Normal)*RAD2DEG;
         }

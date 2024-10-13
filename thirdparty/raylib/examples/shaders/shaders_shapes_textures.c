@@ -43,7 +43,7 @@ int main(void)
     // Load shader to be used on some parts drawing
     // NOTE 1: Using GLSL 330 shader version, on OpenGL ES 2.0 use GLSL 100 shader version
     // NOTE 2: Defining 0 (NULL) for vertex shader forces usage of internal default vertex shader
-    Shader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/grayscale.fs", GLSL_VERSION));
+    rlShader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/grayscale.fs", GLSL_VERSION));
 
     rlSetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -85,15 +85,15 @@ int main(void)
 
             rlDrawText("USING DEFAULT SHADER", 370, 40, 10, RED);
 
-            rlDrawTriangle((Vector2){430, 80},
-                         (Vector2){430 - 60, 150},
-                         (Vector2){430 + 60, 150}, VIOLET);
+            rlDrawTriangle((rlVector2){430, 80},
+                         (rlVector2){430 - 60, 150},
+                         (rlVector2){430 + 60, 150}, VIOLET);
 
-            rlDrawTriangleLines((Vector2){430, 160},
-                              (Vector2){430 - 20, 230},
-                              (Vector2){430 + 20, 230}, DARKBLUE);
+            rlDrawTriangleLines((rlVector2){430, 160},
+                              (rlVector2){430 - 20, 230},
+                              (rlVector2){430 + 20, 230}, DARKBLUE);
 
-            rlDrawPoly((Vector2){430, 320}, 6, 80, 0, BROWN);
+            rlDrawPoly((rlVector2){430, 320}, 6, 80, 0, BROWN);
 
             // Activate our custom shader to be applied on next shapes/textures drawings
             rlBeginShaderMode(shader);

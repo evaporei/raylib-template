@@ -35,23 +35,23 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [core] example - smooth pixel-perfect camera");
 
-    Camera2D worldSpaceCamera = { 0 };  // Game world camera
+    rlCamera2D worldSpaceCamera = { 0 };  // Game world camera
     worldSpaceCamera.zoom = 1.0f;
 
-    Camera2D screenSpaceCamera = { 0 }; // Smoothing camera
+    rlCamera2D screenSpaceCamera = { 0 }; // Smoothing camera
     screenSpaceCamera.zoom = 1.0f;
 
     RenderTexture2D target = rlLoadRenderTexture(virtualScreenWidth, virtualScreenHeight); // This is where we'll draw all our objects.
 
-    Rectangle rec01 = { 70.0f, 35.0f, 20.0f, 20.0f };
-    Rectangle rec02 = { 90.0f, 55.0f, 30.0f, 10.0f };
-    Rectangle rec03 = { 80.0f, 65.0f, 15.0f, 25.0f };
+    rlRectangle rec01 = { 70.0f, 35.0f, 20.0f, 20.0f };
+    rlRectangle rec02 = { 90.0f, 55.0f, 30.0f, 10.0f };
+    rlRectangle rec03 = { 80.0f, 65.0f, 15.0f, 25.0f };
 
-    // The target's height is flipped (in the source Rectangle), due to OpenGL reasons
-    Rectangle sourceRec = { 0.0f, 0.0f, (float)target.texture.width, -(float)target.texture.height };
-    Rectangle destRec = { -virtualRatio, -virtualRatio, screenWidth + (virtualRatio*2), screenHeight + (virtualRatio*2) };
+    // The target's height is flipped (in the source rlRectangle), due to OpenGL reasons
+    rlRectangle sourceRec = { 0.0f, 0.0f, (float)target.texture.width, -(float)target.texture.height };
+    rlRectangle destRec = { -virtualRatio, -virtualRatio, screenWidth + (virtualRatio*2), screenHeight + (virtualRatio*2) };
 
-    Vector2 origin = { 0.0f, 0.0f };
+    rlVector2 origin = { 0.0f, 0.0f };
 
     float rotation = 0.0f;
 
@@ -73,7 +73,7 @@ int main(void)
         cameraY = cosf((float)rlGetTime())*30.0f;
 
         // Set the camera's target to the values computed above
-        screenSpaceCamera.target = (Vector2){ cameraX, cameraY };
+        screenSpaceCamera.target = (rlVector2){ cameraX, cameraY };
 
         // Round worldSpace coordinates, keep decimals into screenSpace coordinates
         worldSpaceCamera.target.x = truncf(screenSpaceCamera.target.x);

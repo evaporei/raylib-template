@@ -27,12 +27,12 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [shapes] example - following eyes");
 
-    Vector2 scleraLeftPosition = { rlGetScreenWidth()/2.0f - 100.0f, rlGetScreenHeight()/2.0f };
-    Vector2 scleraRightPosition = { rlGetScreenWidth()/2.0f + 100.0f, rlGetScreenHeight()/2.0f };
+    rlVector2 scleraLeftPosition = { rlGetScreenWidth()/2.0f - 100.0f, rlGetScreenHeight()/2.0f };
+    rlVector2 scleraRightPosition = { rlGetScreenWidth()/2.0f + 100.0f, rlGetScreenHeight()/2.0f };
     float scleraRadius = 80;
 
-    Vector2 irisLeftPosition = { rlGetScreenWidth()/2.0f - 100.0f, rlGetScreenHeight()/2.0f };
-    Vector2 irisRightPosition = { rlGetScreenWidth()/2.0f + 100.0f, rlGetScreenHeight()/2.0f };
+    rlVector2 irisLeftPosition = { rlGetScreenWidth()/2.0f - 100.0f, rlGetScreenHeight()/2.0f };
+    rlVector2 irisRightPosition = { rlGetScreenWidth()/2.0f + 100.0f, rlGetScreenHeight()/2.0f };
     float irisRadius = 24;
 
     float angle = 0.0f;

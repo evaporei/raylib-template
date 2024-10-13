@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [text] example - Font SDF loading
+*   raylib [text] example - rlFont SDF loading
 *
 *   Example originally created with raylib 1.3, last time updated with raylib 4.0
 *
@@ -42,7 +42,7 @@ int main(void)
     unsigned char *fileData = rlLoadFileData("resources/anonymous_pro_bold.ttf", &fileSize);
 
     // Default font generation from TTF font
-    Font fontDefault = { 0 };
+    rlFont fontDefault = { 0 };
     fontDefault.baseSize = 16;
     fontDefault.glyphCount = 95;
 
@@ -50,12 +50,12 @@ int main(void)
     // Parameters > font size: 16, no glyphs array provided (0), glyphs count: 95 (autogenerate chars array)
     fontDefault.glyphs = rlLoadFontData(fileData, fileSize, 16, 0, 95, FONT_DEFAULT);
     // Parameters > glyphs count: 95, font size: 16, glyphs padding in image: 4 px, pack method: 0 (default)
-    Image atlas = rlGenImageFontAtlas(fontDefault.glyphs, &fontDefault.recs, 95, 16, 4, 0);
+    rlImage atlas = rlGenImageFontAtlas(fontDefault.glyphs, &fontDefault.recs, 95, 16, 4, 0);
     fontDefault.texture = rlLoadTextureFromImage(atlas);
     rlUnloadImage(atlas);
 
     // SDF font generation from TTF font
-    Font fontSDF = { 0 };
+    rlFont fontSDF = { 0 };
     fontSDF.baseSize = 16;
     fontSDF.glyphCount = 95;
     // Parameters > font size: 16, no glyphs array provided (0), glyphs count: 0 (defaults to 95)
@@ -68,11 +68,11 @@ int main(void)
     rlUnloadFileData(fileData);      // Free memory from loaded file
 
     // Load SDF required shader (we use default vertex shader)
-    Shader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/sdf.fs", GLSL_VERSION));
+    rlShader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/sdf.fs", GLSL_VERSION));
     rlSetTextureFilter(fontSDF.texture, TEXTURE_FILTER_BILINEAR);    // Required for SDF font
 
-    Vector2 fontPosition = { 40, screenHeight/2.0f - 50 };
-    Vector2 textSize = { 0.0f, 0.0f };
+    rlVector2 fontPosition = { 40, screenHeight/2.0f - 50 };
+    rlVector2 textSize = { 0.0f, 0.0f };
     float fontSize = 16.0f;
     int currentFont = 0;            // 0 - fontDefault, 1 - fontSDF
 

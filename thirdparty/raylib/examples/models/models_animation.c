@@ -35,21 +35,21 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 10.0f, 10.0f, 10.0f }; // Camera position
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 10.0f, 10.0f, 10.0f }; // Camera position
+    camera.target = (rlVector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera mode type
 
-    Model model = rlLoadModel("resources/models/iqm/guy.iqm");                    // Load the animated model mesh and basic data
+    rlModel model = rlLoadModel("resources/models/iqm/guy.iqm");                    // Load the animated model mesh and basic data
     Texture2D texture = LoadTexture("resources/models/iqm/guytex.png");         // Load model texture and set material
     rlSetMaterialTexture(&model.materials[0], MATERIAL_MAP_DIFFUSE, texture);     // Set model material map texture
 
-    Vector3 position = { 0.0f, 0.0f, 0.0f };            // Set model position
+    rlVector3 position = { 0.0f, 0.0f, 0.0f };            // Set model position
 
     // Load animation data
     int animsCount = 0;
-    ModelAnimation *anims = rlLoadModelAnimations("resources/models/iqm/guyanim.iqm", &animsCount);
+    rlModelAnimation *anims = rlLoadModelAnimations("resources/models/iqm/guyanim.iqm", &animsCount);
     int animFrameCounter = 0;
 
     rlDisableCursor();                    // Catch cursor
@@ -80,7 +80,7 @@ int main(void)
 
             rlBeginMode3D(camera);
 
-                rlDrawModelEx(model, position, (Vector3){ 1.0f, 0.0f, 0.0f }, -90.0f, (Vector3){ 1.0f, 1.0f, 1.0f }, WHITE);
+                rlDrawModelEx(model, position, (rlVector3){ 1.0f, 0.0f, 0.0f }, -90.0f, (rlVector3){ 1.0f, 1.0f, 1.0f }, WHITE);
 
                 for (int i = 0; i < model.boneCount; i++)
                 {

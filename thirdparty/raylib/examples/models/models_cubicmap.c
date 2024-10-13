@@ -27,23 +27,23 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 16.0f, 14.0f, 16.0f };     // Camera position
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };          // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };              // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 16.0f, 14.0f, 16.0f };     // Camera position
+    camera.target = (rlVector3){ 0.0f, 0.0f, 0.0f };          // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };              // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                    // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;                 // Camera projection type
 
-    Image image = rlLoadImage("resources/cubicmap.png");      // Load cubicmap image (RAM)
+    rlImage image = rlLoadImage("resources/cubicmap.png");      // Load cubicmap image (RAM)
     Texture2D cubicmap = rlLoadTextureFromImage(image);       // Convert image to texture to display (VRAM)
 
-    Mesh mesh = rlGenMeshCubicmap(image, (Vector3){ 1.0f, 1.0f, 1.0f });
-    Model model = rlLoadModelFromMesh(mesh);
+    rlMesh mesh = rlGenMeshCubicmap(image, (rlVector3){ 1.0f, 1.0f, 1.0f });
+    rlModel model = rlLoadModelFromMesh(mesh);
 
     // NOTE: By default each cube is mapped to one part of texture atlas
     Texture2D texture = LoadTexture("resources/cubicmap_atlas.png");    // Load map texture
     model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;    // Set map diffuse texture
 
-    Vector3 mapPosition = { -16.0f, 0.0f, -8.0f };          // Set model position
+    rlVector3 mapPosition = { -16.0f, 0.0f, -8.0f };          // Set model position
 
     rlUnloadImage(image);     // Unload cubesmap image from RAM, already uploaded to VRAM
 
@@ -74,7 +74,7 @@ int main(void)
 
             rlEndMode3D();
 
-            rlDrawTextureEx(cubicmap, (Vector2){ screenWidth - cubicmap.width*4.0f - 20, 20.0f }, 0.0f, 4.0f, WHITE);
+            rlDrawTextureEx(cubicmap, (rlVector2){ screenWidth - cubicmap.width*4.0f - 20, 20.0f }, 0.0f, 4.0f, WHITE);
             rlDrawRectangleLines(screenWidth - cubicmap.width*4 - 20, 20, cubicmap.width*4, cubicmap.height*4, GREEN);
 
             rlDrawText("cubicmap image used to", 658, 90, 10, GRAY);

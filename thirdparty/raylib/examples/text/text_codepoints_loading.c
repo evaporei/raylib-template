@@ -47,7 +47,7 @@ int main(void)
 
     // Load font containing all the provided codepoint glyphs
     // A texture font atlas is automatically generated
-    Font font = rlLoadFontEx("resources/DotGothic16-Regular.ttf", 36, codepointsNoDups, codepointsNoDupsCount);
+    rlFont font = rlLoadFontEx("resources/DotGothic16-Regular.ttf", 36, codepointsNoDups, codepointsNoDupsCount);
 
     // Set bilinear scale filter for better font scaling
     rlSetTextureFilter(font.texture, TEXTURE_FILTER_BILINEAR);
@@ -106,7 +106,7 @@ int main(void)
             else
             {
                 // Draw provided text with laoded font, containing all required codepoint glyphs
-                rlDrawTextEx(font, text, (Vector2) { 160, 110 }, 48, 5, BLACK);
+                rlDrawTextEx(font, text, (rlVector2) { 160, 110 }, 48, 5, BLACK);
             }
 
             rlDrawText("Press SPACE to toggle font atlas view!", 10, rlGetScreenHeight() - 30, 20, GRAY);

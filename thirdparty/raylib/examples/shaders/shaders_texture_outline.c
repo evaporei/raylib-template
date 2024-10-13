@@ -38,7 +38,7 @@ int main(void)
 
     Texture2D texture = LoadTexture("resources/fudesumi.png");
 
-    Shader shdrOutline = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/outline.fs", GLSL_VERSION));
+    rlShader shdrOutline = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/outline.fs", GLSL_VERSION));
 
     float outlineSize = 2.0f;
     float outlineColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };     // Normalized RED color
@@ -80,7 +80,7 @@ int main(void)
 
             rlEndShaderMode();
 
-            rlDrawText("Shader-based\ntexture\noutline", 10, 10, 20, GRAY);
+            rlDrawText("rlShader-based\ntexture\noutline", 10, 10, 20, GRAY);
             rlDrawText("Scroll mouse wheel to\nchange outline size", 10, 72, 20, GRAY);
             rlDrawText(rlTextFormat("Outline size: %i px", (int)outlineSize), 10, 120, 20, MAROON);
 

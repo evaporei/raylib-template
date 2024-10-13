@@ -46,14 +46,14 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 2.0f, 4.0f, 6.0f };    // Camera position
-    camera.target = (Vector3){ 0.0f, 0.5f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 2.0f, 4.0f, 6.0f };    // Camera position
+    camera.target = (rlVector3){ 0.0f, 0.5f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
     // Load basic lighting shader
-    Shader shader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/lighting.vs", GLSL_VERSION),
+    rlShader shader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/lighting.vs", GLSL_VERSION),
                                rlTextFormat("resources/shaders/glsl%i/lighting.fs", GLSL_VERSION));
     // Get some required shader locations
     shader.locs[SHADER_LOC_VECTOR_VIEW] = rlGetShaderLocation(shader, "viewPos");
@@ -67,10 +67,10 @@ int main(void)
 
     // Create lights
     Light lights[MAX_LIGHTS] = { 0 };
-    lights[0] = CreateLight(LIGHT_POINT, (Vector3){ -2, 1, -2 }, Vector3Zero(), YELLOW, shader);
-    lights[1] = CreateLight(LIGHT_POINT, (Vector3){ 2, 1, 2 }, Vector3Zero(), RED, shader);
-    lights[2] = CreateLight(LIGHT_POINT, (Vector3){ -2, 1, 2 }, Vector3Zero(), GREEN, shader);
-    lights[3] = CreateLight(LIGHT_POINT, (Vector3){ 2, 1, -2 }, Vector3Zero(), BLUE, shader);
+    lights[0] = CreateLight(LIGHT_POINT, (rlVector3){ -2, 1, -2 }, Vector3Zero(), YELLOW, shader);
+    lights[1] = CreateLight(LIGHT_POINT, (rlVector3){ 2, 1, 2 }, Vector3Zero(), RED, shader);
+    lights[2] = CreateLight(LIGHT_POINT, (rlVector3){ -2, 1, 2 }, Vector3Zero(), GREEN, shader);
+    lights[3] = CreateLight(LIGHT_POINT, (rlVector3){ 2, 1, -2 }, Vector3Zero(), BLUE, shader);
 
     rlSetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -106,7 +106,7 @@ int main(void)
 
                 rlBeginShaderMode(shader);
 
-                    rlDrawPlane(Vector3Zero(), (Vector2) { 10.0, 10.0 }, WHITE);
+                    rlDrawPlane(Vector3Zero(), (rlVector2) { 10.0, 10.0 }, WHITE);
                     rlDrawCube(Vector3Zero(), 2.0, 4.0, 2.0, WHITE);
 
                 rlEndShaderMode();

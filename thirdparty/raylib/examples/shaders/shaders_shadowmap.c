@@ -25,7 +25,7 @@
 
 RenderTexture2D LoadShadowmapRenderTexture(int width, int height);
 void UnloadShadowmapRenderTexture(RenderTexture2D target);
-void DrawScene(Model cube, Model robot);
+void DrawScene(rlModel cube, rlModel robot);
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -43,19 +43,19 @@ int main(void)
     // realism and also adapt it for different scenes. This is pretty much the simplest possible implementation.
     rlInitWindow(screenWidth, screenHeight, "raylib [shaders] example - shadowmap");
 
-    Camera3D cam = (Camera3D){ 0 };
-    cam.position = (Vector3){ 10.0f, 10.0f, 10.0f };
+    rlCamera3D cam = (rlCamera3D){ 0 };
+    cam.position = (rlVector3){ 10.0f, 10.0f, 10.0f };
     cam.target = Vector3Zero();
     cam.projection = CAMERA_PERSPECTIVE;
-    cam.up = (Vector3){ 0.0f, 1.0f, 0.0f };
+    cam.up = (rlVector3){ 0.0f, 1.0f, 0.0f };
     cam.fovy = 45.0f;
 
-    Shader shadowShader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/shadowmap.vs", GLSL_VERSION),
+    rlShader shadowShader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/shadowmap.vs", GLSL_VERSION),
                                      rlTextFormat("resources/shaders/glsl%i/shadowmap.fs", GLSL_VERSION));
     shadowShader.locs[SHADER_LOC_VECTOR_VIEW] = rlGetShaderLocation(shadowShader, "viewPos");
-    Vector3 lightDir = Vector3Normalize((Vector3){ 0.35f, -1.0f, -0.35f });
-    Color lightColor = WHITE;
-    Vector4 lightColorNormalized = rlColorNormalize(lightColor);
+    rlVector3 lightDir = Vector3Normalize((rlVector3){ 0.35f, -1.0f, -0.35f });
+    rlColor lightColor = WHITE;
+    rlVector4 lightColorNormalized = rlColorNormalize(lightColor);
     int lightDirLoc = rlGetShaderLocation(shadowShader, "lightDir");
     int lightColLoc = rlGetShaderLocation(shadowShader, "lightColor");
     rlSetShaderValue(shadowShader, lightDirLoc, &lightDir, SHADER_UNIFORM_VEC3);
@@ -68,24 +68,24 @@ int main(void)
     int shadowMapResolution = SHADOWMAP_RESOLUTION;
     rlSetShaderValue(shadowShader, rlGetShaderLocation(shadowShader, "shadowMapResolution"), &shadowMapResolution, SHADER_UNIFORM_INT);
 
-    Model cube = rlLoadModelFromMesh(rlGenMeshCube(1.0f, 1.0f, 1.0f));
+    rlModel cube = rlLoadModelFromMesh(rlGenMeshCube(1.0f, 1.0f, 1.0f));
     cube.materials[0].shader = shadowShader;
-    Model robot = rlLoadModel("resources/models/robot.glb");
+    rlModel robot = rlLoadModel("resources/models/robot.glb");
     for (int i = 0; i < robot.materialCount; i++)
     {
         robot.materials[i].shader = shadowShader;
     }
     int animCount = 0;
-    ModelAnimation* robotAnimations = rlLoadModelAnimations("resources/models/robot.glb", &animCount);
+    rlModelAnimation* robotAnimations = rlLoadModelAnimations("resources/models/robot.glb", &animCount);
 
     RenderTexture2D shadowMap = LoadShadowmapRenderTexture(SHADOWMAP_RESOLUTION, SHADOWMAP_RESOLUTION);
     // For the shadowmapping algorithm, we will be rendering everything from the light's point of view
-    Camera3D lightCam = (Camera3D){ 0 };
+    rlCamera3D lightCam = (rlCamera3D){ 0 };
     lightCam.position = Vector3Scale(lightDir, -15.0f);
     lightCam.target = Vector3Zero();
     // Use an orthographic projection for directional lights
     lightCam.projection = CAMERA_ORTHOGRAPHIC;
-    lightCam.up = (Vector3){ 0.0f, 1.0f, 0.0f };
+    lightCam.up = (rlVector3){ 0.0f, 1.0f, 0.0f };
     lightCam.fovy = 20.0f;
 
     rlSetTargetFPS(60);
@@ -99,7 +99,7 @@ int main(void)
         //----------------------------------------------------------------------------------
         float dt = rlGetFrameTime();
 
-        Vector3 cameraPos = cam.position;
+        rlVector3 cameraPos = cam.position;
         rlSetShaderValue(shadowShader, shadowShader.locs[SHADER_LOC_VECTOR_VIEW], &cameraPos, SHADER_UNIFORM_VEC3);
         rlUpdateCamera(&cam, CAMERA_ORBITAL);
 
@@ -143,8 +143,8 @@ int main(void)
         // to determine whether a given point is "visible" to the light
 
         // Record the light matrices for future use!
-        Matrix lightView;
-        Matrix lightProj;
+        rlMatrix lightView;
+        rlMatrix lightProj;
         rlBeginTextureMode(shadowMap);
         rlClearBackground(WHITE);
         rlBeginMode3D(lightCam);
@@ -153,7 +153,7 @@ int main(void)
             DrawScene(cube, robot);
         rlEndMode3D();
         rlEndTextureMode();
-        Matrix lightViewProj = MatrixMultiply(lightView, lightProj);
+        rlMatrix lightViewProj = MatrixMultiply(lightView, lightProj);
 
         rlClearBackground(RAYWHITE);
 
@@ -243,9 +243,9 @@ void UnloadShadowmapRenderTexture(RenderTexture2D target)
     }
 }
 
-void DrawScene(Model cube, Model robot)
+void DrawScene(rlModel cube, rlModel robot)
 {
-    rlDrawModelEx(cube, Vector3Zero(), (Vector3) { 0.0f, 1.0f, 0.0f }, 0.0f, (Vector3) { 10.0f, 1.0f, 10.0f }, BLUE);
-    rlDrawModelEx(cube, (Vector3) { 1.5f, 1.0f, -1.5f }, (Vector3) { 0.0f, 1.0f, 0.0f }, 0.0f, Vector3One(), WHITE);
-    rlDrawModelEx(robot, (Vector3) { 0.0f, 0.5f, 0.0f }, (Vector3) { 0.0f, 1.0f, 0.0f }, 0.0f, (Vector3) { 1.0f, 1.0f, 1.0f }, RED);
+    rlDrawModelEx(cube, Vector3Zero(), (rlVector3) { 0.0f, 1.0f, 0.0f }, 0.0f, (rlVector3) { 10.0f, 1.0f, 10.0f }, BLUE);
+    rlDrawModelEx(cube, (rlVector3) { 1.5f, 1.0f, -1.5f }, (rlVector3) { 0.0f, 1.0f, 0.0f }, 0.0f, Vector3One(), WHITE);
+    rlDrawModelEx(robot, (rlVector3) { 0.0f, 0.5f, 0.0f }, (rlVector3) { 0.0f, 1.0f, 0.0f }, 0.0f, (rlVector3) { 1.0f, 1.0f, 1.0f }, RED);
 }

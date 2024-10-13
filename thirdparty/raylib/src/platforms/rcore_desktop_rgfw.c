@@ -65,7 +65,7 @@ void rlCloseWindow(void);
 
 #if defined(__WIN32) || defined(__WIN64)
     #define WIN32_LEAN_AND_MEAN
-    #define Rectangle rectangle_win32
+    #define rlRectangle rectangle_win32
     #define rlCloseWindow CloseWindow_win32
     #define rlShowCursor __imp_ShowCursor
     #define _APISETSTRING_
@@ -83,7 +83,7 @@ void rlCloseWindow(void);
     #undef rlDrawText
     #undef rlShowCursor
     #undef rlCloseWindow
-    #undef Rectangle
+    #undef rlRectangle
 #endif
 
 #if defined(__APPLE__)
@@ -422,7 +422,7 @@ void rlClearWindowState(unsigned int flags)
 }
 
 // Set icon for window
-void rlSetWindowIcon(Image image)
+void rlSetWindowIcon(rlImage image)
 {
     i32 channels = 4;
 
@@ -471,7 +471,7 @@ void rlSetWindowIcon(Image image)
 }
 
 // Set icon for window
-void rlSetWindowIcons(Image *images, int count)
+void rlSetWindowIcons(rlImage *images, int count)
 {
     TRACELOG(LOG_WARNING, "rlSetWindowIcons() not available on target platform");
 }
@@ -574,11 +574,11 @@ int rlGetCurrentMonitor(void)
 }
 
 // Get selected monitor position
-Vector2 rlGetMonitorPosition(int monitor)
+rlVector2 rlGetMonitorPosition(int monitor)
 {
     RGFW_monitor *mons = RGFW_getMonitors();
 
-    return (Vector2){mons[monitor].rect.x, mons[monitor].rect.y};
+    return (rlVector2){mons[monitor].rect.x, mons[monitor].rect.y};
 }
 
 // Get selected monitor width (currently used by monitor)
@@ -629,17 +629,17 @@ const char *rlGetMonitorName(int monitor)
 }
 
 // Get window position XY on monitor
-Vector2 rlGetWindowPosition(void)
+rlVector2 rlGetWindowPosition(void)
 {
-    return (Vector2){ platform.window->r.x, platform.window->r.y };
+    return (rlVector2){ platform.window->r.x, platform.window->r.y };
 }
 
 // Get window scale DPI factor for current monitor
-Vector2 rlGetWindowScaleDPI(void)
+rlVector2 rlGetWindowScaleDPI(void)
 {
     RGFW_monitor monitor = RGFW_window_getMonitor(platform.window);
 
-    return (Vector2){monitor.scaleX, monitor.scaleX};
+    return (rlVector2){monitor.scaleX, monitor.scaleX};
 }
 
 // Set clipboard text content
@@ -741,7 +741,7 @@ int rlSetGamepadMappings(const char *mappings)
 void rlSetMousePosition(int x, int y)
 {
     RGFW_window_moveMouse(platform.window, RGFW_POINT(x, y));
-    CORE.Input.Mouse.currentPosition = (Vector2){ (float)x, (float)y };
+    CORE.Input.Mouse.currentPosition = (rlVector2){ (float)x, (float)y };
     CORE.Input.Mouse.previousPosition = CORE.Input.Mouse.currentPosition;
 }
 
@@ -874,8 +874,8 @@ void rlPollInputEvents(void)
     #define RGFW_HOLD_MOUSE     (1L<<2)
     if (platform.window->_winArgs & RGFW_HOLD_MOUSE)
     {
-        CORE.Input.Mouse.previousPosition = (Vector2){ 0.0f, 0.0f };
-        CORE.Input.Mouse.currentPosition = (Vector2){ 0.0f, 0.0f };
+        CORE.Input.Mouse.previousPosition = (rlVector2){ 0.0f, 0.0f };
+        CORE.Input.Mouse.currentPosition = (rlVector2){ 0.0f, 0.0f };
     }
     else
     {

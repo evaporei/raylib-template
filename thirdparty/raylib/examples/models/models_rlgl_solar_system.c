@@ -21,7 +21,7 @@
 //------------------------------------------------------------------------------------
 // Module Functions Declaration
 //------------------------------------------------------------------------------------
-void DrawSphereBasic(Color color);      // Draw sphere without any matrix transformation
+void DrawSphereBasic(rlColor color);      // Draw sphere without any matrix transformation
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -43,9 +43,9 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 16.0f, 16.0f, 16.0f }; // Camera position
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 16.0f, 16.0f, 16.0f }; // Camera position
+    camera.target = (rlVector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
@@ -105,7 +105,7 @@ int main(void)
                 rlPopMatrix();
 
                 // Some reference elements (not affected by previous matrix transformations)
-                rlDrawCircle3D((Vector3){ 0.0f, 0.0f, 0.0f }, earthOrbitRadius, (Vector3){ 1, 0, 0 }, 90.0f, rlFade(RED, 0.5f));
+                rlDrawCircle3D((rlVector3){ 0.0f, 0.0f, 0.0f }, earthOrbitRadius, (rlVector3){ 1, 0, 0 }, 90.0f, rlFade(RED, 0.5f));
                 rlDrawGrid(20, 1.0f);
 
             rlEndMode3D();
@@ -131,7 +131,7 @@ int main(void)
 
 // Draw sphere without any matrix transformation
 // NOTE: Sphere is drawn in world position ( 0, 0, 0 ) with radius 1.0f
-void DrawSphereBasic(Color color)
+void DrawSphereBasic(rlColor color)
 {
     int rings = 16;
     int slices = 16;

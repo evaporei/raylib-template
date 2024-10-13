@@ -45,16 +45,16 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [shaders] example - write depth buffer");
 
     // The shader inverts the depth buffer by writing into it by `gl_FragDepth = 1 - gl_FragCoord.z;`
-    Shader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/write_depth.fs", GLSL_VERSION));
+    rlShader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/write_depth.fs", GLSL_VERSION));
 
     // Use Customized function to create writable depth texture buffer
     RenderTexture2D target = LoadRenderTextureDepthTex(screenWidth, screenHeight);
 
     // Define the camera to look into our 3d world
     Camera camera = {
-        .position = (Vector3){ 2.0f, 2.0f, 3.0f },    // Camera position
-        .target = (Vector3){ 0.0f, 0.5f, 0.0f },      // Camera looking at point
-        .up = (Vector3){ 0.0f, 1.0f, 0.0f },          // Camera up vector (rotation towards target)
+        .position = (rlVector3){ 2.0f, 2.0f, 3.0f },    // Camera position
+        .target = (rlVector3){ 0.0f, 0.5f, 0.0f },      // Camera looking at point
+        .up = (rlVector3){ 0.0f, 1.0f, 0.0f },          // Camera up vector (rotation towards target)
         .fovy = 45.0f,                                // Camera field-of-view Y
         .projection = CAMERA_PERSPECTIVE              // Camera projection type
     };
@@ -79,10 +79,10 @@ int main(void)
             
             rlBeginMode3D(camera);
                 rlBeginShaderMode(shader);
-                    rlDrawCubeWiresV((Vector3){ 0.0f, 0.5f, 1.0f }, (Vector3){ 1.0f, 1.0f, 1.0f }, RED);
-                    rlDrawCubeV((Vector3){ 0.0f, 0.5f, 1.0f }, (Vector3){ 1.0f, 1.0f, 1.0f }, PURPLE);
-                    rlDrawCubeWiresV((Vector3){ 0.0f, 0.5f, -1.0f }, (Vector3){ 1.0f, 1.0f, 1.0f }, DARKGREEN);
-                    rlDrawCubeV((Vector3) { 0.0f, 0.5f, -1.0f }, (Vector3){ 1.0f, 1.0f, 1.0f }, YELLOW);
+                    rlDrawCubeWiresV((rlVector3){ 0.0f, 0.5f, 1.0f }, (rlVector3){ 1.0f, 1.0f, 1.0f }, RED);
+                    rlDrawCubeV((rlVector3){ 0.0f, 0.5f, 1.0f }, (rlVector3){ 1.0f, 1.0f, 1.0f }, PURPLE);
+                    rlDrawCubeWiresV((rlVector3){ 0.0f, 0.5f, -1.0f }, (rlVector3){ 1.0f, 1.0f, 1.0f }, DARKGREEN);
+                    rlDrawCubeV((rlVector3) { 0.0f, 0.5f, -1.0f }, (rlVector3){ 1.0f, 1.0f, 1.0f }, YELLOW);
                     rlDrawGrid(10, 1.0f);
                 rlEndShaderMode();
             rlEndMode3D();
@@ -92,7 +92,7 @@ int main(void)
         rlBeginDrawing();
             rlClearBackground(RAYWHITE);
         
-            rlDrawTextureRec(target.texture, (Rectangle) { 0, 0, (float)screenWidth, (float)-screenHeight }, (Vector2) { 0, 0 }, WHITE);
+            rlDrawTextureRec(target.texture, (rlRectangle) { 0, 0, (float)screenWidth, (float)-screenHeight }, (rlVector2) { 0, 0 }, WHITE);
             rlDrawFPS(10, 10);
         rlEndDrawing();
         //----------------------------------------------------------------------------------
@@ -156,7 +156,7 @@ void UnloadRenderTextureDepthTex(RenderTexture2D target)
 {
     if (target.id > 0)
     {
-        // Color texture attached to FBO is deleted
+        // rlColor texture attached to FBO is deleted
         rlUnloadTexture(target.texture.id);
         rlUnloadTexture(target.depth.id);
 

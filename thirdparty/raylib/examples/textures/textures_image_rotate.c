@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [textures] example - Image Rotation
+*   raylib [textures] example - rlImage Rotation
 *
 *   Example originally created with raylib 1.0, last time updated with raylib 1.0
 *
@@ -28,9 +28,9 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [textures] example - texture rotation");
 
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
-    Image image45 = rlLoadImage("resources/raylib_logo.png");
-    Image image90 = rlLoadImage("resources/raylib_logo.png");
-    Image imageNeg90 = rlLoadImage("resources/raylib_logo.png");
+    rlImage image45 = rlLoadImage("resources/raylib_logo.png");
+    rlImage image90 = rlLoadImage("resources/raylib_logo.png");
+    rlImage imageNeg90 = rlLoadImage("resources/raylib_logo.png");
 
     rlImageRotate(&image45, 45);
     rlImageRotate(&image90, 90);

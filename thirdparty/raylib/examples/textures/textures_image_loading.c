@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [textures] example - Image loading and texture creation
+*   raylib [textures] example - rlImage loading and texture creation
 *
 *   NOTE: Images are loaded in CPU memory (RAM); textures are loaded in GPU memory (VRAM)
 *
@@ -29,8 +29,8 @@ int main(void)
 
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
 
-    Image image = rlLoadImage("resources/raylib_logo.png");     // Loaded in CPU memory (RAM)
-    Texture2D texture = rlLoadTextureFromImage(image);          // Image converted to texture, GPU memory (VRAM)
+    rlImage image = rlLoadImage("resources/raylib_logo.png");     // Loaded in CPU memory (RAM)
+    Texture2D texture = rlLoadTextureFromImage(image);          // rlImage converted to texture, GPU memory (VRAM)
     rlUnloadImage(image);   // Once image has been converted to texture and uploaded to VRAM, it can be unloaded from RAM
 
     rlSetTargetFPS(60);     // Set our game to run at 60 frames-per-second
@@ -60,7 +60,7 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    UnloadTexture(texture);       // Texture unloading
+    UnloadTexture(texture);       // rlTexture unloading
 
     rlCloseWindow();                // Close window and OpenGL context
     //--------------------------------------------------------------------------------------

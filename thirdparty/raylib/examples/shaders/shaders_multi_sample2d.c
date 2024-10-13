@@ -38,15 +38,15 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib - multiple sample2D");
 
-    Image imRed = rlGenImageColor(800, 450, (Color){ 255, 0, 0, 255 });
-    Texture texRed = rlLoadTextureFromImage(imRed);
+    rlImage imRed = rlGenImageColor(800, 450, (rlColor){ 255, 0, 0, 255 });
+    rlTexture texRed = rlLoadTextureFromImage(imRed);
     rlUnloadImage(imRed);
 
-    Image imBlue = rlGenImageColor(800, 450, (Color){ 0, 0, 255, 255 });
-    Texture texBlue = rlLoadTextureFromImage(imBlue);
+    rlImage imBlue = rlGenImageColor(800, 450, (rlColor){ 0, 0, 255, 255 });
+    rlTexture texBlue = rlLoadTextureFromImage(imBlue);
     rlUnloadImage(imBlue);
 
-    Shader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/color_mix.fs", GLSL_VERSION));
+    rlShader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/color_mix.fs", GLSL_VERSION));
 
     // Get an additional sampler2D location to be enabled on drawing
     int texBlueLoc = rlGetShaderLocation(shader, "texture1");

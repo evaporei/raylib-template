@@ -29,26 +29,26 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 0.2f, 0.4f, 0.2f };    // Camera position
-    camera.target = (Vector3){ 0.185f, 0.4f, 0.0f };    // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 0.2f, 0.4f, 0.2f };    // Camera position
+    camera.target = (rlVector3){ 0.185f, 0.4f, 0.0f };    // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
-    Image imMap = rlLoadImage("resources/cubicmap.png");      // Load cubicmap image (RAM)
+    rlImage imMap = rlLoadImage("resources/cubicmap.png");      // Load cubicmap image (RAM)
     Texture2D cubicmap = rlLoadTextureFromImage(imMap);       // Convert image to texture to display (VRAM)
-    Mesh mesh = rlGenMeshCubicmap(imMap, (Vector3){ 1.0f, 1.0f, 1.0f });
-    Model model = rlLoadModelFromMesh(mesh);
+    rlMesh mesh = rlGenMeshCubicmap(imMap, (rlVector3){ 1.0f, 1.0f, 1.0f });
+    rlModel model = rlLoadModelFromMesh(mesh);
 
     // NOTE: By default each cube is mapped to one part of texture atlas
     Texture2D texture = LoadTexture("resources/cubicmap_atlas.png");    // Load map texture
     model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;    // Set map diffuse texture
 
     // Get map image data to be used for collision detection
-    Color *mapPixels = rlLoadImageColors(imMap);
+    rlColor *mapPixels = rlLoadImageColors(imMap);
     rlUnloadImage(imMap);             // Unload image from RAM
 
-    Vector3 mapPosition = { -16.0f, 0.0f, -8.0f };  // Set model position
+    rlVector3 mapPosition = { -16.0f, 0.0f, -8.0f };  // Set model position
 
     rlDisableCursor();                // Limit cursor to relative movement inside the window
 
@@ -60,12 +60,12 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-        Vector3 oldCamPos = camera.position;    // Store old camera position
+        rlVector3 oldCamPos = camera.position;    // Store old camera position
 
         rlUpdateCamera(&camera, CAMERA_FIRST_PERSON);
 
         // Check player collision (we simplify to 2D collision detection)
-        Vector2 playerPos = { camera.position.x, camera.position.z };
+        rlVector2 playerPos = { camera.position.x, camera.position.z };
         float playerRadius = 0.1f;  // Collision radius (player is modelled as a cilinder for collision)
 
         int playerCellX = (int)(playerPos.x - mapPosition.x + 0.5f);
@@ -86,7 +86,7 @@ int main(void)
             {
                 if ((mapPixels[y*cubicmap.width + x].r == 255) &&       // Collision: white pixel, only check R channel
                     (rlCheckCollisionCircleRec(playerPos, playerRadius,
-                    (Rectangle){ mapPosition.x - 0.5f + x*1.0f, mapPosition.z - 0.5f + y*1.0f, 1.0f, 1.0f })))
+                    (rlRectangle){ mapPosition.x - 0.5f + x*1.0f, mapPosition.z - 0.5f + y*1.0f, 1.0f, 1.0f })))
                 {
                     // Collision detected, reset camera position
                     camera.position = oldCamPos;
@@ -105,7 +105,7 @@ int main(void)
                 rlDrawModel(model, mapPosition, 1.0f, WHITE);                     // Draw maze map
             rlEndMode3D();
 
-            rlDrawTextureEx(cubicmap, (Vector2){ rlGetScreenWidth() - cubicmap.width*4.0f - 20, 20.0f }, 0.0f, 4.0f, WHITE);
+            rlDrawTextureEx(cubicmap, (rlVector2){ rlGetScreenWidth() - cubicmap.width*4.0f - 20, 20.0f }, 0.0f, 4.0f, WHITE);
             rlDrawRectangleLines(rlGetScreenWidth() - cubicmap.width*4 - 20, 20, cubicmap.width*4, cubicmap.height*4, GREEN);
 
             // Draw player position radar

@@ -22,9 +22,9 @@
 #define MAX_BATCH_ELEMENTS  8192
 
 typedef struct Bunny {
-    Vector2 position;
-    Vector2 speed;
-    Color color;
+    rlVector2 position;
+    rlVector2 speed;
+    rlColor color;
 } Bunny;
 
 //------------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ int main(void)
                     bunnies[bunniesCount].position = rlGetMousePosition();
                     bunnies[bunniesCount].speed.x = (float)rlGetRandomValue(-250, 250)/60.0f;
                     bunnies[bunniesCount].speed.y = (float)rlGetRandomValue(-250, 250)/60.0f;
-                    bunnies[bunniesCount].color = (Color){ rlGetRandomValue(50, 240),
+                    bunnies[bunniesCount].color = (rlColor){ rlGetRandomValue(50, 240),
                                                        rlGetRandomValue(80, 240),
                                                        rlGetRandomValue(100, 240), 255 };
                     bunniesCount++;

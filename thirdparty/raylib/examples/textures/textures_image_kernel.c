@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [textures] example - Image loading and texture creation
+*   raylib [textures] example - rlImage loading and texture creation
 *
 *   NOTE: Images are loaded in CPU memory (RAM); textures are loaded in GPU memory (VRAM)
 *
@@ -38,7 +38,7 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [textures] example - image convolution");
         
-    Image image = rlLoadImage("resources/cat.png");     // Loaded in CPU memory (RAM)
+    rlImage image = rlLoadImage("resources/cat.png");     // Loaded in CPU memory (RAM)
 
     float gaussiankernel[] = { 
         1.0f, 2.0f, 1.0f,
@@ -59,23 +59,23 @@ int main(void)
     NormalizeKernel(sharpenkernel, 9);
     NormalizeKernel(sobelkernel, 9);
 
-    Image catSharpend = rlImageCopy(image);
+    rlImage catSharpend = rlImageCopy(image);
     rlImageKernelConvolution(&catSharpend, sharpenkernel, 9);
  
-    Image catSobel = rlImageCopy(image);
+    rlImage catSobel = rlImageCopy(image);
     rlImageKernelConvolution(&catSobel, sobelkernel, 9);
 
-    Image catGaussian = rlImageCopy(image);
+    rlImage catGaussian = rlImageCopy(image);
     
     for (int i = 0; i < 6; i++)
     {
         rlImageKernelConvolution(&catGaussian, gaussiankernel, 9);
     }
 
-    rlImageCrop(&image, (Rectangle){ 0, 0, (float)200, (float)450 });
-    rlImageCrop(&catGaussian, (Rectangle){ 0, 0, (float)200, (float)450 });
-    rlImageCrop(&catSobel, (Rectangle){ 0, 0, (float)200, (float)450 });
-    rlImageCrop(&catSharpend, (Rectangle){ 0, 0, (float)200, (float)450 });
+    rlImageCrop(&image, (rlRectangle){ 0, 0, (float)200, (float)450 });
+    rlImageCrop(&catGaussian, (rlRectangle){ 0, 0, (float)200, (float)450 });
+    rlImageCrop(&catSobel, (rlRectangle){ 0, 0, (float)200, (float)450 });
+    rlImageCrop(&catSharpend, (rlRectangle){ 0, 0, (float)200, (float)450 });
     
     // Images converted to texture, GPU memory (VRAM)
     Texture2D texture = rlLoadTextureFromImage(image);

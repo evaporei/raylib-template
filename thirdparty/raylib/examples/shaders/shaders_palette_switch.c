@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [shaders] example - Color palette switch
+*   raylib [shaders] example - rlColor palette switch
 *
 *   NOTE: This example requires raylib OpenGL 3.3 or ES2 versions for shaders support,
 *         OpenGL 1.1 does not support shaders, recompile raylib to OpenGL 3.3 version.
@@ -86,7 +86,7 @@ int main(void)
     // Load shader to be used on some parts drawing
     // NOTE 1: Using GLSL 330 shader version, on OpenGL ES 2.0 use GLSL 100 shader version
     // NOTE 2: Defining 0 (NULL) for vertex shader forces usage of internal default vertex shader
-    Shader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/palette_switch.fs", GLSL_VERSION));
+    rlShader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/palette_switch.fs", GLSL_VERSION));
 
     // Get variable (uniform) location on the shader to connect with the program
     // NOTE: If uniform variable could not be found in the shader, function returns -1
@@ -126,7 +126,7 @@ int main(void)
                 {
                     // Draw horizontal screen-wide rectangles with increasing "palette index"
                     // The used palette index is encoded in the RGB components of the pixel
-                    rlDrawRectangle(0, lineHeight*i, rlGetScreenWidth(), lineHeight, (Color){ i, i, i, 255 });
+                    rlDrawRectangle(0, lineHeight*i, rlGetScreenWidth(), lineHeight, (rlColor){ i, i, i, 255 });
                 }
 
             rlEndShaderMode();

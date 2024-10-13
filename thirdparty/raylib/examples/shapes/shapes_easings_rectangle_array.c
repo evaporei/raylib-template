@@ -38,7 +38,7 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [shapes] example - easings rectangle array");
 
-    Rectangle recs[MAX_RECS_X*MAX_RECS_Y] = { 0 };
+    rlRectangle recs[MAX_RECS_X*MAX_RECS_Y] = { 0 };
 
     for (int y = 0; y < MAX_RECS_Y; y++)
     {
@@ -105,7 +105,7 @@ int main(void)
             {
                 for (int i = 0; i < MAX_RECS_X*MAX_RECS_Y; i++)
                 {
-                    rlDrawRectanglePro(recs[i], (Vector2){ recs[i].width/2, recs[i].height/2 }, rotation, RED);
+                    rlDrawRectanglePro(recs[i], (rlVector2){ recs[i].width/2, recs[i].height/2 }, rotation, RED);
                 }
             }
             else if (state == 1) rlDrawText("PRESS [SPACE] TO PLAY AGAIN!", 240, 200, 20, GRAY);

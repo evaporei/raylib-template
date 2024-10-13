@@ -28,28 +28,28 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 5.0f, 4.0f, 5.0f };    // Camera position
-    camera.target = (Vector3){ 0.0f, 2.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 5.0f, 4.0f, 5.0f };    // Camera position
+    camera.target = (rlVector3){ 0.0f, 2.0f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
     Texture2D bill = LoadTexture("resources/billboard.png");    // Our billboard texture
-    Vector3 billPositionStatic = { 0.0f, 2.0f, 0.0f };          // Position of static billboard
-    Vector3 billPositionRotating = { 1.0f, 2.0f, 1.0f };        // Position of rotating billboard
+    rlVector3 billPositionStatic = { 0.0f, 2.0f, 0.0f };          // Position of static billboard
+    rlVector3 billPositionRotating = { 1.0f, 2.0f, 1.0f };        // Position of rotating billboard
 
     // Entire billboard texture, source is used to take a segment from a larger texture.
-    Rectangle source = { 0.0f, 0.0f, (float)bill.width, (float)bill.height };
+    rlRectangle source = { 0.0f, 0.0f, (float)bill.width, (float)bill.height };
 
     // NOTE: Billboard locked on axis-Y
-    Vector3 billUp = { 0.0f, 1.0f, 0.0f };
+    rlVector3 billUp = { 0.0f, 1.0f, 0.0f };
 
     // Set the height of the rotating billboard to 1.0 with the aspect ratio fixed
-    Vector2 size = { source.width/source.height, 1.0f };
+    rlVector2 size = { source.width/source.height, 1.0f };
 
     // Rotate around origin
     // Here we choose to rotate around the image center
-    Vector2 origin = Vector2Scale(size, 0.5f);
+    rlVector2 origin = Vector2Scale(size, 0.5f);
 
     // Distance is needed for the correct billboard draw order
     // Larger distance (further away from the camera) should be drawn prior to smaller distance.

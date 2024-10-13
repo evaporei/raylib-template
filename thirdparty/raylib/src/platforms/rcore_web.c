@@ -100,7 +100,7 @@ static const char cursorLUT[11][12] = {
     "not-allowed"  // 10 MOUSE_CURSOR_NOT_ALLOWED
 };
 
-Vector2 lockedMousePos = { 0 };
+rlVector2 lockedMousePos = { 0 };
 
 //----------------------------------------------------------------------------------
 // Module Internal Functions Declaration
@@ -580,13 +580,13 @@ void rlClearWindowState(unsigned int flags)
 }
 
 // Set icon for window
-void rlSetWindowIcon(Image image)
+void rlSetWindowIcon(rlImage image)
 {
     TRACELOG(LOG_WARNING, "rlSetWindowIcon() not available on target platform");
 }
 
 // Set icon for window, multiple images
-void rlSetWindowIcons(Image *images, int count)
+void rlSetWindowIcons(rlImage *images, int count)
 {
     TRACELOG(LOG_WARNING, "rlSetWindowIcons() not available on target platform");
 }
@@ -670,10 +670,10 @@ int rlGetCurrentMonitor(void)
 }
 
 // Get selected monitor position
-Vector2 rlGetMonitorPosition(int monitor)
+rlVector2 rlGetMonitorPosition(int monitor)
 {
     TRACELOG(LOG_WARNING, "rlGetMonitorPosition() not implemented on target platform");
-    return (Vector2){ 0, 0 };
+    return (rlVector2){ 0, 0 };
 }
 
 // Get selected monitor width (currently used by monitor)
@@ -723,20 +723,20 @@ const char *rlGetMonitorName(int monitor)
 }
 
 // Get window position XY on monitor
-Vector2 rlGetWindowPosition(void)
+rlVector2 rlGetWindowPosition(void)
 {
     // NOTE: Returned position is relative to the current monitor where the browser window is located
-    Vector2 position = { 0, 0 };
+    rlVector2 position = { 0, 0 };
     position.x = (float)EM_ASM_INT( { return window.screenX; }, 0);
     position.y = (float)EM_ASM_INT( { return window.screenY; }, 0);
     return position;
 }
 
 // Get window scale DPI factor for current monitor
-Vector2 rlGetWindowScaleDPI(void)
+rlVector2 rlGetWindowScaleDPI(void)
 {
     TRACELOG(LOG_WARNING, "rlGetWindowScaleDPI() not implemented on target platform");
-    return (Vector2){ 1.0f, 1.0f };
+    return (rlVector2){ 1.0f, 1.0f };
 }
 
 // Set clipboard text content
@@ -864,7 +864,7 @@ void rlSetGamepadVibration(int gamepad, float leftMotor, float rightMotor)
 // Set mouse position XY
 void rlSetMousePosition(int x, int y)
 {
-    CORE.Input.Mouse.currentPosition = (Vector2){ (float)x, (float)y };
+    CORE.Input.Mouse.currentPosition = (rlVector2){ (float)x, (float)y };
     CORE.Input.Mouse.previousPosition = CORE.Input.Mouse.currentPosition;
 
     if (CORE.Input.Mouse.cursorHidden) lockedMousePos = CORE.Input.Mouse.currentPosition;
@@ -922,7 +922,7 @@ void rlPollInputEvents(void)
 
     // Register previous mouse wheel state
     CORE.Input.Mouse.previousWheelMove = CORE.Input.Mouse.currentWheelMove;
-    CORE.Input.Mouse.currentWheelMove = (Vector2){ 0.0f, 0.0f };
+    CORE.Input.Mouse.currentWheelMove = (rlVector2){ 0.0f, 0.0f };
 
     // Register previous mouse position
     CORE.Input.Mouse.previousPosition = CORE.Input.Mouse.currentPosition;
@@ -933,7 +933,7 @@ void rlPollInputEvents(void)
     // Reset touch positions
     // TODO: It resets on target platform the mouse position and not filled again until a move-event,
     // so, if mouse is not moved it returns a (0, 0) position... this behaviour should be reviewed!
-    //for (int i = 0; i < MAX_TOUCH_POINTS; i++) CORE.Input.Touch.position[i] = (Vector2){ 0, 0 };
+    //for (int i = 0; i < MAX_TOUCH_POINTS; i++) CORE.Input.Touch.position[i] = (rlVector2){ 0, 0 };
 
     // Gamepad support using emscripten API
     // NOTE: GLFW3 joystick functionality not available in web
@@ -1341,7 +1341,7 @@ static void WindowSizeCallback(GLFWwindow *window, int width, int height)
     // Set current screen size
     if ((CORE.Window.flags & FLAG_WINDOW_HIGHDPI) > 0)
     {
-        Vector2 windowScaleDPI = rlGetWindowScaleDPI();
+        rlVector2 windowScaleDPI = rlGetWindowScaleDPI();
 
         CORE.Window.screen.width = (unsigned int)(width/windowScaleDPI.x);
         CORE.Window.screen.height = (unsigned int)(height/windowScaleDPI.y);
@@ -1540,7 +1540,7 @@ static EM_BOOL EmscriptenMouseMoveCallback(int eventType, const EmscriptenMouseE
 // GLFW3 Scrolling Callback, runs on mouse wheel
 static void MouseScrollCallback(GLFWwindow *window, double xoffset, double yoffset)
 {
-    CORE.Input.Mouse.currentWheelMove = (Vector2){ (float)xoffset, (float)yoffset };
+    CORE.Input.Mouse.currentWheelMove = (rlVector2){ (float)xoffset, (float)yoffset };
 }
 
 // GLFW3 CursorEnter Callback, when cursor enters the window
@@ -1680,7 +1680,7 @@ static EM_BOOL EmscriptenTouchCallback(int eventType, const EmscriptenTouchEvent
         CORE.Input.Touch.pointId[i] = touchEvent->touches[i].identifier;
 
         // Register touch points position
-        CORE.Input.Touch.position[i] = (Vector2){touchEvent->touches[i].targetX, touchEvent->touches[i].targetY};
+        CORE.Input.Touch.position[i] = (rlVector2){touchEvent->touches[i].targetX, touchEvent->touches[i].targetY};
 
         // Normalize gestureEvent.position[x] for CORE.Window.screen.width and CORE.Window.screen.height
         CORE.Input.Touch.position[i].x *= ((float)rlGetScreenWidth()/(float)canvasWidth);

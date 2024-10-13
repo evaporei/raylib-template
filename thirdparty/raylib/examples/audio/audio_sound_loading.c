@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [audio] example - Sound loading and playing
+*   raylib [audio] example - rlSound loading and playing
 *
 *   Example originally created with raylib 1.1, last time updated with raylib 3.5
 *
@@ -27,8 +27,8 @@ int main(void)
 
     rlInitAudioDevice();      // Initialize audio device
 
-    Sound fxWav = rlLoadSound("resources/sound.wav");         // Load WAV audio file
-    Sound fxOgg = rlLoadSound("resources/target.ogg");        // Load OGG audio file
+    rlSound fxWav = rlLoadSound("resources/sound.wav");         // Load WAV audio file
+    rlSound fxOgg = rlLoadSound("resources/target.ogg");        // Load OGG audio file
 
     rlSetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [shaders] example - Texture Waves
+*   raylib [shaders] example - rlTexture Waves
 *
 *   NOTE: This example requires raylib OpenGL 3.3 or ES2 versions for shaders support,
 *         OpenGL 1.1 does not support shaders, recompile raylib to OpenGL 3.3 version.
@@ -44,7 +44,7 @@ int main(void)
     Texture2D texture = LoadTexture("resources/space.png");
 
     // Load shader and setup location points and values
-    Shader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/wave.fs", GLSL_VERSION));
+    rlShader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/wave.fs", GLSL_VERSION));
 
     int secondsLoc = rlGetShaderLocation(shader, "seconds");
     int freqXLoc = rlGetShaderLocation(shader, "freqX");
@@ -54,7 +54,7 @@ int main(void)
     int speedXLoc = rlGetShaderLocation(shader, "speedX");
     int speedYLoc = rlGetShaderLocation(shader, "speedY");
 
-    // Shader uniform values that can be updated at any time
+    // rlShader uniform values that can be updated at any time
     float freqX = 25.0f;
     float freqY = 25.0f;
     float ampX = 5.0f;

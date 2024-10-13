@@ -51,7 +51,7 @@ int main(void)
     //--------------------------------------------------------------------------------------
     rlInitWindow(GOL_WIDTH, GOL_WIDTH, "raylib [rlgl] example - compute shader - game of life");
 
-    const Vector2 resolution = { GOL_WIDTH, GOL_WIDTH };
+    const rlVector2 resolution = { GOL_WIDTH, GOL_WIDTH };
     unsigned int brushSize = 8;
 
     // Game of Life logic compute shader
@@ -61,7 +61,7 @@ int main(void)
     rlUnloadFileText(golLogicCode);
 
     // Game of Life logic render shader
-    Shader golRenderShader = rlLoadShader(NULL, "resources/shaders/glsl430/gol_render.glsl");
+    rlShader golRenderShader = rlLoadShader(NULL, "resources/shaders/glsl430/gol_render.glsl");
     int resUniformLoc = rlGetShaderLocation(golRenderShader, "resolution");
 
     // Game of Life transfert shader (CPU<->GPU download and upload)
@@ -79,8 +79,8 @@ int main(void)
 
     // Create a white texture of the size of the window to update
     // each pixel of the window using the fragment shader: golRenderShader
-    Image whiteImage = rlGenImageColor(GOL_WIDTH, GOL_WIDTH, WHITE);
-    Texture whiteTex = rlLoadTextureFromImage(whiteImage);
+    rlImage whiteImage = rlGenImageColor(GOL_WIDTH, GOL_WIDTH, WHITE);
+    rlTexture whiteTex = rlLoadTextureFromImage(whiteImage);
     rlUnloadImage(whiteImage);
     //--------------------------------------------------------------------------------------
 

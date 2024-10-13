@@ -76,22 +76,22 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 2.0f, 3.0f, 2.0f };    // Camera position
-    camera.target = (Vector3){ 0.0f, 1.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 2.0f, 3.0f, 2.0f };    // Camera position
+    camera.target = (rlVector3){ 0.0f, 1.0f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
-    Model model = rlLoadModel("resources/models/church.obj");                 // Load OBJ model
+    rlModel model = rlLoadModel("resources/models/church.obj");                 // Load OBJ model
     Texture2D texture = LoadTexture("resources/models/church_diffuse.png"); // Load model texture (diffuse map)
     model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;        // Set model diffuse texture
 
-    Vector3 position = { 0.0f, 0.0f, 0.0f };            // Set model position
+    rlVector3 position = { 0.0f, 0.0f, 0.0f };            // Set model position
 
     // Load all postpro shaders
     // NOTE 1: All postpro shader use the base vertex shader (DEFAULT_VERTEX_SHADER)
     // NOTE 2: We load the correct shader depending on GLSL version
-    Shader shaders[MAX_POSTPRO_SHADERS] = { 0 };
+    rlShader shaders[MAX_POSTPRO_SHADERS] = { 0 };
 
     // NOTE: Defining 0 (NULL) for vertex shader forces usage of internal default vertex shader
     shaders[FX_GRAYSCALE] = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/grayscale.fs", GLSL_VERSION));
@@ -146,7 +146,7 @@ int main(void)
             // Render generated texture using selected postprocessing shader
             rlBeginShaderMode(shaders[currentShader]);
                 // NOTE: Render texture must be y-flipped due to default OpenGL coordinates (left-bottom)
-                rlDrawTextureRec(target.texture, (Rectangle){ 0, 0, (float)target.texture.width, (float)-target.texture.height }, (Vector2){ 0, 0 }, WHITE);
+                rlDrawTextureRec(target.texture, (rlRectangle){ 0, 0, (float)target.texture.width, (float)-target.texture.height }, (rlVector2){ 0, 0 }, WHITE);
             rlEndShaderMode();
 
             // Draw 2d shapes and text over drawn texture

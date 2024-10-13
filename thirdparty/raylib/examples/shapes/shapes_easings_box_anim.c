@@ -28,7 +28,7 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [shapes] example - easings box anim");
 
     // Box variables to be animated with easings
-    Rectangle rec = { rlGetScreenWidth()/2.0f, -100, 100, 100 };
+    rlRectangle rec = { rlGetScreenWidth()/2.0f, -100, 100, 100 };
     float rotation = 0.0f;
     float alpha = 1.0f;
 
@@ -110,7 +110,7 @@ int main(void)
         // Reset animation at any moment
         if (rlIsKeyPressed(KEY_SPACE))
         {
-            rec = (Rectangle){ rlGetScreenWidth()/2.0f, -100, 100, 100 };
+            rec = (rlRectangle){ rlGetScreenWidth()/2.0f, -100, 100, 100 };
             rotation = 0.0f;
             alpha = 1.0f;
             state = 0;
@@ -124,7 +124,7 @@ int main(void)
 
             rlClearBackground(RAYWHITE);
 
-            rlDrawRectanglePro(rec, (Vector2){ rec.width/2, rec.height/2 }, rotation, rlFade(BLACK, alpha));
+            rlDrawRectanglePro(rec, (rlVector2){ rec.width/2, rec.height/2 }, rotation, rlFade(BLACK, alpha));
 
             rlDrawText("PRESS [SPACE] TO RESET BOX ANIMATION!", 10, rlGetScreenHeight() - 25, 20, LIGHTGRAY);
 

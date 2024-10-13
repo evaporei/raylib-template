@@ -46,13 +46,13 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 4.0f, 6.0f, 8.0f };    // Camera position
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 4.0f, 6.0f, 8.0f };    // Camera position
+    camera.target = (rlVector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
-    Mesh mesh = rlGenMeshPlane((float)MAP_SIZE, (float)MAP_SIZE, 1, 1);
+    rlMesh mesh = rlGenMeshPlane((float)MAP_SIZE, (float)MAP_SIZE, 1, 1);
 
     // rlGenMeshPlane doesn't generate texcoords2 so we will upload them separately
     mesh.texcoords2 = (float *)RL_MALLOC(mesh.vertexCount*2*sizeof(float));
@@ -73,20 +73,20 @@ int main(void)
     rlDisableVertexArray();
 
     // Load lightmap shader
-    Shader shader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/lightmap.vs", GLSL_VERSION),
+    rlShader shader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/lightmap.vs", GLSL_VERSION),
                                rlTextFormat("resources/shaders/glsl%i/lightmap.fs", GLSL_VERSION));
 
-    Texture texture = LoadTexture("resources/cubicmap_atlas.png");
-    Texture light = LoadTexture("resources/spark_flame.png");
+    rlTexture texture = LoadTexture("resources/cubicmap_atlas.png");
+    rlTexture light = LoadTexture("resources/spark_flame.png");
 
     GenTextureMipmaps(&texture);
     rlSetTextureFilter(texture, TEXTURE_FILTER_TRILINEAR);
 
-    RenderTexture lightmap = rlLoadRenderTexture(MAP_SIZE, MAP_SIZE);
+    rlRenderTexture lightmap = rlLoadRenderTexture(MAP_SIZE, MAP_SIZE);
 
     rlSetTextureFilter(lightmap.texture, TEXTURE_FILTER_TRILINEAR);
 
-    Material material = rlLoadMaterialDefault();
+    rlMaterial material = rlLoadMaterialDefault();
     material.shader = shader;
     material.maps[MATERIAL_MAP_ALBEDO].texture = texture;
     material.maps[MATERIAL_MAP_METALNESS].texture = lightmap.texture;
@@ -98,25 +98,25 @@ int main(void)
         rlBeginBlendMode(BLEND_ADDITIVE);
             rlDrawTexturePro(
                 light,
-                (Rectangle){ 0, 0, light.width, light.height },
-                (Rectangle){ 0, 0, 20, 20 },
-                (Vector2){ 10.0, 10.0 },
+                (rlRectangle){ 0, 0, light.width, light.height },
+                (rlRectangle){ 0, 0, 20, 20 },
+                (rlVector2){ 10.0, 10.0 },
                 0.0,
                 RED
             );
             rlDrawTexturePro(
                 light,
-                (Rectangle){ 0, 0, light.width, light.height },
-                (Rectangle){ 8, 4, 20, 20 },
-                (Vector2){ 10.0, 10.0 },
+                (rlRectangle){ 0, 0, light.width, light.height },
+                (rlRectangle){ 8, 4, 20, 20 },
+                (rlVector2){ 10.0, 10.0 },
                 0.0,
                 BLUE
             );
             rlDrawTexturePro(
                 light,
-                (Rectangle){ 0, 0, light.width, light.height },
-                (Rectangle){ 8, 8, 10, 10 },
-                (Vector2){ 5.0, 5.0 },
+                (rlRectangle){ 0, 0, light.width, light.height },
+                (rlRectangle){ 8, 8, 10, 10 },
+                (rlVector2){ 5.0, 5.0 },
                 0.0,
                 GREEN
             );
@@ -147,9 +147,9 @@ int main(void)
 
             rlDrawTexturePro(
                 lightmap.texture,
-                (Rectangle){ 0, 0, -MAP_SIZE, -MAP_SIZE },
-                (Rectangle){ rlGetRenderWidth() - MAP_SIZE*8 - 10, 10, MAP_SIZE*8, MAP_SIZE*8 },
-                (Vector2){ 0.0, 0.0 },
+                (rlRectangle){ 0, 0, -MAP_SIZE, -MAP_SIZE },
+                (rlRectangle){ rlGetRenderWidth() - MAP_SIZE*8 - 10, 10, MAP_SIZE*8, MAP_SIZE*8 },
+                (rlVector2){ 0.0, 0.0 },
                 0.0,
                 WHITE);
                 

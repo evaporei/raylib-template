@@ -17,8 +17,8 @@
 
 // Particle structure with basic data
 typedef struct {
-    Vector2 position;
-    Color color;
+    rlVector2 position;
+    rlColor color;
     float alpha;
     float size;
     float rotation;
@@ -43,8 +43,8 @@ int main(void)
     // Initialize particles
     for (int i = 0; i < MAX_PARTICLES; i++)
     {
-        mouseTail[i].position = (Vector2){ 0, 0 };
-        mouseTail[i].color = (Color){ rlGetRandomValue(0, 255), rlGetRandomValue(0, 255), rlGetRandomValue(0, 255), 255 };
+        mouseTail[i].position = (rlVector2){ 0, 0 };
+        mouseTail[i].color = (rlColor){ rlGetRandomValue(0, 255), rlGetRandomValue(0, 255), rlGetRandomValue(0, 255), 255 };
         mouseTail[i].alpha = 1.0f;
         mouseTail[i].size = (float)rlGetRandomValue(1, 30)/20.0f;
         mouseTail[i].rotation = (float)rlGetRandomValue(0, 360);
@@ -112,9 +112,9 @@ int main(void)
                 // Draw active particles
                 for (int i = 0; i < MAX_PARTICLES; i++)
                 {
-                    if (mouseTail[i].active) rlDrawTexturePro(smoke, (Rectangle){ 0.0f, 0.0f, (float)smoke.width, (float)smoke.height },
-                                                           (Rectangle){ mouseTail[i].position.x, mouseTail[i].position.y, smoke.width*mouseTail[i].size, smoke.height*mouseTail[i].size },
-                                                           (Vector2){ (float)(smoke.width*mouseTail[i].size/2.0f), (float)(smoke.height*mouseTail[i].size/2.0f) }, mouseTail[i].rotation,
+                    if (mouseTail[i].active) rlDrawTexturePro(smoke, (rlRectangle){ 0.0f, 0.0f, (float)smoke.width, (float)smoke.height },
+                                                           (rlRectangle){ mouseTail[i].position.x, mouseTail[i].position.y, smoke.width*mouseTail[i].size, smoke.height*mouseTail[i].size },
+                                                           (rlVector2){ (float)(smoke.width*mouseTail[i].size/2.0f), (float)(smoke.height*mouseTail[i].size/2.0f) }, mouseTail[i].rotation,
                                                            rlFade(mouseTail[i].color, mouseTail[i].alpha));
                 }
 

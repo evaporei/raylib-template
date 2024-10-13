@@ -29,20 +29,20 @@ int main(void)
 
     rlInitAudioDevice();      // Initialize audio device
 
-    Sound fxButton = rlLoadSound("resources/buttonfx.wav");   // Load button sound
+    rlSound fxButton = rlLoadSound("resources/buttonfx.wav");   // Load button sound
     Texture2D button = LoadTexture("resources/button.png"); // Load button texture
 
     // Define frame rectangle for drawing
     float frameHeight = (float)button.height/NUM_FRAMES;
-    Rectangle sourceRec = { 0, 0, (float)button.width, frameHeight };
+    rlRectangle sourceRec = { 0, 0, (float)button.width, frameHeight };
 
     // Define button bounds on screen
-    Rectangle btnBounds = { screenWidth/2.0f - button.width/2.0f, screenHeight/2.0f - button.height/NUM_FRAMES/2.0f, (float)button.width, frameHeight };
+    rlRectangle btnBounds = { screenWidth/2.0f - button.width/2.0f, screenHeight/2.0f - button.height/NUM_FRAMES/2.0f, (float)button.width, frameHeight };
 
     int btnState = 0;               // Button state: 0-NORMAL, 1-MOUSE_HOVER, 2-PRESSED
     bool btnAction = false;         // Button action should be activated
 
-    Vector2 mousePoint = { 0.0f, 0.0f };
+    rlVector2 mousePoint = { 0.0f, 0.0f };
 
     rlSetTargetFPS(60);
     //--------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ int main(void)
 
             rlClearBackground(RAYWHITE);
 
-            rlDrawTextureRec(button, sourceRec, (Vector2){ btnBounds.x, btnBounds.y }, WHITE); // Draw button frame
+            rlDrawTextureRec(button, sourceRec, (rlVector2){ btnBounds.x, btnBounds.y }, WHITE); // Draw button frame
 
         rlEndDrawing();
         //----------------------------------------------------------------------------------

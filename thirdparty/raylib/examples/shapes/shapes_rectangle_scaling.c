@@ -29,9 +29,9 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [shapes] example - rectangle scaling mouse");
 
-    Rectangle rec = { 100, 100, 200, 80 };
+    rlRectangle rec = { 100, 100, 200, 80 };
 
-    Vector2 mousePosition = { 0 };
+    rlVector2 mousePosition = { 0 };
 
     bool mouseScaleReady = false;
     bool mouseScaleMode = false;
@@ -46,7 +46,7 @@ int main(void)
         //----------------------------------------------------------------------------------
         mousePosition = rlGetMousePosition();
 
-        if (rlCheckCollisionPointRec(mousePosition, (Rectangle){ rec.x + rec.width - MOUSE_SCALE_MARK_SIZE, rec.y + rec.height - MOUSE_SCALE_MARK_SIZE, MOUSE_SCALE_MARK_SIZE, MOUSE_SCALE_MARK_SIZE }))
+        if (rlCheckCollisionPointRec(mousePosition, (rlRectangle){ rec.x + rec.width - MOUSE_SCALE_MARK_SIZE, rec.y + rec.height - MOUSE_SCALE_MARK_SIZE, MOUSE_SCALE_MARK_SIZE, MOUSE_SCALE_MARK_SIZE }))
         {
             mouseScaleReady = true;
             if (rlIsMouseButtonPressed(MOUSE_BUTTON_LEFT)) mouseScaleMode = true;
@@ -85,9 +85,9 @@ int main(void)
             if (mouseScaleReady)
             {
                 rlDrawRectangleLinesEx(rec, 1, RED);
-                rlDrawTriangle((Vector2){ rec.x + rec.width - MOUSE_SCALE_MARK_SIZE, rec.y + rec.height },
-                             (Vector2){ rec.x + rec.width, rec.y + rec.height },
-                             (Vector2){ rec.x + rec.width, rec.y + rec.height - MOUSE_SCALE_MARK_SIZE }, RED);
+                rlDrawTriangle((rlVector2){ rec.x + rec.width - MOUSE_SCALE_MARK_SIZE, rec.y + rec.height },
+                             (rlVector2){ rec.x + rec.width, rec.y + rec.height },
+                             (rlVector2){ rec.x + rec.width, rec.y + rec.height - MOUSE_SCALE_MARK_SIZE }, RED);
             }
 
         rlEndDrawing();

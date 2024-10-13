@@ -46,17 +46,17 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 2.0f, 2.0f, 6.0f };    // Camera position
-    camera.target = (Vector3){ 0.0f, 0.5f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 2.0f, 2.0f, 6.0f };    // Camera position
+    camera.target = (rlVector3){ 0.0f, 0.5f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
     // Load models and texture
-    Model modelA = rlLoadModelFromMesh(rlGenMeshTorus(0.4f, 1.0f, 16, 32));
-    Model modelB = rlLoadModelFromMesh(rlGenMeshCube(1.0f, 1.0f, 1.0f));
-    Model modelC = rlLoadModelFromMesh(rlGenMeshSphere(0.5f, 32, 32));
-    Texture texture = LoadTexture("resources/texel_checker.png");
+    rlModel modelA = rlLoadModelFromMesh(rlGenMeshTorus(0.4f, 1.0f, 16, 32));
+    rlModel modelB = rlLoadModelFromMesh(rlGenMeshCube(1.0f, 1.0f, 1.0f));
+    rlModel modelC = rlLoadModelFromMesh(rlGenMeshSphere(0.5f, 32, 32));
+    rlTexture texture = LoadTexture("resources/texel_checker.png");
 
     // Assign texture to default model material
     modelA.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
@@ -64,7 +64,7 @@ int main(void)
     modelC.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 
     // Load shader and set up some uniforms
-    Shader shader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/lighting.vs", GLSL_VERSION),
+    rlShader shader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/lighting.vs", GLSL_VERSION),
                                rlTextFormat("resources/shaders/glsl%i/fog.fs", GLSL_VERSION));
     shader.locs[SHADER_LOC_MATRIX_MODEL] = rlGetShaderLocation(shader, "matModel");
     shader.locs[SHADER_LOC_VECTOR_VIEW] = rlGetShaderLocation(shader, "viewPos");
@@ -83,7 +83,7 @@ int main(void)
     modelC.materials[0].shader = shader;
 
     // Using just 1 point lights
-    CreateLight(LIGHT_POINT, (Vector3){ 0, 2, 6 }, Vector3Zero(), WHITE, shader);
+    CreateLight(LIGHT_POINT, (rlVector3){ 0, 2, 6 }, Vector3Zero(), WHITE, shader);
 
     rlSetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -127,10 +127,10 @@ int main(void)
 
                 // Draw the three models
                 rlDrawModel(modelA, Vector3Zero(), 1.0f, WHITE);
-                rlDrawModel(modelB, (Vector3){ -2.6f, 0, 0 }, 1.0f, WHITE);
-                rlDrawModel(modelC, (Vector3){ 2.6f, 0, 0 }, 1.0f, WHITE);
+                rlDrawModel(modelB, (rlVector3){ -2.6f, 0, 0 }, 1.0f, WHITE);
+                rlDrawModel(modelC, (rlVector3){ 2.6f, 0, 0 }, 1.0f, WHITE);
 
-                for (int i = -20; i < 20; i += 2) rlDrawModel(modelA,(Vector3){ (float)i, 0, 2 }, 1.0f, WHITE);
+                for (int i = -20; i < 20; i += 2) rlDrawModel(modelA,(rlVector3){ (float)i, 0, 2 }, 1.0f, WHITE);
 
             rlEndMode3D();
 

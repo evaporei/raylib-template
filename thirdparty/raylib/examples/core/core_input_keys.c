@@ -25,7 +25,7 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [core] example - keyboard input");
 
-    Vector2 ballPosition = { (float)screenWidth/2, (float)screenHeight/2 };
+    rlVector2 ballPosition = { (float)screenWidth/2, (float)screenHeight/2 };
 
     rlSetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------

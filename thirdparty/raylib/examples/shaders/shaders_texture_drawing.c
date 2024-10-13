@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [textures] example - Texture drawing
+*   raylib [textures] example - rlTexture drawing
 *
 *   NOTE: This example illustrates how to draw into a blank texture using a shader
 *
@@ -35,12 +35,12 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [shaders] example - texture drawing");
 
-    Image imBlank = rlGenImageColor(1024, 1024, BLANK);
+    rlImage imBlank = rlGenImageColor(1024, 1024, BLANK);
     Texture2D texture = rlLoadTextureFromImage(imBlank);  // Load blank texture to fill on shader
     rlUnloadImage(imBlank);
 
     // NOTE: Using GLSL 330 shader version, on OpenGL ES 2.0 use GLSL 100 shader version
-    Shader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/cubes_panning.fs", GLSL_VERSION));
+    rlShader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/cubes_panning.fs", GLSL_VERSION));
 
     float time = 0.0f;
     int timeLoc = rlGetShaderLocation(shader, "uTime");

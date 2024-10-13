@@ -42,7 +42,7 @@ int main(void)
 
     // Load raymarching shader
     // NOTE: Defining 0 (NULL) for vertex shader forces usage of internal default vertex shader
-    Shader shader = rlLoadShader(0, rlTextFormat(fragShaderFileName, GLSL_VERSION));
+    rlShader shader = rlLoadShader(0, rlTextFormat(fragShaderFileName, GLSL_VERSION));
 
     // Get shader locations for required uniforms
     int resolutionLoc = rlGetShaderLocation(shader, "resolution");
@@ -64,7 +64,7 @@ int main(void)
         // Update
         //----------------------------------------------------------------------------------
         totalTime += rlGetFrameTime();
-        Vector2 mouse = rlGetMousePosition();
+        rlVector2 mouse = rlGetMousePosition();
         float mousePos[2] = { mouse.x, mouse.y };
 
         // Set shader required uniform values
@@ -80,7 +80,7 @@ int main(void)
             if (currentFragShaderModTime != fragShaderFileModTime)
             {
                 // Try reloading updated shader
-                Shader updatedShader = rlLoadShader(0, rlTextFormat(fragShaderFileName, GLSL_VERSION));
+                rlShader updatedShader = rlLoadShader(0, rlTextFormat(fragShaderFileName, GLSL_VERSION));
 
                 if (updatedShader.id != rlGetShaderIdDefault())      // It was correctly loaded
                 {
@@ -118,7 +118,7 @@ int main(void)
                      shaderAutoReloading? "AUTO" : "MANUAL"), 10, 10, 10, shaderAutoReloading? RED : BLACK);
             if (!shaderAutoReloading) rlDrawText("MOUSE CLICK to SHADER RE-LOADING", 10, 30, 10, BLACK);
 
-            rlDrawText(rlTextFormat("Shader last modification: %s", asctime(localtime(&fragShaderFileModTime))), 10, 430, 10, BLACK);
+            rlDrawText(rlTextFormat("rlShader last modification: %s", asctime(localtime(&fragShaderFileModTime))), 10, 430, 10, BLACK);
 
         rlEndDrawing();
         //----------------------------------------------------------------------------------

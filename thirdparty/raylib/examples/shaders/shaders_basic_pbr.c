@@ -11,7 +11,7 @@
 *
 *   Copyright (c) 2023-2024 Afan OLOVCIC (@_DevDad)
 *
-*   Model: "Old Rusty Car" (https://skfb.ly/LxRy) by Renafox, 
+*   rlModel: "Old Rusty Car" (https://skfb.ly/LxRy) by Renafox, 
 *   licensed under Creative Commons Attribution-NonCommercial 
 *   (http://creativecommons.org/licenses/by-nc/4.0/)
 *
@@ -44,12 +44,12 @@ typedef enum {
 typedef struct {
     int type;
     int enabled;
-    Vector3 position;
-    Vector3 target;
+    rlVector3 position;
+    rlVector3 target;
     float color[4];
     float intensity;
 
-    // Shader light parameters locations
+    // rlShader light parameters locations
     int typeLoc;
     int enabledLoc;
     int positionLoc;
@@ -67,11 +67,11 @@ static int lightCount = 0;     // Current number of dynamic lights that have bee
 // Module specific Functions Declaration
 //----------------------------------------------------------------------------------
 // Create a light and get shader locations
-static Light CreateLight(int type, Vector3 position, Vector3 target, Color color, float intensity, Shader shader);
+static Light CreateLight(int type, rlVector3 position, rlVector3 target, rlColor color, float intensity, rlShader shader);
 
 // Update light properties on shader
 // NOTE: Light shader locations should be available
-static void UpdateLight(Shader shader, Light light);
+static void UpdateLight(rlShader shader, Light light);
 
 //----------------------------------------------------------------------------------
 // Main Entry Point
@@ -88,14 +88,14 @@ int main()
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 2.0f, 2.0f, 6.0f };    // Camera position
-    camera.target = (Vector3){ 0.0f, 0.5f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 2.0f, 2.0f, 6.0f };    // Camera position
+    camera.target = (rlVector3){ 0.0f, 0.5f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
     // Load PBR shader and setup all required locations
-    Shader shader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/pbr.vs", GLSL_VERSION),
+    rlShader shader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/pbr.vs", GLSL_VERSION),
                                rlTextFormat("resources/shaders/glsl%i/pbr.fs", GLSL_VERSION));
     shader.locs[SHADER_LOC_MAP_ALBEDO] = rlGetShaderLocation(shader, "albedoMap");
     // WARNING: Metalness, roughness, and ambient occlusion are all packed into a MRA texture
@@ -117,8 +117,8 @@ int main()
 
     // Setup ambient color and intensity parameters
     float ambientIntensity = 0.02f;
-    Color ambientColor = (Color){ 26, 32, 135, 255 };
-    Vector3 ambientColorNormalized = (Vector3){ ambientColor.r/255.0f, ambientColor.g/255.0f, ambientColor.b/255.0f };
+    rlColor ambientColor = (rlColor){ 26, 32, 135, 255 };
+    rlVector3 ambientColorNormalized = (rlVector3){ ambientColor.r/255.0f, ambientColor.g/255.0f, ambientColor.b/255.0f };
     rlSetShaderValue(shader, rlGetShaderLocation(shader, "ambientColor"), &ambientColorNormalized, SHADER_UNIFORM_VEC3);
     rlSetShaderValue(shader, rlGetShaderLocation(shader, "ambient"), &ambientIntensity, SHADER_UNIFORM_FLOAT);
 
@@ -132,7 +132,7 @@ int main()
     // that model.materials[0] is by default assigned to that mesh
     // There could be more complex models consisting of multiple meshes and
     // multiple materials defined for those meshes... but always 1 mesh = 1 material
-    Model car = rlLoadModel("resources/models/old_car_new.glb");
+    rlModel car = rlLoadModel("resources/models/old_car_new.glb");
 
     // Assign already setup PBR shader to model.materials[0], used by models.meshes[0]
     car.materials[0].shader = shader;
@@ -142,7 +142,7 @@ int main()
     car.materials[0].maps[MATERIAL_MAP_METALNESS].value = 0.0f;
     car.materials[0].maps[MATERIAL_MAP_ROUGHNESS].value = 0.0f;
     car.materials[0].maps[MATERIAL_MAP_OCCLUSION].value = 1.0f;
-    car.materials[0].maps[MATERIAL_MAP_EMISSION].color = (Color){ 255, 162, 0, 255 };
+    car.materials[0].maps[MATERIAL_MAP_EMISSION].color = (rlColor){ 255, 162, 0, 255 };
 
     // Setup materials[0].maps default textures
     car.materials[0].maps[MATERIAL_MAP_ALBEDO].texture = LoadTexture("resources/old_car_d.png");
@@ -152,10 +152,10 @@ int main()
     
     // Load floor model mesh and assign material parameters
     // NOTE: A basic plane shape can be generated instead of being loaded from a model file
-    Model floor = rlLoadModel("resources/models/plane.glb");
-    //Mesh floorMesh = rlGenMeshPlane(10, 10, 10, 10);
+    rlModel floor = rlLoadModel("resources/models/plane.glb");
+    //rlMesh floorMesh = rlGenMeshPlane(10, 10, 10, 10);
     //rlGenMeshTangents(&floorMesh);      // TODO: Review tangents generation
-    //Model floor = rlLoadModelFromMesh(floorMesh);
+    //rlModel floor = rlLoadModelFromMesh(floorMesh);
 
     // Assign material shader for our floor model, same PBR shader 
     floor.materials[0].shader = shader;
@@ -170,17 +170,17 @@ int main()
     floor.materials[0].maps[MATERIAL_MAP_METALNESS].texture = LoadTexture("resources/road_mra.png");
     floor.materials[0].maps[MATERIAL_MAP_NORMAL].texture = LoadTexture("resources/road_n.png");
 
-    // Models texture tiling parameter can be stored in the Material struct if required (CURRENTLY NOT USED)
-    // NOTE: Material.params[4] are available for generic parameters storage (float)
-    Vector2 carTextureTiling = (Vector2){ 0.5f, 0.5f };
-    Vector2 floorTextureTiling = (Vector2){ 0.5f, 0.5f };
+    // Models texture tiling parameter can be stored in the rlMaterial struct if required (CURRENTLY NOT USED)
+    // NOTE: rlMaterial.params[4] are available for generic parameters storage (float)
+    rlVector2 carTextureTiling = (rlVector2){ 0.5f, 0.5f };
+    rlVector2 floorTextureTiling = (rlVector2){ 0.5f, 0.5f };
 
     // Create some lights
     Light lights[MAX_LIGHTS] = { 0 };
-    lights[0] = CreateLight(LIGHT_POINT, (Vector3){ -1.0f, 1.0f, -2.0f }, (Vector3){ 0.0f, 0.0f, 0.0f }, YELLOW, 4.0f, shader);
-    lights[1] = CreateLight(LIGHT_POINT, (Vector3){ 2.0f, 1.0f, 1.0f }, (Vector3){ 0.0f, 0.0f, 0.0f }, GREEN, 3.3f, shader);
-    lights[2] = CreateLight(LIGHT_POINT, (Vector3){ -2.0f, 1.0f, 1.0f }, (Vector3){ 0.0f, 0.0f, 0.0f }, RED, 8.3f, shader);
-    lights[3] = CreateLight(LIGHT_POINT, (Vector3){ 1.0f, 1.0f, -2.0f }, (Vector3){ 0.0f, 0.0f, 0.0f }, BLUE, 2.0f, shader);
+    lights[0] = CreateLight(LIGHT_POINT, (rlVector3){ -1.0f, 1.0f, -2.0f }, (rlVector3){ 0.0f, 0.0f, 0.0f }, YELLOW, 4.0f, shader);
+    lights[1] = CreateLight(LIGHT_POINT, (rlVector3){ 2.0f, 1.0f, 1.0f }, (rlVector3){ 0.0f, 0.0f, 0.0f }, GREEN, 3.3f, shader);
+    lights[2] = CreateLight(LIGHT_POINT, (rlVector3){ -2.0f, 1.0f, 1.0f }, (rlVector3){ 0.0f, 0.0f, 0.0f }, RED, 8.3f, shader);
+    lights[3] = CreateLight(LIGHT_POINT, (rlVector3){ 1.0f, 1.0f, -2.0f }, (rlVector3){ 0.0f, 0.0f, 0.0f }, BLUE, 2.0f, shader);
 
     // Setup material texture maps usage in shader
     // NOTE: By default, the texture maps are always used
@@ -224,24 +224,24 @@ int main()
                 
                 // Set floor model texture tiling and emissive color parameters on shader
                 rlSetShaderValue(shader, textureTilingLoc, &floorTextureTiling, SHADER_UNIFORM_VEC2);
-                Vector4 floorEmissiveColor = rlColorNormalize(floor.materials[0].maps[MATERIAL_MAP_EMISSION].color);
+                rlVector4 floorEmissiveColor = rlColorNormalize(floor.materials[0].maps[MATERIAL_MAP_EMISSION].color);
                 rlSetShaderValue(shader, emissiveColorLoc, &floorEmissiveColor, SHADER_UNIFORM_VEC4);
                 
-                rlDrawModel(floor, (Vector3){ 0.0f, 0.0f, 0.0f }, 5.0f, WHITE);   // Draw floor model
+                rlDrawModel(floor, (rlVector3){ 0.0f, 0.0f, 0.0f }, 5.0f, WHITE);   // Draw floor model
 
                 // Set old car model texture tiling, emissive color and emissive intensity parameters on shader
                 rlSetShaderValue(shader, textureTilingLoc, &carTextureTiling, SHADER_UNIFORM_VEC2);
-                Vector4 carEmissiveColor = rlColorNormalize(car.materials[0].maps[MATERIAL_MAP_EMISSION].color);
+                rlVector4 carEmissiveColor = rlColorNormalize(car.materials[0].maps[MATERIAL_MAP_EMISSION].color);
                 rlSetShaderValue(shader, emissiveColorLoc, &carEmissiveColor, SHADER_UNIFORM_VEC4);
                 float emissiveIntensity = 0.01f;
                 rlSetShaderValue(shader, emissiveIntensityLoc, &emissiveIntensity, SHADER_UNIFORM_FLOAT);
                 
-                rlDrawModel(car, (Vector3){ 0.0f, 0.0f, 0.0f }, 0.25f, WHITE);   // Draw car model
+                rlDrawModel(car, (rlVector3){ 0.0f, 0.0f, 0.0f }, 0.25f, WHITE);   // Draw car model
 
                 // Draw spheres to show the lights positions
                 for (int i = 0; i < MAX_LIGHTS; i++)
                 {
-                    Color lightColor = (Color){ lights[i].color[0]*255, lights[i].color[1]*255, lights[i].color[2]*255, lights[i].color[3]*255 };
+                    rlColor lightColor = (rlColor){ lights[i].color[0]*255, lights[i].color[1]*255, lights[i].color[2]*255, lights[i].color[3]*255 };
                     
                     if (lights[i].enabled) rlDrawSphereEx(lights[i].position, 0.2f, 8, 8, lightColor);
                     else rlDrawSphereWires(lights[i].position, 0.2f, 8, 8, rlColorAlpha(lightColor, 0.3f));
@@ -263,17 +263,17 @@ int main()
     //--------------------------------------------------------------------------------------
     // Unbind (disconnect) shader from car.material[0] 
     // to avoid rlUnloadMaterial() trying to unload it automatically
-    car.materials[0].shader = (Shader){ 0 };
+    car.materials[0].shader = (rlShader){ 0 };
     rlUnloadMaterial(car.materials[0]);
     car.materials[0].maps = NULL;
     rlUnloadModel(car);
     
-    floor.materials[0].shader = (Shader){ 0 };
+    floor.materials[0].shader = (rlShader){ 0 };
     rlUnloadMaterial(floor.materials[0]);
     floor.materials[0].maps = NULL;
     rlUnloadModel(floor);
     
-    rlUnloadShader(shader);       // Unload Shader
+    rlUnloadShader(shader);       // Unload rlShader
     
     rlCloseWindow();              // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
@@ -283,7 +283,7 @@ int main()
 
 // Create light with provided data
 // NOTE: It updated the global lightCount and it's limited to MAX_LIGHTS
-static Light CreateLight(int type, Vector3 position, Vector3 target, Color color, float intensity, Shader shader)
+static Light CreateLight(int type, rlVector3 position, rlVector3 target, rlColor color, float intensity, rlShader shader)
 {
     Light light = { 0 };
 
@@ -299,7 +299,7 @@ static Light CreateLight(int type, Vector3 position, Vector3 target, Color color
         light.color[3] = (float)color.a/255.0f;
         light.intensity = intensity;
         
-        // NOTE: Shader parameters names for lights must match the requested ones
+        // NOTE: rlShader parameters names for lights must match the requested ones
         light.enabledLoc = rlGetShaderLocation(shader, rlTextFormat("lights[%i].enabled", lightCount));
         light.typeLoc = rlGetShaderLocation(shader, rlTextFormat("lights[%i].type", lightCount));
         light.positionLoc = rlGetShaderLocation(shader, rlTextFormat("lights[%i].position", lightCount));
@@ -317,7 +317,7 @@ static Light CreateLight(int type, Vector3 position, Vector3 target, Color color
 
 // Send light properties to shader
 // NOTE: Light shader locations should be available
-static void UpdateLight(Shader shader, Light light)
+static void UpdateLight(rlShader shader, Light light)
 {
     rlSetShaderValue(shader, light.enabledLoc, &light.enabled, SHADER_UNIFORM_INT);
     rlSetShaderValue(shader, light.typeLoc, &light.type, SHADER_UNIFORM_INT);

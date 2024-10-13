@@ -26,14 +26,14 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [core] example - 3d camera mode");
 
     // Define the camera to look into our 3d world
-    Camera3D camera = { 0 };
-    camera.position = (Vector3){ 0.0f, 10.0f, 10.0f };  // Camera position
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    rlCamera3D camera = { 0 };
+    camera.position = (rlVector3){ 0.0f, 10.0f, 10.0f };  // Camera position
+    camera.target = (rlVector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera mode type
 
-    Vector3 cubePosition = { 0.0f, 0.0f, 0.0f };
+    rlVector3 cubePosition = { 0.0f, 0.0f, 0.0f };
 
     rlSetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------

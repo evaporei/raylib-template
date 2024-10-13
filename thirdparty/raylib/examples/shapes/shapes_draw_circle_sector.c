@@ -30,7 +30,7 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [shapes] example - draw circle sector");
 
-    Vector2 center = {(rlGetScreenWidth() - 300)/2.0f, rlGetScreenHeight()/2.0f };
+    rlVector2 center = {(rlGetScreenWidth() - 300)/2.0f, rlGetScreenHeight()/2.0f };
 
     float outerRadius = 180.0f;
     float startAngle = 0.0f;
@@ -63,11 +63,11 @@ int main(void)
 
             // Draw GUI controls
             //------------------------------------------------------------------------------
-            GuiSliderBar((Rectangle){ 600, 40, 120, 20}, "StartAngle", rlTextFormat("%.2f", startAngle), &startAngle, 0, 720);
-            GuiSliderBar((Rectangle){ 600, 70, 120, 20}, "EndAngle", rlTextFormat("%.2f", endAngle), &endAngle, 0, 720);
+            GuiSliderBar((rlRectangle){ 600, 40, 120, 20}, "StartAngle", rlTextFormat("%.2f", startAngle), &startAngle, 0, 720);
+            GuiSliderBar((rlRectangle){ 600, 70, 120, 20}, "EndAngle", rlTextFormat("%.2f", endAngle), &endAngle, 0, 720);
 
-            GuiSliderBar((Rectangle){ 600, 140, 120, 20}, "Radius", rlTextFormat("%.2f", outerRadius), &outerRadius, 0, 200);
-            GuiSliderBar((Rectangle){ 600, 170, 120, 20}, "Segments", rlTextFormat("%.2f", segments), &segments, 0, 100);
+            GuiSliderBar((rlRectangle){ 600, 140, 120, 20}, "Radius", rlTextFormat("%.2f", outerRadius), &outerRadius, 0, 200);
+            GuiSliderBar((rlRectangle){ 600, 170, 120, 20}, "Segments", rlTextFormat("%.2f", segments), &segments, 0, 100);
             //------------------------------------------------------------------------------
 
             minSegments = truncf(ceilf((endAngle - startAngle) / 90));

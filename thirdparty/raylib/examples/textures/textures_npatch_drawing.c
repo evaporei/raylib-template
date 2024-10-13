@@ -32,24 +32,24 @@ int main(void)
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
     Texture2D nPatchTexture = LoadTexture("resources/ninepatch_button.png");
 
-    Vector2 mousePosition = { 0 };
-    Vector2 origin = { 0.0f, 0.0f };
+    rlVector2 mousePosition = { 0 };
+    rlVector2 origin = { 0.0f, 0.0f };
 
     // Position and size of the n-patches
-    Rectangle dstRec1 = { 480.0f, 160.0f, 32.0f, 32.0f };
-    Rectangle dstRec2 = { 160.0f, 160.0f, 32.0f, 32.0f };
-    Rectangle dstRecH = { 160.0f, 93.0f, 32.0f, 32.0f };
-    Rectangle dstRecV = { 92.0f, 160.0f, 32.0f, 32.0f };
+    rlRectangle dstRec1 = { 480.0f, 160.0f, 32.0f, 32.0f };
+    rlRectangle dstRec2 = { 160.0f, 160.0f, 32.0f, 32.0f };
+    rlRectangle dstRecH = { 160.0f, 93.0f, 32.0f, 32.0f };
+    rlRectangle dstRecV = { 92.0f, 160.0f, 32.0f, 32.0f };
 
     // A 9-patch (NPATCH_NINE_PATCH) changes its sizes in both axis
-    NPatchInfo ninePatchInfo1 = { (Rectangle){ 0.0f, 0.0f, 64.0f, 64.0f }, 12, 40, 12, 12, NPATCH_NINE_PATCH };
-    NPatchInfo ninePatchInfo2 = { (Rectangle){ 0.0f, 128.0f, 64.0f, 64.0f }, 16, 16, 16, 16, NPATCH_NINE_PATCH };
+    rlNPatchInfo ninePatchInfo1 = { (rlRectangle){ 0.0f, 0.0f, 64.0f, 64.0f }, 12, 40, 12, 12, NPATCH_NINE_PATCH };
+    rlNPatchInfo ninePatchInfo2 = { (rlRectangle){ 0.0f, 128.0f, 64.0f, 64.0f }, 16, 16, 16, 16, NPATCH_NINE_PATCH };
 
     // A horizontal 3-patch (NPATCH_THREE_PATCH_HORIZONTAL) changes its sizes along the x axis only
-    NPatchInfo h3PatchInfo = { (Rectangle){ 0.0f,  64.0f, 64.0f, 64.0f }, 8, 8, 8, 8, NPATCH_THREE_PATCH_HORIZONTAL };
+    rlNPatchInfo h3PatchInfo = { (rlRectangle){ 0.0f,  64.0f, 64.0f, 64.0f }, 8, 8, 8, 8, NPATCH_THREE_PATCH_HORIZONTAL };
 
     // A vertical 3-patch (NPATCH_THREE_PATCH_VERTICAL) changes its sizes along the y axis only
-    NPatchInfo v3PatchInfo = { (Rectangle){ 0.0f, 192.0f, 64.0f, 64.0f }, 6, 6, 6, 6, NPATCH_THREE_PATCH_VERTICAL };
+    rlNPatchInfo v3PatchInfo = { (rlRectangle){ 0.0f, 192.0f, 64.0f, 64.0f }, 6, 6, 6, 6, NPATCH_THREE_PATCH_VERTICAL };
 
     rlSetTargetFPS(60);
     //---------------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    UnloadTexture(nPatchTexture);       // Texture unloading
+    UnloadTexture(nPatchTexture);       // rlTexture unloading
 
     rlCloseWindow();                // Close window and OpenGL context
     //--------------------------------------------------------------------------------------

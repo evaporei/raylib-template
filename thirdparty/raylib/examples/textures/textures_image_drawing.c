@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [textures] example - Image loading and drawing on it
+*   raylib [textures] example - rlImage loading and drawing on it
 *
 *   NOTE: Images are loaded in CPU memory (RAM); textures are loaded in GPU memory (VRAM)
 *
@@ -29,16 +29,16 @@ int main(void)
 
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
 
-    Image cat = rlLoadImage("resources/cat.png");             // Load image in CPU memory (RAM)
-    rlImageCrop(&cat, (Rectangle){ 100, 10, 280, 380 });      // Crop an image piece
+    rlImage cat = rlLoadImage("resources/cat.png");             // Load image in CPU memory (RAM)
+    rlImageCrop(&cat, (rlRectangle){ 100, 10, 280, 380 });      // Crop an image piece
     rlImageFlipHorizontal(&cat);                              // Flip cropped image horizontally
     rlImageResize(&cat, 150, 200);                            // Resize flipped-cropped image
 
-    Image parrots = rlLoadImage("resources/parrots.png");     // Load image in CPU memory (RAM)
+    rlImage parrots = rlLoadImage("resources/parrots.png");     // Load image in CPU memory (RAM)
 
     // Draw one image over the other with a scaling of 1.5f
-    rlImageDraw(&parrots, cat, (Rectangle){ 0, 0, (float)cat.width, (float)cat.height }, (Rectangle){ 30, 40, cat.width*1.5f, cat.height*1.5f }, WHITE);
-    rlImageCrop(&parrots, (Rectangle){ 0, 50, (float)parrots.width, (float)parrots.height - 100 }); // Crop resulting image
+    rlImageDraw(&parrots, cat, (rlRectangle){ 0, 0, (float)cat.width, (float)cat.height }, (rlRectangle){ 30, 40, cat.width*1.5f, cat.height*1.5f }, WHITE);
+    rlImageCrop(&parrots, (rlRectangle){ 0, 50, (float)parrots.width, (float)parrots.height - 100 }); // Crop resulting image
 
     // Draw on the image with a few image draw methods
     rlImageDrawPixel(&parrots, 10, 10, RAYWHITE);
@@ -48,14 +48,14 @@ int main(void)
     rlUnloadImage(cat);       // Unload image from RAM
 
     // Load custom font for drawing on image
-    Font font = rlLoadFont("resources/custom_jupiter_crash.png");
+    rlFont font = rlLoadFont("resources/custom_jupiter_crash.png");
 
     // Draw over image using custom font
-    rlImageDrawTextEx(&parrots, font, "PARROTS & CAT", (Vector2){ 300, 230 }, (float)font.baseSize, -2, WHITE);
+    rlImageDrawTextEx(&parrots, font, "PARROTS & CAT", (rlVector2){ 300, 230 }, (float)font.baseSize, -2, WHITE);
 
     rlUnloadFont(font);       // Unload custom font (already drawn used on image)
 
-    Texture2D texture = rlLoadTextureFromImage(parrots);      // Image converted to texture, uploaded to GPU memory (VRAM)
+    Texture2D texture = rlLoadTextureFromImage(parrots);      // rlImage converted to texture, uploaded to GPU memory (VRAM)
     rlUnloadImage(parrots);   // Once image has been converted to texture and uploaded to VRAM, it can be unloaded from RAM
 
     rlSetTargetFPS(60);
@@ -87,7 +87,7 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    UnloadTexture(texture);       // Texture unloading
+    UnloadTexture(texture);       // rlTexture unloading
 
     rlCloseWindow();                // Close window and OpenGL context
     //--------------------------------------------------------------------------------------

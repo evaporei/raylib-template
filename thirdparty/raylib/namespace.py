@@ -2,36 +2,40 @@ import json
 import os
 import re
 
-# Paths to the json file and the src folder
+# Paths to the json file, src folder, and examples folder
 json_path = 'parser/output/raylib_api.json'
+src_folder = 'src'
+examples_folder = 'examples'
 
-# Load function names from raylib_api.json
+# Load function and struct names from raylib_api.json
 with open(json_path, 'r') as f:
     data = json.load(f)
 
-# Assuming functions are dictionaries with a "name" key
+# Assuming functions and structs are dictionaries with a "name" key
 function_names = [func["name"] for func in data.get("functions", [])]
+struct_names = [struct["name"] for struct in data.get("structs", [])]
 
-# Filter out any function that already has an `rl` prefix or is known to exist in rlgl.h
-# Adjust the list based on rlgl functions you want to exclude.
-excluded_functions = {
+# Exclude any already prefixed names or those that conflict in rlgl
+excluded_names = {
     'LoadTexture', 'LoadTextureCubemap', 'UpdateTexture', 'UnloadTexture', 
     'GenTextureMipmaps', 'GetPixelDataSize'
 }
-function_names = [name for name in function_names if name not in excluded_functions and not name.startswith('rl')]
+function_names = [name for name in function_names if name not in excluded_names and not name.startswith('rl')]
+struct_names = [name for name in struct_names if name not in excluded_names and not name.startswith('rl')]
 
-# Sort by length in descending order to handle function names with common prefixes
-function_names.sort(key=len, reverse=True)
+# Combine and sort by length in descending order to handle overlapping names
+all_names = function_names + struct_names
+all_names.sort(key=len, reverse=True)
 
 # Build a dictionary for replacement (e.g., "InitWindow" -> "rlInitWindow")
-replace_dict = {func_name: f"rl{func_name}" for func_name in function_names}
+replace_dict = {name: f"rl{name}" for name in all_names}
 
 # Function to replace text in a file
 def replace_in_file(file_path, replace_dict):
     with open(file_path, 'r') as file:
         content = file.read()
 
-    # Replace all occurrences of each function name with its rl-prefixed version
+    # Replace all occurrences of each name with its rl-prefixed version
     for original, replacement in replace_dict.items():
         content = re.sub(rf'\b{original}\b', replacement, content)
 
@@ -39,15 +43,16 @@ def replace_in_file(file_path, replace_dict):
     with open(file_path, 'w') as file:
         file.write(content)
 
-# Traverse a directory and process all files
-def replace_in_dir(folder_path, replace_dict):
+# Function to traverse a directory and replace text in all source files
+def replace_in_directory(folder_path, replace_dict):
     for root, _, files in os.walk(folder_path):
         for file_name in files:
             if file_name.endswith(('.c', '.h', '.cpp', '.hpp')):  # Adjust as needed for file types
                 file_path = os.path.join(root, file_name)
                 replace_in_file(file_path, replace_dict)
 
-replace_in_dir('src', replace_dict)
-replace_in_dir('examples', replace_dict)
+# Process both the src and examples folders
+replace_in_directory(src_folder, replace_dict)
+replace_in_directory(examples_folder, replace_dict)
 
 print("Replacement complete!")

@@ -135,8 +135,8 @@ struct {
 //--------------------------------------------------------------------------------------
 static void RandomizeEmoji(void);    // Fills the emoji array with random emojis
 
-static void DrawTextBoxed(Font font, const char *text, Rectangle rec, float fontSize, float spacing, bool wordWrap, Color tint);   // Draw text using font inside rectangle limits
-static void DrawTextBoxedSelectable(Font font, const char *text, Rectangle rec, float fontSize, float spacing, bool wordWrap, Color tint, int selectStart, int selectLength, Color selectTint, Color selectBackTint);    // Draw text using font inside rectangle limits with support for text selection
+static void DrawTextBoxed(rlFont font, const char *text, rlRectangle rec, float fontSize, float spacing, bool wordWrap, rlColor tint);   // Draw text using font inside rectangle limits
+static void DrawTextBoxedSelectable(rlFont font, const char *text, rlRectangle rec, float fontSize, float spacing, bool wordWrap, rlColor tint, int selectStart, int selectLength, rlColor selectTint, rlColor selectBackTint);    // Draw text using font inside rectangle limits with support for text selection
 
 //--------------------------------------------------------------------------------------
 // Global variables
@@ -145,7 +145,7 @@ static void DrawTextBoxedSelectable(Font font, const char *text, Rectangle rec, 
 struct {
     int index;      // Index inside `emojiCodepoints`
     int message;    // Message index
-    Color color;    // Emoji color
+    rlColor color;    // Emoji color
 } emoji[EMOJI_PER_WIDTH*EMOJI_PER_HEIGHT] = { 0 };
 
 static int hovered = -1, selected = -1;
@@ -166,12 +166,12 @@ int main(void)
     // Load the font resources
     // NOTE: fontAsian is for asian languages,
     // fontEmoji is the emojis and fontDefault is used for everything else
-    Font fontDefault = rlLoadFont("resources/dejavu.fnt");
-    Font fontAsian = rlLoadFont("resources/noto_cjk.fnt");
-    Font fontEmoji = rlLoadFont("resources/symbola.fnt");
+    rlFont fontDefault = rlLoadFont("resources/dejavu.fnt");
+    rlFont fontAsian = rlLoadFont("resources/noto_cjk.fnt");
+    rlFont fontEmoji = rlLoadFont("resources/symbola.fnt");
 
-    Vector2 hoveredPos = { 0.0f, 0.0f };
-    Vector2 selectedPos = { 0.0f, 0.0f };
+    rlVector2 hoveredPos = { 0.0f, 0.0f };
+    rlVector2 selectedPos = { 0.0f, 0.0f };
 
     // Set a random set of emojis when starting up
     RandomizeEmoji();
@@ -194,8 +194,8 @@ int main(void)
             selectedPos = hoveredPos;
         }
 
-        Vector2 mouse = rlGetMousePosition();
-        Vector2 position = { 28.8f, 10.0f };
+        rlVector2 mouse = rlGetMousePosition();
+        rlVector2 position = { 28.8f, 10.0f };
         hovered = -1;
         //----------------------------------------------------------------------------------
 
@@ -210,7 +210,7 @@ int main(void)
             for (int i = 0; i < SIZEOF(emoji); ++i)
             {
                 const char *txt = &emojiCodepoints[emoji[i].index];
-                Rectangle emojiRect = { position.x, position.y, (float)fontEmoji.baseSize, (float)fontEmoji.baseSize };
+                rlRectangle emojiRect = { position.x, position.y, (float)fontEmoji.baseSize, (float)fontEmoji.baseSize };
 
                 if (!rlCheckCollisionPointRec(mouse, emojiRect))
                 {
@@ -234,7 +234,7 @@ int main(void)
             {
                 const int message = emoji[selected].message;
                 const int horizontalPadding = 20, verticalPadding = 30;
-                Font *font = &fontDefault;
+                rlFont *font = &fontDefault;
 
                 // Set correct font for asian languages
                 if (rlTextIsEqual(messages[message].language, "Chinese") ||
@@ -242,15 +242,15 @@ int main(void)
                     rlTextIsEqual(messages[message].language, "Japanese")) font = &fontAsian;
 
                 // Calculate size for the message box (approximate the height and width)
-                Vector2 sz = rlMeasureTextEx(*font, messages[message].text, (float)font->baseSize, 1.0f);
+                rlVector2 sz = rlMeasureTextEx(*font, messages[message].text, (float)font->baseSize, 1.0f);
                 if (sz.x > 300) { sz.y *= sz.x/300; sz.x = 300; }
                 else if (sz.x < 160) sz.x = 160;
 
-                Rectangle msgRect = { selectedPos.x - 38.8f, selectedPos.y, 2 * horizontalPadding + sz.x, 2 * verticalPadding + sz.y };
+                rlRectangle msgRect = { selectedPos.x - 38.8f, selectedPos.y, 2 * horizontalPadding + sz.x, 2 * verticalPadding + sz.y };
                 msgRect.y -= msgRect.height;
 
                 // Coordinates for the chat bubble triangle
-                Vector2 a = { selectedPos.x, msgRect.y + msgRect.height }, b = {a.x + 8, a.y + 10}, c= { a.x + 10, a.y };
+                rlVector2 a = { selectedPos.x, msgRect.y + msgRect.height }, b = {a.x + 8, a.y + 10}, c= { a.x + 10, a.y };
 
                 // Don't go outside the screen
                 if (msgRect.x < 10) msgRect.x += 28;
@@ -262,7 +262,7 @@ int main(void)
                     b.y = a.y - 10;
 
                     // Swap values so we can actually render the triangle :(
-                    Vector2 tmp = a;
+                    rlVector2 tmp = a;
                     a = b;
                     b = tmp;
                 }
@@ -274,7 +274,7 @@ int main(void)
                 rlDrawTriangle(a, b, c, emoji[selected].color);
 
                 // Draw the main text message
-                Rectangle textRect = { msgRect.x + horizontalPadding/2, msgRect.y + verticalPadding/2, msgRect.width - horizontalPadding, msgRect.height };
+                rlRectangle textRect = { msgRect.x + horizontalPadding/2, msgRect.y + verticalPadding/2, msgRect.width - horizontalPadding, msgRect.height };
                 DrawTextBoxed(*font, messages[message].text, textRect, (float)font->baseSize, 1.0f, true, WHITE);
 
                 // Draw the info text below the main message
@@ -331,13 +331,13 @@ static void RandomizeEmoji(void)
 //--------------------------------------------------------------------------------------
 
 // Draw text using font inside rectangle limits
-static void DrawTextBoxed(Font font, const char *text, Rectangle rec, float fontSize, float spacing, bool wordWrap, Color tint)
+static void DrawTextBoxed(rlFont font, const char *text, rlRectangle rec, float fontSize, float spacing, bool wordWrap, rlColor tint)
 {
     DrawTextBoxedSelectable(font, text, rec, fontSize, spacing, wordWrap, tint, 0, 0, WHITE, WHITE);
 }
 
 // Draw text using font inside rectangle limits with support for text selection
-static void DrawTextBoxedSelectable(Font font, const char *text, Rectangle rec, float fontSize, float spacing, bool wordWrap, Color tint, int selectStart, int selectLength, Color selectTint, Color selectBackTint)
+static void DrawTextBoxedSelectable(rlFont font, const char *text, rlRectangle rec, float fontSize, float spacing, bool wordWrap, rlColor tint, int selectStart, int selectLength, rlColor selectTint, rlColor selectBackTint)
 {
     int length = rlTextLength(text);  // Total length in bytes of the text, scanned by codepoints in loop
 
@@ -437,14 +437,14 @@ static void DrawTextBoxedSelectable(Font font, const char *text, Rectangle rec, 
                 bool isGlyphSelected = false;
                 if ((selectStart >= 0) && (k >= selectStart) && (k < (selectStart + selectLength)))
                 {
-                    rlDrawRectangleRec((Rectangle){ rec.x + textOffsetX - 1, rec.y + textOffsetY, glyphWidth, (float)font.baseSize*scaleFactor }, selectBackTint);
+                    rlDrawRectangleRec((rlRectangle){ rec.x + textOffsetX - 1, rec.y + textOffsetY, glyphWidth, (float)font.baseSize*scaleFactor }, selectBackTint);
                     isGlyphSelected = true;
                 }
 
                 // Draw current character glyph
                 if ((codepoint != ' ') && (codepoint != '\t'))
                 {
-                    rlDrawTextCodepoint(font, codepoint, (Vector2){ rec.x + textOffsetX, rec.y + textOffsetY }, fontSize, isGlyphSelected? selectTint : tint);
+                    rlDrawTextCodepoint(font, codepoint, (rlVector2){ rec.x + textOffsetX, rec.y + textOffsetY }, fontSize, isGlyphSelected? selectTint : tint);
                 }
             }
 

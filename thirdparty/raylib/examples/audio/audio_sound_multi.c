@@ -14,7 +14,7 @@
 #include "raylib.h"
 
 #define MAX_SOUNDS 10
-Sound soundArray[MAX_SOUNDS] = { 0 };
+rlSound soundArray[MAX_SOUNDS] = { 0 };
 int currentSound;
 
 //------------------------------------------------------------------------------------

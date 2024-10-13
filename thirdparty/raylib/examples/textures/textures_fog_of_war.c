@@ -54,7 +54,7 @@ int main(void)
     for (unsigned int i = 0; i < map.tilesY*map.tilesX; i++) map.tileIds[i] = rlGetRandomValue(0, 1);
 
     // Player position on the screen (pixel coordinates, not tile coordinates)
-    Vector2 playerPosition = { 180, 130 };
+    rlVector2 playerPosition = { 180, 130 };
     int playerTileX = 0;
     int playerTileY = 0;
 
@@ -125,13 +125,13 @@ int main(void)
             }
 
             // Draw player
-            rlDrawRectangleV(playerPosition, (Vector2){ PLAYER_SIZE, PLAYER_SIZE }, RED);
+            rlDrawRectangleV(playerPosition, (rlVector2){ PLAYER_SIZE, PLAYER_SIZE }, RED);
 
 
             // Draw fog of war (scaled to full map, bilinear filtering)
-            rlDrawTexturePro(fogOfWar.texture, (Rectangle){ 0, 0, (float)fogOfWar.texture.width, (float)-fogOfWar.texture.height },
-                           (Rectangle){ 0, 0, (float)map.tilesX*MAP_TILE_SIZE, (float)map.tilesY*MAP_TILE_SIZE },
-                           (Vector2){ 0, 0 }, 0.0f, WHITE);
+            rlDrawTexturePro(fogOfWar.texture, (rlRectangle){ 0, 0, (float)fogOfWar.texture.width, (float)-fogOfWar.texture.height },
+                           (rlRectangle){ 0, 0, (float)map.tilesX*MAP_TILE_SIZE, (float)map.tilesY*MAP_TILE_SIZE },
+                           (rlVector2){ 0, 0 }, 0.0f, WHITE);
 
             // Draw player current tile
             rlDrawText(rlTextFormat("Current tile: [%i,%i]", playerTileX, playerTileY), 10, 10, 20, RAYWHITE);

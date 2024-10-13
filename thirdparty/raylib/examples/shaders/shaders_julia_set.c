@@ -55,7 +55,7 @@ int main(void)
 
     // Load julia set shader
     // NOTE: Defining 0 (NULL) for vertex shader forces usage of internal default vertex shader
-    Shader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/julia_set.fs", GLSL_VERSION));
+    rlShader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/julia_set.fs", GLSL_VERSION));
 
     // Create a RenderTexture2D to be used for render to texture
     RenderTexture2D target = rlLoadRenderTexture(rlGetScreenWidth(), rlGetScreenHeight());
@@ -129,8 +129,8 @@ int main(void)
             // Change zoom. If Mouse left -> zoom in. Mouse right -> zoom out.
             zoom *= rlIsMouseButtonDown(MOUSE_BUTTON_LEFT)? zoomSpeed : 1.0f/zoomSpeed;
 
-            const Vector2 mousePos = rlGetMousePosition();
-            Vector2 offsetVelocity;
+            const rlVector2 mousePos = rlGetMousePosition();
+            rlVector2 offsetVelocity;
             // Find the velocity at which to change the camera. Take the distance of the mouse
             // from the center of the screen as the direction, and adjust magnitude based on
             // the current zoom.
@@ -160,7 +160,7 @@ int main(void)
             rlClearBackground(BLACK);     // Clear the render texture
 
             // Draw a rectangle in shader mode to be used as shader canvas
-            // NOTE: Rectangle uses font white character texture coordinates,
+            // NOTE: rlRectangle uses font white character texture coordinates,
             // so shader can not be applied here directly because input vertexTexCoord
             // do not represent full screen coordinates (space where want to apply shader)
             rlDrawRectangle(0, 0, rlGetScreenWidth(), rlGetScreenHeight(), BLACK);
@@ -174,7 +174,7 @@ int main(void)
             rlBeginShaderMode(shader);
                 // WARNING: If FLAG_WINDOW_HIGHDPI is enabled, HighDPI monitor scaling should be considered
                 // when rendering the RenderTexture2D to fit in the HighDPI scaled Window
-                rlDrawTextureEx(target.texture, (Vector2){ 0.0f, 0.0f }, 0.0f, 1.0f, WHITE);
+                rlDrawTextureEx(target.texture, (rlVector2){ 0.0f, 0.0f }, 0.0f, 1.0f, WHITE);
             rlEndShaderMode();
 
             if (showControls)

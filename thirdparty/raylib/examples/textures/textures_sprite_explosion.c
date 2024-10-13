@@ -31,7 +31,7 @@ int main(void)
     rlInitAudioDevice();
 
     // Load explosion sound
-    Sound fxBoom = rlLoadSound("resources/boom.wav");
+    rlSound fxBoom = rlLoadSound("resources/boom.wav");
 
     // Load explosion texture
     Texture2D explosion = LoadTexture("resources/explosion.png");
@@ -42,8 +42,8 @@ int main(void)
     int currentFrame = 0;
     int currentLine = 0;
 
-    Rectangle frameRec = { 0, 0, frameWidth, frameHeight };
-    Vector2 position = { 0.0f, 0.0f };
+    rlRectangle frameRec = { 0, 0, frameWidth, frameHeight };
+    rlVector2 position = { 0.0f, 0.0f };
 
     bool active = false;
     int framesCounter = 0;

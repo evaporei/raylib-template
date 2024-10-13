@@ -28,7 +28,7 @@
 
 // Shadow geometry type
 typedef struct ShadowGeometry {
-    Vector2 vertices[4];
+    rlVector2 vertices[4];
 } ShadowGeometry;
 
 // Light info type
@@ -37,10 +37,10 @@ typedef struct LightInfo {
     bool dirty;                 // Does this light need to be updated?
     bool valid;                 // Is this light in a valid position?
 
-    Vector2 position;           // Light position
-    RenderTexture mask;         // Alpha mask for the light
+    rlVector2 position;           // Light position
+    rlRenderTexture mask;         // Alpha mask for the light
     float outerRadius;          // The distance the light touches
-    Rectangle bounds;           // A cached rectangle of the light bounds to help with culling
+    rlRectangle bounds;           // A cached rectangle of the light bounds to help with culling
 
     ShadowGeometry shadows[MAX_SHADOWS];
     int shadowCount;
@@ -63,17 +63,17 @@ void MoveLight(int slot, float x, float y)
 
 // Compute a shadow volume for the edge
 // It takes the edge and projects it back by the light radius and turns it into a quad
-void ComputeShadowVolumeForEdge(int slot, Vector2 sp, Vector2 ep)
+void ComputeShadowVolumeForEdge(int slot, rlVector2 sp, rlVector2 ep)
 {
     if (lights[slot].shadowCount >= MAX_SHADOWS) return;
 
     float extension = lights[slot].outerRadius*2;
 
-    Vector2 spVector = Vector2Normalize(Vector2Subtract(sp, lights[slot].position));
-    Vector2 spProjection = Vector2Add(sp, Vector2Scale(spVector, extension));
+    rlVector2 spVector = Vector2Normalize(Vector2Subtract(sp, lights[slot].position));
+    rlVector2 spProjection = Vector2Add(sp, Vector2Scale(spVector, extension));
 
-    Vector2 epVector = Vector2Normalize(Vector2Subtract(ep, lights[slot].position));
-    Vector2 epProjection = Vector2Add(ep, Vector2Scale(epVector, extension));
+    rlVector2 epVector = Vector2Normalize(Vector2Subtract(ep, lights[slot].position));
+    rlVector2 epProjection = Vector2Add(ep, Vector2Scale(epVector, extension));
 
     lights[slot].shadows[lights[slot].shadowCount].vertices[0] = sp;
     lights[slot].shadows[lights[slot].shadowCount].vertices[1] = ep;
@@ -137,7 +137,7 @@ void SetupLight(int slot, float x, float y, float radius)
 }
 
 // See if a light needs to update it's mask
-bool UpdateLight(int slot, Rectangle* boxes, int count)
+bool UpdateLight(int slot, rlRectangle* boxes, int count)
 {
     if (!lights[slot].active || !lights[slot].dirty) return false;
 
@@ -156,8 +156,8 @@ bool UpdateLight(int slot, Rectangle* boxes, int count)
         // Check the edges that are on the same side we are, and cast shadow volumes out from them
         
         // Top
-        Vector2 sp = (Vector2){ boxes[i].x, boxes[i].y };
-        Vector2 ep = (Vector2){ boxes[i].x + boxes[i].width, boxes[i].y };
+        rlVector2 sp = (rlVector2){ boxes[i].x, boxes[i].y };
+        rlVector2 ep = (rlVector2){ boxes[i].x + boxes[i].width, boxes[i].y };
 
         if (lights[slot].position.y > ep.y) ComputeShadowVolumeForEdge(slot, sp, ep);
 
@@ -177,10 +177,10 @@ bool UpdateLight(int slot, Rectangle* boxes, int count)
         if (lights[slot].position.x > ep.x) ComputeShadowVolumeForEdge(slot, sp, ep);
 
         // The box itself
-        lights[slot].shadows[lights[slot].shadowCount].vertices[0] = (Vector2){ boxes[i].x, boxes[i].y };
-        lights[slot].shadows[lights[slot].shadowCount].vertices[1] = (Vector2){ boxes[i].x, boxes[i].y + boxes[i].height };
-        lights[slot].shadows[lights[slot].shadowCount].vertices[2] = (Vector2){ boxes[i].x + boxes[i].width, boxes[i].y + boxes[i].height };
-        lights[slot].shadows[lights[slot].shadowCount].vertices[3] = (Vector2){ boxes[i].x + boxes[i].width, boxes[i].y };
+        lights[slot].shadows[lights[slot].shadowCount].vertices[0] = (rlVector2){ boxes[i].x, boxes[i].y };
+        lights[slot].shadows[lights[slot].shadowCount].vertices[1] = (rlVector2){ boxes[i].x, boxes[i].y + boxes[i].height };
+        lights[slot].shadows[lights[slot].shadowCount].vertices[2] = (rlVector2){ boxes[i].x + boxes[i].width, boxes[i].y + boxes[i].height };
+        lights[slot].shadows[lights[slot].shadowCount].vertices[3] = (rlVector2){ boxes[i].x + boxes[i].width, boxes[i].y };
         lights[slot].shadowCount++;
     }
 
@@ -192,17 +192,17 @@ bool UpdateLight(int slot, Rectangle* boxes, int count)
 }
 
 // Set up some boxes
-void SetupBoxes(Rectangle *boxes, int *count)
+void SetupBoxes(rlRectangle *boxes, int *count)
 {
-    boxes[0] = (Rectangle){ 150,80, 40, 40 };
-    boxes[1] = (Rectangle){ 1200, 700, 40, 40 };
-    boxes[2] = (Rectangle){ 200, 600, 40, 40 };
-    boxes[3] = (Rectangle){ 1000, 50, 40, 40 };
-    boxes[4] = (Rectangle){ 500, 350, 40, 40 };
+    boxes[0] = (rlRectangle){ 150,80, 40, 40 };
+    boxes[1] = (rlRectangle){ 1200, 700, 40, 40 };
+    boxes[2] = (rlRectangle){ 200, 600, 40, 40 };
+    boxes[3] = (rlRectangle){ 1000, 50, 40, 40 };
+    boxes[4] = (rlRectangle){ 500, 350, 40, 40 };
 
     for (int i = 5; i < MAX_BOXES; i++)
     {
-        boxes[i] = (Rectangle){(float)rlGetRandomValue(0,rlGetScreenWidth()), (float)rlGetRandomValue(0,rlGetScreenHeight()), (float)rlGetRandomValue(10,100), (float)rlGetRandomValue(10,100) };
+        boxes[i] = (rlRectangle){(float)rlGetRandomValue(0,rlGetScreenWidth()), (float)rlGetRandomValue(0,rlGetScreenHeight()), (float)rlGetRandomValue(10,100), (float)rlGetRandomValue(10,100) };
     }
 
     *count = MAX_BOXES;
@@ -222,16 +222,16 @@ int main(void)
 
     // Initialize our 'world' of boxes
     int boxCount = 0;
-    Rectangle boxes[MAX_BOXES] = { 0 };
+    rlRectangle boxes[MAX_BOXES] = { 0 };
     SetupBoxes(boxes, &boxCount);
 
     // Create a checkerboard ground texture
-    Image img = rlGenImageChecked(64, 64, 32, 32, DARKBROWN, DARKGRAY);
+    rlImage img = rlGenImageChecked(64, 64, 32, 32, DARKBROWN, DARKGRAY);
     Texture2D backgroundTexture = rlLoadTextureFromImage(img);
     rlUnloadImage(img);
 
     // Create a global light mask to hold all the blended lights
-    RenderTexture lightMask = rlLoadRenderTexture(rlGetScreenWidth(), rlGetScreenHeight());
+    rlRenderTexture lightMask = rlLoadRenderTexture(rlGetScreenWidth(), rlGetScreenHeight());
 
     // Setup initial light
     SetupLight(0, 600, 400, 300);
@@ -282,7 +282,7 @@ int main(void)
                 // Merge in all the light masks
                 for (int i = 0; i < MAX_LIGHTS; i++)
                 {
-                    if (lights[i].active) rlDrawTextureRec(lights[i].mask.texture, (Rectangle){ 0, 0, (float)rlGetScreenWidth(), -(float)rlGetScreenHeight() }, Vector2Zero(), WHITE);
+                    if (lights[i].active) rlDrawTextureRec(lights[i].mask.texture, (rlRectangle){ 0, 0, (float)rlGetScreenWidth(), -(float)rlGetScreenHeight() }, Vector2Zero(), WHITE);
                 }
 
                 rlDrawRenderBatchActive();
@@ -300,10 +300,10 @@ int main(void)
             rlClearBackground(BLACK);
             
             // Draw the tile background
-            rlDrawTextureRec(backgroundTexture, (Rectangle){ 0, 0, (float)rlGetScreenWidth(), (float)rlGetScreenHeight() }, Vector2Zero(), WHITE);
+            rlDrawTextureRec(backgroundTexture, (rlRectangle){ 0, 0, (float)rlGetScreenWidth(), (float)rlGetScreenHeight() }, Vector2Zero(), WHITE);
             
             // Overlay the shadows from all the lights
-            rlDrawTextureRec(lightMask.texture, (Rectangle){ 0, 0, (float)rlGetScreenWidth(), -(float)rlGetScreenHeight() }, Vector2Zero(), rlColorAlpha(WHITE, showLines? 0.75f : 1.0f));
+            rlDrawTextureRec(lightMask.texture, (rlRectangle){ 0, 0, (float)rlGetScreenWidth(), -(float)rlGetScreenHeight() }, Vector2Zero(), rlColorAlpha(WHITE, showLines? 0.75f : 1.0f));
 
             // Draw the lights
             for (int i = 0; i < MAX_LIGHTS; i++)

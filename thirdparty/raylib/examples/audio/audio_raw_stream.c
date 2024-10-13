@@ -67,7 +67,7 @@ int main(void)
     rlSetAudioStreamBufferSizeDefault(MAX_SAMPLES_PER_UPDATE);
 
     // Init raw audio stream (sample rate: 44100, sample size: 16bit-short, channels: 1-mono)
-    AudioStream stream = rlLoadAudioStream(44100, 16, 1);
+    rlAudioStream stream = rlLoadAudioStream(44100, 16, 1);
 
     rlSetAudioStreamCallback(stream, AudioInputCallback);
 
@@ -80,7 +80,7 @@ int main(void)
     rlPlayAudioStream(stream);        // Start processing stream buffer (no data loaded currently)
 
     // Position read in to determine next frequency
-    Vector2 mousePosition = { -100.0f, -100.0f };
+    rlVector2 mousePosition = { -100.0f, -100.0f };
 
     /*
     // Cycles per second (hz)
@@ -96,7 +96,7 @@ int main(void)
     // Computed size in samples of the sine wave
     int waveLength = 1;
 
-    Vector2 position = { 0, 0 };
+    rlVector2 position = { 0, 0 };
 
     rlSetTargetFPS(30);               // Set our game to run at 30 frames-per-second
     //--------------------------------------------------------------------------------------

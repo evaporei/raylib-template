@@ -43,34 +43,34 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 0.0f, 1.0f, 2.0f };    // Camera position
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 0.0f, 1.0f, 2.0f };    // Camera position
+    camera.target = (rlVector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
     // Define our three models to show the shader on
-    Mesh torus = rlGenMeshTorus(0.3f, 1, 16, 32);
-    Model model1 = rlLoadModelFromMesh(torus);
+    rlMesh torus = rlGenMeshTorus(0.3f, 1, 16, 32);
+    rlModel model1 = rlLoadModelFromMesh(torus);
 
-    Mesh cube = rlGenMeshCube(0.8f,0.8f,0.8f);
-    Model model2 = rlLoadModelFromMesh(cube);
+    rlMesh cube = rlGenMeshCube(0.8f,0.8f,0.8f);
+    rlModel model2 = rlLoadModelFromMesh(cube);
 
     // Generate model to be shaded just to see the gaps in the other two
-    Mesh sphere = rlGenMeshSphere(1, 16, 16);
-    Model model3 = rlLoadModelFromMesh(sphere);
+    rlMesh sphere = rlGenMeshSphere(1, 16, 16);
+    rlModel model3 = rlLoadModelFromMesh(sphere);
 
     // Load the shader
-    Shader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/mask.fs", GLSL_VERSION));
+    rlShader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/mask.fs", GLSL_VERSION));
 
     // Load and apply the diffuse texture (colour map)
-    Texture texDiffuse = LoadTexture("resources/plasma.png");
+    rlTexture texDiffuse = LoadTexture("resources/plasma.png");
     model1.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texDiffuse;
     model2.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texDiffuse;
 
     // Using MATERIAL_MAP_EMISSION as a spare slot to use for 2nd texture
     // NOTE: Don't use MATERIAL_MAP_IRRADIANCE, MATERIAL_MAP_PREFILTER or  MATERIAL_MAP_CUBEMAP as they are bound as cube maps
-    Texture texMask = LoadTexture("resources/mask.png");
+    rlTexture texMask = LoadTexture("resources/mask.png");
     model1.materials[0].maps[MATERIAL_MAP_EMISSION].texture = texMask;
     model2.materials[0].maps[MATERIAL_MAP_EMISSION].texture = texMask;
     shader.locs[SHADER_LOC_MAP_EMISSION] = rlGetShaderLocation(shader, "mask");
@@ -83,7 +83,7 @@ int main(void)
     model2.materials[0].shader = shader;
 
     int framesCounter = 0;
-    Vector3 rotation = { 0 };           // Model rotation angles
+    rlVector3 rotation = { 0 };           // rlModel rotation angles
 
     rlDisableCursor();                    // Limit cursor to relative movement inside the window
     rlSetTargetFPS(60);                   // Set  to run at 60 frames-per-second
@@ -116,9 +116,9 @@ int main(void)
 
             rlBeginMode3D(camera);
 
-                rlDrawModel(model1, (Vector3){ 0.5f, 0.0f, 0.0f }, 1, WHITE);
-                rlDrawModelEx(model2, (Vector3){ -0.5f, 0.0f, 0.0f }, (Vector3){ 1.0f, 1.0f, 0.0f }, 50, (Vector3){ 1.0f, 1.0f, 1.0f }, WHITE);
-                rlDrawModel(model3,(Vector3){ 0.0f, 0.0f, -1.5f }, 1, WHITE);
+                rlDrawModel(model1, (rlVector3){ 0.5f, 0.0f, 0.0f }, 1, WHITE);
+                rlDrawModelEx(model2, (rlVector3){ -0.5f, 0.0f, 0.0f }, (rlVector3){ 1.0f, 1.0f, 0.0f }, 50, (rlVector3){ 1.0f, 1.0f, 1.0f }, WHITE);
+                rlDrawModel(model3,(rlVector3){ 0.0f, 0.0f, -1.5f }, 1, WHITE);
                 rlDrawGrid(10, 1.0f);        // Draw a grid
 
             rlEndMode3D();

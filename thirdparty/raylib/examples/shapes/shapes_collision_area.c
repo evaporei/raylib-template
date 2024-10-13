@@ -28,13 +28,13 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [shapes] example - collision area");
 
     // Box A: Moving box
-    Rectangle boxA = { 10, rlGetScreenHeight()/2.0f - 50, 200, 100 };
+    rlRectangle boxA = { 10, rlGetScreenHeight()/2.0f - 50, 200, 100 };
     int boxASpeedX = 4;
 
     // Box B: Mouse moved box
-    Rectangle boxB = { rlGetScreenWidth()/2.0f - 30, rlGetScreenHeight()/2.0f - 30, 60, 60 };
+    rlRectangle boxB = { rlGetScreenWidth()/2.0f - 30, rlGetScreenHeight()/2.0f - 30, 60, 60 };
 
-    Rectangle boxCollision = { 0 }; // Collision rectangle
+    rlRectangle boxCollision = { 0 }; // Collision rectangle
 
     int screenUpperLimit = 40;      // Top menu limits
 

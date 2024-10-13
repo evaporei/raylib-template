@@ -39,17 +39,17 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 5.0f, 5.0f, 5.0f }; // Camera position
-    camera.target = (Vector3){ 0.0f, 2.0f, 0.0f };  // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };      // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 5.0f, 5.0f, 5.0f }; // Camera position
+    camera.target = (rlVector3){ 0.0f, 2.0f, 0.0f };  // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };      // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                            // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;         // Camera projection type
 
     // Load gltf model
-    Model characterModel = rlLoadModel("resources/models/gltf/greenman.glb"); // Load character model
+    rlModel characterModel = rlLoadModel("resources/models/gltf/greenman.glb"); // Load character model
     
     // Load skinning shader
-    Shader skinningShader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/skinning.vs", GLSL_VERSION),
+    rlShader skinningShader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/skinning.vs", GLSL_VERSION),
                                        rlTextFormat("resources/shaders/glsl%i/skinning.fs", GLSL_VERSION));
     
     characterModel.materials[1].shader = skinningShader;
@@ -58,9 +58,9 @@ int main(void)
     int animsCount = 0;
     unsigned int animIndex = 0;
     unsigned int animCurrentFrame = 0;
-    ModelAnimation *modelAnimations = rlLoadModelAnimations("resources/models/gltf/greenman.glb", &animsCount);
+    rlModelAnimation *modelAnimations = rlLoadModelAnimations("resources/models/gltf/greenman.glb", &animsCount);
 
-    Vector3 position = { 0.0f, 0.0f, 0.0f }; // Set model position
+    rlVector3 position = { 0.0f, 0.0f, 0.0f }; // Set model position
 
     rlDisableCursor();                    // Limit cursor to relative movement inside the window
 
@@ -79,7 +79,7 @@ int main(void)
         else if (rlIsKeyPressed(KEY_G)) animIndex = (animIndex + animsCount - 1)%animsCount;
 
         // Update model animation
-        ModelAnimation anim = modelAnimations[animIndex];
+        rlModelAnimation anim = modelAnimations[animIndex];
         animCurrentFrame = (animCurrentFrame + 1)%anim.frameCount;
         rlUpdateModelAnimationBoneMatrices(characterModel, anim, animCurrentFrame);
         //----------------------------------------------------------------------------------

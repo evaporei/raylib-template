@@ -96,7 +96,7 @@ int main(void)
 
                     // Draw axis: left joystick
 
-                    Color leftGamepadColor = BLACK;
+                    rlColor leftGamepadColor = BLACK;
                     if (rlIsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_LEFT_THUMB)) leftGamepadColor = RED;
                     rlDrawCircle(259, 152, 39, BLACK);
                     rlDrawCircle(259, 152, 34, LIGHTGRAY);
@@ -104,7 +104,7 @@ int main(void)
                                152 + (int)(rlGetGamepadAxisMovement(gamepad, GAMEPAD_AXIS_LEFT_Y)*20), 25, leftGamepadColor);
 
                     // Draw axis: right joystick
-                    Color rightGamepadColor = BLACK;
+                    rlColor rightGamepadColor = BLACK;
                     if (rlIsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_RIGHT_THUMB)) rightGamepadColor = RED;
                     rlDrawCircle(461, 237, 38, BLACK);
                     rlDrawCircle(461, 237, 33, LIGHTGRAY);
@@ -129,7 +129,7 @@ int main(void)
 
                     // Draw buttons: basic
                     if (rlIsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_MIDDLE_LEFT)) rlDrawRectangle(328, 170, 32, 13, RED);
-                    if (rlIsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_MIDDLE_RIGHT)) rlDrawTriangle((Vector2){ 436, 168 }, (Vector2){ 436, 185 }, (Vector2){ 464, 177 }, RED);
+                    if (rlIsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_MIDDLE_RIGHT)) rlDrawTriangle((rlVector2){ 436, 168 }, (rlVector2){ 436, 185 }, (rlVector2){ 464, 177 }, RED);
                     if (rlIsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_RIGHT_FACE_UP)) rlDrawCircle(557, 144, 13, LIME);
                     if (rlIsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_RIGHT_FACE_RIGHT)) rlDrawCircle(586, 173, 13, RED);
                     if (rlIsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_RIGHT_FACE_DOWN)) rlDrawCircle(557, 203, 13, VIOLET);
@@ -148,7 +148,7 @@ int main(void)
                     if (rlIsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_RIGHT_TRIGGER_1)) rlDrawCircle(557, 82, 20, RED);
 
                     // Draw axis: left joystick
-                    Color leftGamepadColor = BLACK;
+                    rlColor leftGamepadColor = BLACK;
                     if (rlIsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_LEFT_THUMB)) leftGamepadColor = RED;
                     rlDrawCircle(319, 255, 35, leftGamepadColor);
                     rlDrawCircle(319, 255, 31, LIGHTGRAY);
@@ -156,7 +156,7 @@ int main(void)
                                255 + (int)(rlGetGamepadAxisMovement(gamepad, GAMEPAD_AXIS_LEFT_Y) * 20), 25, leftGamepadColor);
 
                     // Draw axis: right joystick
-                    Color rightGamepadColor = BLACK;
+                    rlColor rightGamepadColor = BLACK;
                     if (rlIsGamepadButtonDown(gamepad, GAMEPAD_BUTTON_RIGHT_THUMB)) rightGamepadColor = RED;
                     rlDrawCircle(475, 255, 35, BLACK);
                     rlDrawCircle(475, 255, 31, LIGHTGRAY);

@@ -65,21 +65,21 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [shaders] example - deferred render");
 
     Camera camera = { 0 };
-    camera.position = (Vector3){ 5.0f, 4.0f, 5.0f };    // Camera position
-    camera.target = (Vector3){ 0.0f, 1.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 5.0f, 4.0f, 5.0f };    // Camera position
+    camera.target = (rlVector3){ 0.0f, 1.0f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 60.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
     // Load plane model from a generated mesh
-    Model model = rlLoadModelFromMesh(rlGenMeshPlane(10.0f, 10.0f, 3, 3));
-    Model cube = rlLoadModelFromMesh(rlGenMeshCube(2.0f, 2.0f, 2.0f));
+    rlModel model = rlLoadModelFromMesh(rlGenMeshPlane(10.0f, 10.0f, 3, 3));
+    rlModel cube = rlLoadModelFromMesh(rlGenMeshCube(2.0f, 2.0f, 2.0f));
 
     // Load geometry buffer (G-buffer) shader and deferred shader
-    Shader gbufferShader = rlLoadShader("resources/shaders/glsl330/gbuffer.vs",
+    rlShader gbufferShader = rlLoadShader("resources/shaders/glsl330/gbuffer.vs",
                                "resources/shaders/glsl330/gbuffer.fs");
 
-    Shader deferredShader = rlLoadShader("resources/shaders/glsl330/deferred_shading.vs",
+    rlShader deferredShader = rlLoadShader("resources/shaders/glsl330/deferred_shading.vs",
                                "resources/shaders/glsl330/deferred_shading.fs");
     deferredShader.locs[SHADER_LOC_VECTOR_VIEW] = rlGetShaderLocation(deferredShader, "viewPosition");
 
@@ -143,18 +143,18 @@ int main(void)
     // Create lights
     //--------------------------------------------------------------------------------------
     Light lights[MAX_LIGHTS] = { 0 };
-    lights[0] = CreateLight(LIGHT_POINT, (Vector3){ -2, 1, -2 }, Vector3Zero(), YELLOW, deferredShader);
-    lights[1] = CreateLight(LIGHT_POINT, (Vector3){ 2, 1, 2 }, Vector3Zero(), RED, deferredShader);
-    lights[2] = CreateLight(LIGHT_POINT, (Vector3){ -2, 1, 2 }, Vector3Zero(), GREEN, deferredShader);
-    lights[3] = CreateLight(LIGHT_POINT, (Vector3){ 2, 1, -2 }, Vector3Zero(), BLUE, deferredShader);
+    lights[0] = CreateLight(LIGHT_POINT, (rlVector3){ -2, 1, -2 }, Vector3Zero(), YELLOW, deferredShader);
+    lights[1] = CreateLight(LIGHT_POINT, (rlVector3){ 2, 1, 2 }, Vector3Zero(), RED, deferredShader);
+    lights[2] = CreateLight(LIGHT_POINT, (rlVector3){ -2, 1, 2 }, Vector3Zero(), GREEN, deferredShader);
+    lights[3] = CreateLight(LIGHT_POINT, (rlVector3){ 2, 1, -2 }, Vector3Zero(), BLUE, deferredShader);
 
     const float CUBE_SCALE = 0.25;
-    Vector3 cubePositions[MAX_CUBES] = { 0 };
+    rlVector3 cubePositions[MAX_CUBES] = { 0 };
     float cubeRotations[MAX_CUBES] = { 0 };
     
     for (int i = 0; i < MAX_CUBES; i++)
     {
-        cubePositions[i] = (Vector3){
+        cubePositions[i] = (rlVector3){
             .x = (float)(rand()%10) - 5,
             .y = (float)(rand()%5),
             .z = (float)(rand()%10) - 5,
@@ -215,12 +215,12 @@ int main(void)
                     // When drawing a model here, make sure that the material's shaders
                     // are set to the gbuffer shader!
                     rlDrawModel(model, Vector3Zero(), 1.0f, WHITE);
-                    rlDrawModel(cube, (Vector3) { 0.0, 1.0f, 0.0 }, 1.0f, WHITE);
+                    rlDrawModel(cube, (rlVector3) { 0.0, 1.0f, 0.0 }, 1.0f, WHITE);
 
                     for (int i = 0; i < MAX_CUBES; i++)
                     {
-                        Vector3 position = cubePositions[i];
-                        rlDrawModelEx(cube, position, (Vector3) { 1, 1, 1 }, cubeRotations[i], (Vector3) { CUBE_SCALE, CUBE_SCALE, CUBE_SCALE }, WHITE);
+                        rlVector3 position = cubePositions[i];
+                        rlDrawModelEx(cube, position, (rlVector3) { 1, 1, 1 }, cubeRotations[i], (rlVector3) { CUBE_SCALE, CUBE_SCALE, CUBE_SCALE }, WHITE);
                     }
 
                 rlDisableShader();
@@ -281,7 +281,7 @@ int main(void)
                         .id = gBuffer.positionTexture,
                         .width = screenWidth,
                         .height = screenHeight,
-                    }, (Rectangle) { 0, 0, (float)screenWidth, (float)-screenHeight }, Vector2Zero(), RAYWHITE);
+                    }, (rlRectangle) { 0, 0, (float)screenWidth, (float)-screenHeight }, Vector2Zero(), RAYWHITE);
                     
                     rlDrawText("POSITION TEXTURE", 10, screenHeight - 30, 20, DARKGREEN);
                 } break;
@@ -291,7 +291,7 @@ int main(void)
                         .id = gBuffer.normalTexture,
                         .width = screenWidth,
                         .height = screenHeight,
-                    }, (Rectangle) { 0, 0, (float)screenWidth, (float)-screenHeight }, Vector2Zero(), RAYWHITE);
+                    }, (rlRectangle) { 0, 0, (float)screenWidth, (float)-screenHeight }, Vector2Zero(), RAYWHITE);
                     
                     rlDrawText("NORMAL TEXTURE", 10, screenHeight - 30, 20, DARKGREEN);
                 } break;
@@ -301,7 +301,7 @@ int main(void)
                         .id = gBuffer.albedoSpecTexture,
                         .width = screenWidth,
                         .height = screenHeight,
-                    }, (Rectangle) { 0, 0, (float)screenWidth, (float)-screenHeight }, Vector2Zero(), RAYWHITE);
+                    }, (rlRectangle) { 0, 0, (float)screenWidth, (float)-screenHeight }, Vector2Zero(), RAYWHITE);
                     
                     rlDrawText("ALBEDO TEXTURE", 10, screenHeight - 30, 20, DARKGREEN);
                 } break;

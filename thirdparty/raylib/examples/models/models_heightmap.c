@@ -27,20 +27,20 @@ int main(void)
 
     // Define our custom camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 18.0f, 21.0f, 18.0f };     // Camera position
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };          // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };              // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 18.0f, 21.0f, 18.0f };     // Camera position
+    camera.target = (rlVector3){ 0.0f, 0.0f, 0.0f };          // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };              // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                    // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;                 // Camera projection type
 
-    Image image = rlLoadImage("resources/heightmap.png");     // Load heightmap image (RAM)
+    rlImage image = rlLoadImage("resources/heightmap.png");     // Load heightmap image (RAM)
     Texture2D texture = rlLoadTextureFromImage(image);        // Convert image to texture (VRAM)
 
-    Mesh mesh = rlGenMeshHeightmap(image, (Vector3){ 16, 8, 16 }); // Generate heightmap mesh (RAM and VRAM)
-    Model model = rlLoadModelFromMesh(mesh);                  // Load model from generated mesh
+    rlMesh mesh = rlGenMeshHeightmap(image, (rlVector3){ 16, 8, 16 }); // Generate heightmap mesh (RAM and VRAM)
+    rlModel model = rlLoadModelFromMesh(mesh);                  // Load model from generated mesh
 
     model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture; // Set map diffuse texture
-    Vector3 mapPosition = { -8.0f, 0.0f, -8.0f };           // Define model position
+    rlVector3 mapPosition = { -8.0f, 0.0f, -8.0f };           // Define model position
 
     rlUnloadImage(image);             // Unload heightmap image from RAM, already uploaded to VRAM
 

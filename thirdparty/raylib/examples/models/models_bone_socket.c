@@ -36,15 +36,15 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 5.0f, 5.0f, 5.0f }; // Camera position
-    camera.target = (Vector3){ 0.0f, 2.0f, 0.0f };  // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };      // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 5.0f, 5.0f, 5.0f }; // Camera position
+    camera.target = (rlVector3){ 0.0f, 2.0f, 0.0f };  // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };      // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                            // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;         // Camera projection type
 
     // Load gltf model
-    Model characterModel = rlLoadModel("resources/models/gltf/greenman.glb"); // Load character model
-    Model equipModel[BONE_SOCKETS] = {
+    rlModel characterModel = rlLoadModel("resources/models/gltf/greenman.glb"); // Load character model
+    rlModel equipModel[BONE_SOCKETS] = {
         rlLoadModel("resources/models/gltf/greenman_hat.glb"),    // Index for the hat model is the same as BONE_SOCKET_HAT
         rlLoadModel("resources/models/gltf/greenman_sword.glb"),  // Index for the sword model is the same as BONE_SOCKET_HAND_R
         rlLoadModel("resources/models/gltf/greenman_shield.glb")  // Index for the shield model is the same as BONE_SOCKET_HAND_L
@@ -56,7 +56,7 @@ int main(void)
     int animsCount = 0;
     unsigned int animIndex = 0;
     unsigned int animCurrentFrame = 0;
-    ModelAnimation *modelAnimations = rlLoadModelAnimations("resources/models/gltf/greenman.glb", &animsCount);
+    rlModelAnimation *modelAnimations = rlLoadModelAnimations("resources/models/gltf/greenman.glb", &animsCount);
 
     // indices of bones for sockets
     int boneSocketIndex[BONE_SOCKETS] = { -1, -1, -1 };
@@ -83,7 +83,7 @@ int main(void)
         }
     }
 
-    Vector3 position = { 0.0f, 0.0f, 0.0f }; // Set model position
+    rlVector3 position = { 0.0f, 0.0f, 0.0f }; // Set model position
     unsigned short angle = 0;           // Set angle for rotate character
 
     rlDisableCursor();                    // Limit cursor to relative movement inside the window
@@ -112,7 +112,7 @@ int main(void)
         if (rlIsKeyPressed(KEY_THREE)) showEquip[BONE_SOCKET_HAND_L] = !showEquip[BONE_SOCKET_HAND_L];
         
         // Update model animation
-        ModelAnimation anim = modelAnimations[animIndex];
+        rlModelAnimation anim = modelAnimations[animIndex];
         animCurrentFrame = (animCurrentFrame + 1)%anim.frameCount;
         rlUpdateModelAnimation(characterModel, anim, animCurrentFrame);
         //----------------------------------------------------------------------------------
@@ -125,7 +125,7 @@ int main(void)
 
             rlBeginMode3D(camera);
                 // Draw character
-                Quaternion characterRotate = QuaternionFromAxisAngle((Vector3){ 0.0f, 1.0f, 0.0f }, angle*DEG2RAD);
+                Quaternion characterRotate = QuaternionFromAxisAngle((rlVector3){ 0.0f, 1.0f, 0.0f }, angle*DEG2RAD);
                 characterModel.transform = MatrixMultiply(QuaternionToMatrix(characterRotate), MatrixTranslate(position.x, position.y, position.z));
                 rlUpdateModelAnimation(characterModel, anim, animCurrentFrame);
                 rlDrawMesh(characterModel.meshes[0], characterModel.materials[1], characterModel.transform);
@@ -135,16 +135,16 @@ int main(void)
                 {
                     if (!showEquip[i]) continue;
 
-                    Transform *transform = &anim.framePoses[animCurrentFrame][boneSocketIndex[i]];
+                    rlTransform *transform = &anim.framePoses[animCurrentFrame][boneSocketIndex[i]];
                     Quaternion inRotation = characterModel.bindPose[boneSocketIndex[i]].rotation;
                     Quaternion outRotation = transform->rotation;
                     
                     // Calculate socket rotation (angle between bone in initial pose and same bone in current animation frame)
                     Quaternion rotate = QuaternionMultiply(outRotation, QuaternionInvert(inRotation));
-                    Matrix matrixTransform = QuaternionToMatrix(rotate);
+                    rlMatrix matrixTransform = QuaternionToMatrix(rotate);
                     // Translate socket to its position in the current animation
                     matrixTransform = MatrixMultiply(matrixTransform, MatrixTranslate(transform->translation.x, transform->translation.y, transform->translation.z));
-                    // Transform the socket using the transform of the character (angle and translate)
+                    // rlTransform the socket using the transform of the character (angle and translate)
                     matrixTransform = MatrixMultiply(matrixTransform, characterModel.transform);
                     
                     // Draw mesh at socket position with socket angle rotation

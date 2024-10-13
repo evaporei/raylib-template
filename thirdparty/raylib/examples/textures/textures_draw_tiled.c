@@ -21,7 +21,7 @@
 #define COLOR_SIZE       16       // Size of the color select buttons
 
 // Draw part of a texture (defined by a rectangle) with rotation and scale tiled into dest.
-void DrawTextureTiled(Texture2D texture, Rectangle source, Rectangle dest, Vector2 origin, float rotation, float scale, Color tint);
+void DrawTextureTiled(Texture2D texture, rlRectangle source, rlRectangle dest, rlVector2 origin, float rotation, float scale, rlColor tint);
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -37,23 +37,23 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [textures] example - Draw part of a texture tiled");
 
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
-    Texture texPattern = LoadTexture("resources/patterns.png");
+    rlTexture texPattern = LoadTexture("resources/patterns.png");
     rlSetTextureFilter(texPattern, TEXTURE_FILTER_TRILINEAR); // Makes the texture smoother when upscaled
 
     // Coordinates for all patterns inside the texture
-    const Rectangle recPattern[] = {
-        (Rectangle){ 3, 3, 66, 66 },
-        (Rectangle){ 75, 3, 100, 100 },
-        (Rectangle){ 3, 75, 66, 66 },
-        (Rectangle){ 7, 156, 50, 50 },
-        (Rectangle){ 85, 106, 90, 45 },
-        (Rectangle){ 75, 154, 100, 60}
+    const rlRectangle recPattern[] = {
+        (rlRectangle){ 3, 3, 66, 66 },
+        (rlRectangle){ 75, 3, 100, 100 },
+        (rlRectangle){ 3, 75, 66, 66 },
+        (rlRectangle){ 7, 156, 50, 50 },
+        (rlRectangle){ 85, 106, 90, 45 },
+        (rlRectangle){ 75, 154, 100, 60}
     };
 
     // Setup colors
-    const Color colors[] = { BLACK, MAROON, ORANGE, BLUE, PURPLE, BEIGE, LIME, RED, DARKGRAY, SKYBLUE };
+    const rlColor colors[] = { BLACK, MAROON, ORANGE, BLUE, PURPLE, BEIGE, LIME, RED, DARKGRAY, SKYBLUE };
     enum { MAX_COLORS = SIZEOF(colors) };
-    Rectangle colorRec[MAX_COLORS] = { 0 };
+    rlRectangle colorRec[MAX_COLORS] = { 0 };
 
     // Calculate rectangle for each color
     for (int i = 0, x = 0, y = 0; i < MAX_COLORS; i++)
@@ -85,12 +85,12 @@ int main(void)
         // Handle mouse
         if (rlIsMouseButtonPressed(MOUSE_BUTTON_LEFT))
         {
-            const Vector2 mouse = rlGetMousePosition();
+            const rlVector2 mouse = rlGetMousePosition();
 
             // Check which pattern was clicked and set it as the active pattern
             for (int i = 0; i < SIZEOF(recPattern); i++)
             {
-                if (rlCheckCollisionPointRec(mouse, (Rectangle){ 2 + MARGIN_SIZE + recPattern[i].x, 40 + MARGIN_SIZE + recPattern[i].y, recPattern[i].width, recPattern[i].height }))
+                if (rlCheckCollisionPointRec(mouse, (rlRectangle){ 2 + MARGIN_SIZE + recPattern[i].x, 40 + MARGIN_SIZE + recPattern[i].y, recPattern[i].width, recPattern[i].height }))
                 {
                     activePattern = i;
                     break;
@@ -130,8 +130,8 @@ int main(void)
             rlClearBackground(RAYWHITE);
 
             // Draw the tiled area
-            DrawTextureTiled(texPattern, recPattern[activePattern], (Rectangle){(float)OPT_WIDTH+MARGIN_SIZE, (float)MARGIN_SIZE, rlGetScreenWidth() - OPT_WIDTH - 2.0f*MARGIN_SIZE, rlGetScreenHeight() - 2.0f*MARGIN_SIZE},
-                (Vector2){0.0f, 0.0f}, rotation, scale, colors[activeCol]);
+            DrawTextureTiled(texPattern, recPattern[activePattern], (rlRectangle){(float)OPT_WIDTH+MARGIN_SIZE, (float)MARGIN_SIZE, rlGetScreenWidth() - OPT_WIDTH - 2.0f*MARGIN_SIZE, rlGetScreenHeight() - 2.0f*MARGIN_SIZE},
+                (rlVector2){0.0f, 0.0f}, rotation, scale, colors[activeCol]);
 
             // Draw options
             rlDrawRectangle(MARGIN_SIZE, MARGIN_SIZE, OPT_WIDTH - MARGIN_SIZE, rlGetScreenHeight() - 2*MARGIN_SIZE, rlColorAlpha(LIGHTGRAY, 0.5f));
@@ -140,7 +140,7 @@ int main(void)
             rlDrawTexture(texPattern, 2 + MARGIN_SIZE, 40 + MARGIN_SIZE, BLACK);
             rlDrawRectangle(2 + MARGIN_SIZE + (int)recPattern[activePattern].x, 40 + MARGIN_SIZE + (int)recPattern[activePattern].y, (int)recPattern[activePattern].width, (int)recPattern[activePattern].height, rlColorAlpha(DARKBLUE, 0.3f));
 
-            rlDrawText("Select Color", 2+MARGIN_SIZE, 10+256+MARGIN_SIZE, 10, BLACK);
+            rlDrawText("Select rlColor", 2+MARGIN_SIZE, 10+256+MARGIN_SIZE, 10, BLACK);
             for (int i = 0; i < MAX_COLORS; i++)
             {
                 rlDrawRectangleRec(colorRec[i], colors[i]);
@@ -172,7 +172,7 @@ int main(void)
 }
 
 // Draw part of a texture (defined by a rectangle) with rotation and scale tiled into dest.
-void DrawTextureTiled(Texture2D texture, Rectangle source, Rectangle dest, Vector2 origin, float rotation, float scale, Color tint)
+void DrawTextureTiled(Texture2D texture, rlRectangle source, rlRectangle dest, rlVector2 origin, float rotation, float scale, rlColor tint)
 {
     if ((texture.id <= 0) || (scale <= 0.0f)) return;  // Wanna see a infinite loop?!...just delete this line!
     if ((source.width == 0) || (source.height == 0)) return;
@@ -181,8 +181,8 @@ void DrawTextureTiled(Texture2D texture, Rectangle source, Rectangle dest, Vecto
     if ((dest.width < tileWidth) && (dest.height < tileHeight))
     {
         // Can fit only one tile
-        rlDrawTexturePro(texture, (Rectangle){source.x, source.y, ((float)dest.width/tileWidth)*source.width, ((float)dest.height/tileHeight)*source.height},
-                    (Rectangle){dest.x, dest.y, dest.width, dest.height}, origin, rotation, tint);
+        rlDrawTexturePro(texture, (rlRectangle){source.x, source.y, ((float)dest.width/tileWidth)*source.width, ((float)dest.height/tileHeight)*source.height},
+                    (rlRectangle){dest.x, dest.y, dest.width, dest.height}, origin, rotation, tint);
     }
     else if (dest.width <= tileWidth)
     {
@@ -190,14 +190,14 @@ void DrawTextureTiled(Texture2D texture, Rectangle source, Rectangle dest, Vecto
         int dy = 0;
         for (;dy+tileHeight < dest.height; dy += tileHeight)
         {
-            rlDrawTexturePro(texture, (Rectangle){source.x, source.y, ((float)dest.width/tileWidth)*source.width, source.height}, (Rectangle){dest.x, dest.y + dy, dest.width, (float)tileHeight}, origin, rotation, tint);
+            rlDrawTexturePro(texture, (rlRectangle){source.x, source.y, ((float)dest.width/tileWidth)*source.width, source.height}, (rlRectangle){dest.x, dest.y + dy, dest.width, (float)tileHeight}, origin, rotation, tint);
         }
 
         // Fit last tile
         if (dy < dest.height)
         {
-            rlDrawTexturePro(texture, (Rectangle){source.x, source.y, ((float)dest.width/tileWidth)*source.width, ((float)(dest.height - dy)/tileHeight)*source.height},
-                        (Rectangle){dest.x, dest.y + dy, dest.width, dest.height - dy}, origin, rotation, tint);
+            rlDrawTexturePro(texture, (rlRectangle){source.x, source.y, ((float)dest.width/tileWidth)*source.width, ((float)(dest.height - dy)/tileHeight)*source.height},
+                        (rlRectangle){dest.x, dest.y + dy, dest.width, dest.height - dy}, origin, rotation, tint);
         }
     }
     else if (dest.height <= tileHeight)
@@ -206,14 +206,14 @@ void DrawTextureTiled(Texture2D texture, Rectangle source, Rectangle dest, Vecto
         int dx = 0;
         for (;dx+tileWidth < dest.width; dx += tileWidth)
         {
-            rlDrawTexturePro(texture, (Rectangle){source.x, source.y, source.width, ((float)dest.height/tileHeight)*source.height}, (Rectangle){dest.x + dx, dest.y, (float)tileWidth, dest.height}, origin, rotation, tint);
+            rlDrawTexturePro(texture, (rlRectangle){source.x, source.y, source.width, ((float)dest.height/tileHeight)*source.height}, (rlRectangle){dest.x + dx, dest.y, (float)tileWidth, dest.height}, origin, rotation, tint);
         }
 
         // Fit last tile
         if (dx < dest.width)
         {
-            rlDrawTexturePro(texture, (Rectangle){source.x, source.y, ((float)(dest.width - dx)/tileWidth)*source.width, ((float)dest.height/tileHeight)*source.height},
-                        (Rectangle){dest.x + dx, dest.y, dest.width - dx, dest.height}, origin, rotation, tint);
+            rlDrawTexturePro(texture, (rlRectangle){source.x, source.y, ((float)(dest.width - dx)/tileWidth)*source.width, ((float)dest.height/tileHeight)*source.height},
+                        (rlRectangle){dest.x + dx, dest.y, dest.width - dx, dest.height}, origin, rotation, tint);
         }
     }
     else
@@ -225,13 +225,13 @@ void DrawTextureTiled(Texture2D texture, Rectangle source, Rectangle dest, Vecto
             int dy = 0;
             for (;dy+tileHeight < dest.height; dy += tileHeight)
             {
-                rlDrawTexturePro(texture, source, (Rectangle){dest.x + dx, dest.y + dy, (float)tileWidth, (float)tileHeight}, origin, rotation, tint);
+                rlDrawTexturePro(texture, source, (rlRectangle){dest.x + dx, dest.y + dy, (float)tileWidth, (float)tileHeight}, origin, rotation, tint);
             }
 
             if (dy < dest.height)
             {
-                rlDrawTexturePro(texture, (Rectangle){source.x, source.y, source.width, ((float)(dest.height - dy)/tileHeight)*source.height},
-                    (Rectangle){dest.x + dx, dest.y + dy, (float)tileWidth, dest.height - dy}, origin, rotation, tint);
+                rlDrawTexturePro(texture, (rlRectangle){source.x, source.y, source.width, ((float)(dest.height - dy)/tileHeight)*source.height},
+                    (rlRectangle){dest.x + dx, dest.y + dy, (float)tileWidth, dest.height - dy}, origin, rotation, tint);
             }
         }
 
@@ -241,15 +241,15 @@ void DrawTextureTiled(Texture2D texture, Rectangle source, Rectangle dest, Vecto
             int dy = 0;
             for (;dy+tileHeight < dest.height; dy += tileHeight)
             {
-                rlDrawTexturePro(texture, (Rectangle){source.x, source.y, ((float)(dest.width - dx)/tileWidth)*source.width, source.height},
-                        (Rectangle){dest.x + dx, dest.y + dy, dest.width - dx, (float)tileHeight}, origin, rotation, tint);
+                rlDrawTexturePro(texture, (rlRectangle){source.x, source.y, ((float)(dest.width - dx)/tileWidth)*source.width, source.height},
+                        (rlRectangle){dest.x + dx, dest.y + dy, dest.width - dx, (float)tileHeight}, origin, rotation, tint);
             }
 
             // Draw final tile in the bottom right corner
             if (dy < dest.height)
             {
-                rlDrawTexturePro(texture, (Rectangle){source.x, source.y, ((float)(dest.width - dx)/tileWidth)*source.width, ((float)(dest.height - dy)/tileHeight)*source.height},
-                    (Rectangle){dest.x + dx, dest.y + dy, dest.width - dx, dest.height - dy}, origin, rotation, tint);
+                rlDrawTexturePro(texture, (rlRectangle){source.x, source.y, ((float)(dest.width - dx)/tileWidth)*source.width, ((float)(dest.height - dy)/tileHeight)*source.height},
+                    (rlRectangle){dest.x + dx, dest.y + dy, dest.width - dx, dest.height - dy}, origin, rotation, tint);
             }
         }
     }

@@ -27,9 +27,9 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [core] example - 2d camera");
 
-    Rectangle player = { 400, 280, 40, 40 };
-    Rectangle buildings[MAX_BUILDINGS] = { 0 };
-    Color buildColors[MAX_BUILDINGS] = { 0 };
+    rlRectangle player = { 400, 280, 40, 40 };
+    rlRectangle buildings[MAX_BUILDINGS] = { 0 };
+    rlColor buildColors[MAX_BUILDINGS] = { 0 };
 
     int spacing = 0;
 
@@ -42,12 +42,12 @@ int main(void)
 
         spacing += (int)buildings[i].width;
 
-        buildColors[i] = (Color){ rlGetRandomValue(200, 240), rlGetRandomValue(200, 240), rlGetRandomValue(200, 250), 255 };
+        buildColors[i] = (rlColor){ rlGetRandomValue(200, 240), rlGetRandomValue(200, 240), rlGetRandomValue(200, 250), 255 };
     }
 
-    Camera2D camera = { 0 };
-    camera.target = (Vector2){ player.x + 20.0f, player.y + 20.0f };
-    camera.offset = (Vector2){ screenWidth/2.0f, screenHeight/2.0f };
+    rlCamera2D camera = { 0 };
+    camera.target = (rlVector2){ player.x + 20.0f, player.y + 20.0f };
+    camera.offset = (rlVector2){ screenWidth/2.0f, screenHeight/2.0f };
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
 
@@ -64,7 +64,7 @@ int main(void)
         else if (rlIsKeyDown(KEY_LEFT)) player.x -= 2;
 
         // Camera target follows player
-        camera.target = (Vector2){ player.x + 20, player.y + 20 };
+        camera.target = (rlVector2){ player.x + 20, player.y + 20 };
 
         // Camera rotation controls
         if (rlIsKeyDown(KEY_A)) camera.rotation--;

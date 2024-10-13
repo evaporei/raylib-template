@@ -25,8 +25,8 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [core] example - mouse input");
 
-    Vector2 ballPosition = { -100.0f, -100.0f };
-    Color ballColor = DARKBLUE;
+    rlVector2 ballPosition = { -100.0f, -100.0f };
+    rlColor ballColor = DARKBLUE;
 
     rlSetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //---------------------------------------------------------------------------------------

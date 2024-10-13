@@ -664,7 +664,7 @@ int Vox_LoadFromMemory(unsigned char* pvoxData, unsigned int voxDataSize, VoxArr
 	}
 
 	//////////////////////////////////////////////////////////
-	// Building Mesh
+	// Building rlMesh
 	//   TODO compute globals indices array
 
 	// Init Arrays

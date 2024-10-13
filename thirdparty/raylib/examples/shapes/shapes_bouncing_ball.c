@@ -26,8 +26,8 @@ int main(void)
     rlSetConfigFlags(FLAG_MSAA_4X_HINT);
     rlInitWindow(screenWidth, screenHeight, "raylib [shapes] example - bouncing ball");
 
-    Vector2 ballPosition = { rlGetScreenWidth()/2.0f, rlGetScreenHeight()/2.0f };
-    Vector2 ballSpeed = { 5.0f, 4.0f };
+    rlVector2 ballPosition = { rlGetScreenWidth()/2.0f, rlGetScreenHeight()/2.0f };
+    rlVector2 ballSpeed = { 5.0f, 4.0f };
     int ballRadius = 20;
 
     bool pause = 0;

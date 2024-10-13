@@ -64,19 +64,19 @@ int main(void)
 
             rlBeginMode3D(camera);
 
-                rlDrawCube((Vector3){-4.0f, 0.0f, 2.0f}, 2.0f, 5.0f, 2.0f, RED);
-                rlDrawCubeWires((Vector3){-4.0f, 0.0f, 2.0f}, 2.0f, 5.0f, 2.0f, GOLD);
-                rlDrawCubeWires((Vector3){-4.0f, 0.0f, -2.0f}, 3.0f, 6.0f, 2.0f, MAROON);
+                rlDrawCube((rlVector3){-4.0f, 0.0f, 2.0f}, 2.0f, 5.0f, 2.0f, RED);
+                rlDrawCubeWires((rlVector3){-4.0f, 0.0f, 2.0f}, 2.0f, 5.0f, 2.0f, GOLD);
+                rlDrawCubeWires((rlVector3){-4.0f, 0.0f, -2.0f}, 3.0f, 6.0f, 2.0f, MAROON);
 
-                rlDrawSphere((Vector3){-1.0f, 0.0f, -2.0f}, 1.0f, GREEN);
-                rlDrawSphereWires((Vector3){1.0f, 0.0f, 2.0f}, 2.0f, 16, 16, LIME);
+                rlDrawSphere((rlVector3){-1.0f, 0.0f, -2.0f}, 1.0f, GREEN);
+                rlDrawSphereWires((rlVector3){1.0f, 0.0f, 2.0f}, 2.0f, 16, 16, LIME);
 
-                rlDrawCylinder((Vector3){4.0f, 0.0f, -2.0f}, 1.0f, 2.0f, 3.0f, 4, SKYBLUE);
-                rlDrawCylinderWires((Vector3){4.0f, 0.0f, -2.0f}, 1.0f, 2.0f, 3.0f, 4, DARKBLUE);
-                rlDrawCylinderWires((Vector3){4.5f, -1.0f, 2.0f}, 1.0f, 1.0f, 2.0f, 6, BROWN);
+                rlDrawCylinder((rlVector3){4.0f, 0.0f, -2.0f}, 1.0f, 2.0f, 3.0f, 4, SKYBLUE);
+                rlDrawCylinderWires((rlVector3){4.0f, 0.0f, -2.0f}, 1.0f, 2.0f, 3.0f, 4, DARKBLUE);
+                rlDrawCylinderWires((rlVector3){4.5f, -1.0f, 2.0f}, 1.0f, 1.0f, 2.0f, 6, BROWN);
 
-                rlDrawCylinder((Vector3){1.0f, 0.0f, -4.0f}, 0.0f, 1.5f, 3.0f, 8, GOLD);
-                rlDrawCylinderWires((Vector3){1.0f, 0.0f, -4.0f}, 0.0f, 1.5f, 3.0f, 8, PINK);
+                rlDrawCylinder((rlVector3){1.0f, 0.0f, -4.0f}, 0.0f, 1.5f, 3.0f, 8, GOLD);
+                rlDrawCylinderWires((rlVector3){1.0f, 0.0f, -4.0f}, 0.0f, 1.5f, 3.0f, 8, PINK);
 
                 rlDrawGrid(10, 1.0f);        // Draw a grid
 

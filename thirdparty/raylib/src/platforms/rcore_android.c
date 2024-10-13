@@ -356,13 +356,13 @@ void rlClearWindowState(unsigned int flags)
 }
 
 // Set icon for window
-void rlSetWindowIcon(Image image)
+void rlSetWindowIcon(rlImage image)
 {
     TRACELOG(LOG_WARNING, "rlSetWindowIcon() not available on target platform");
 }
 
 // Set icon for window
-void rlSetWindowIcons(Image *images, int count)
+void rlSetWindowIcons(rlImage *images, int count)
 {
     TRACELOG(LOG_WARNING, "rlSetWindowIcons() not available on target platform");
 }
@@ -439,10 +439,10 @@ int rlGetCurrentMonitor(void)
 }
 
 // Get selected monitor position
-Vector2 rlGetMonitorPosition(int monitor)
+rlVector2 rlGetMonitorPosition(int monitor)
 {
     TRACELOG(LOG_WARNING, "rlGetMonitorPosition() not implemented on target platform");
-    return (Vector2){ 0, 0 };
+    return (rlVector2){ 0, 0 };
 }
 
 // Get selected monitor width (currently used by monitor)
@@ -488,17 +488,17 @@ const char *rlGetMonitorName(int monitor)
 }
 
 // Get window position XY on monitor
-Vector2 rlGetWindowPosition(void)
+rlVector2 rlGetWindowPosition(void)
 {
     TRACELOG(LOG_WARNING, "rlGetWindowPosition() not implemented on target platform");
-    return (Vector2){ 0, 0 };
+    return (rlVector2){ 0, 0 };
 }
 
 // Get window scale DPI factor for current monitor
-Vector2 rlGetWindowScaleDPI(void)
+rlVector2 rlGetWindowScaleDPI(void)
 {
     TRACELOG(LOG_WARNING, "rlGetWindowScaleDPI() not implemented on target platform");
-    return (Vector2){ 1.0f, 1.0f };
+    return (rlVector2){ 1.0f, 1.0f };
 }
 
 // Set clipboard text content
@@ -623,7 +623,7 @@ void rlSetGamepadVibration(int gamepad, float leftMotor, float rightMotor)
 // Set mouse position XY
 void rlSetMousePosition(int x, int y)
 {
-    CORE.Input.Mouse.currentPosition = (Vector2){ (float)x, (float)y };
+    CORE.Input.Mouse.currentPosition = (rlVector2){ (float)x, (float)y };
     CORE.Input.Mouse.previousPosition = CORE.Input.Mouse.currentPosition;
 }
 
@@ -673,7 +673,7 @@ void rlPollInputEvents(void)
     for (int i = 0; i < MAX_TOUCH_POINTS; i++) CORE.Input.Touch.previousTouchState[i] = CORE.Input.Touch.currentTouchState[i];
 
     // Reset touch positions
-    //for (int i = 0; i < MAX_TOUCH_POINTS; i++) CORE.Input.Touch.position[i] = (Vector2){ 0, 0 };
+    //for (int i = 0; i < MAX_TOUCH_POINTS; i++) CORE.Input.Touch.position[i] = (rlVector2){ 0, 0 };
 
     // Register previous keys states
     // NOTE: Android supports up to 260 keys
@@ -1004,16 +1004,16 @@ static void AndroidCommandCallback(struct android_app *app, int32_t cmd)
                     #if defined(SUPPORT_MODULE_RSHAPES)
                     // Set font white rectangle for shapes drawing, so shapes and text can be batched together
                     // WARNING: rshapes module is required, if not available, default internal white rectangle is used
-                    Rectangle rec = rlGetFontDefault().recs[95];
+                    rlRectangle rec = rlGetFontDefault().recs[95];
                     if (CORE.Window.flags & FLAG_MSAA_4X_HINT)
                     {
                         // NOTE: We try to maxime rec padding to avoid pixel bleeding on MSAA filtering
-                        rlSetShapesTexture(rlGetFontDefault().texture, (Rectangle){ rec.x + 2, rec.y + 2, 1, 1 });
+                        rlSetShapesTexture(rlGetFontDefault().texture, (rlRectangle){ rec.x + 2, rec.y + 2, 1, 1 });
                     }
                     else
                     {
                         // NOTE: We set up a 1px padding on char rectangle to avoid pixel bleeding
-                        rlSetShapesTexture(rlGetFontDefault().texture, (Rectangle){ rec.x + 1, rec.y + 1, rec.width - 2, rec.height - 2 });
+                        rlSetShapesTexture(rlGetFontDefault().texture, (rlRectangle){ rec.x + 1, rec.y + 1, rec.width - 2, rec.height - 2 });
                     }
                     #endif
                 #else
@@ -1021,7 +1021,7 @@ static void AndroidCommandCallback(struct android_app *app, int32_t cmd)
                     // Set default texture and rectangle to be used for shapes drawing
                     // NOTE: rlgl default texture is a 1x1 pixel UNCOMPRESSED_R8G8B8A8
                     Texture2D texture = { rlGetTextureIdDefault(), 1, 1, 1, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8 };
-                    rlSetShapesTexture(texture, (Rectangle){ 0.0f, 0.0f, 1.0f, 1.0f });    // WARNING: Module required: rshapes
+                    rlSetShapesTexture(texture, (rlRectangle){ 0.0f, 0.0f, 1.0f, 1.0f });    // WARNING: Module required: rshapes
                     #endif
                 #endif
 
@@ -1264,7 +1264,7 @@ static int32_t AndroidInputCallback(struct android_app *app, AInputEvent *event)
         CORE.Input.Touch.pointId[i] = AMotionEvent_getPointerId(event, i);
 
         // Register touch points position
-        CORE.Input.Touch.position[i] = (Vector2){ AMotionEvent_getX(event, i), AMotionEvent_getY(event, i) };
+        CORE.Input.Touch.position[i] = (rlVector2){ AMotionEvent_getX(event, i), AMotionEvent_getY(event, i) };
 
         // Normalize CORE.Input.Touch.position[i] for CORE.Window.screen.width and CORE.Window.screen.height
         float widthRatio = (float)(CORE.Window.screen.width + CORE.Window.renderOffset.x)/(float)CORE.Window.display.width;
@@ -1331,7 +1331,7 @@ static int32_t AndroidInputCallback(struct android_app *app, AInputEvent *event)
 
     // Map touch[0] as mouse input for convenience
     CORE.Input.Mouse.currentPosition = CORE.Input.Touch.position[0];
-    CORE.Input.Mouse.currentWheelMove = (Vector2){ 0.0f, 0.0f };
+    CORE.Input.Mouse.currentWheelMove = (rlVector2){ 0.0f, 0.0f };
 
     return 0;
 }

@@ -23,8 +23,8 @@
 // Cubic Bezier spline control points
 // NOTE: Every segment has two control points 
 typedef struct {
-    Vector2 start;
-    Vector2 end;
+    rlVector2 start;
+    rlVector2 end;
 } ControlPoint;
 
 // Spline types
@@ -48,7 +48,7 @@ int main(void)
     rlSetConfigFlags(FLAG_MSAA_4X_HINT);
     rlInitWindow(screenWidth, screenHeight, "raylib [shapes] example - splines drawing");
 
-    Vector2 points[MAX_SPLINE_POINTS] = {
+    rlVector2 points[MAX_SPLINE_POINTS] = {
         {  50.0f, 400.0f },
         { 160.0f, 220.0f },
         { 340.0f, 380.0f },
@@ -58,20 +58,20 @@ int main(void)
     
     // Array required for spline bezier-cubic, 
     // including control points interleaved with start-end segment points
-    Vector2 pointsInterleaved[3*(MAX_SPLINE_POINTS - 1) + 1] = { 0 };
+    rlVector2 pointsInterleaved[3*(MAX_SPLINE_POINTS - 1) + 1] = { 0 };
     
     int pointCount = 5;
     int selectedPoint = -1;
     int focusedPoint = -1;
-    Vector2 *selectedControlPoint = NULL;
-    Vector2 *focusedControlPoint = NULL;
+    rlVector2 *selectedControlPoint = NULL;
+    rlVector2 *focusedControlPoint = NULL;
     
     // Cubic Bezier control points initialization
     ControlPoint control[MAX_SPLINE_POINTS-1] = { 0 };
     for (int i = 0; i < pointCount - 1; i++)
     {
-        control[i].start = (Vector2){ points[i].x + 50, points[i].y };
-        control[i].end = (Vector2){ points[i + 1].x - 50, points[i + 1].y };
+        control[i].start = (rlVector2){ points[i].x + 50, points[i].y };
+        control[i].end = (rlVector2){ points[i + 1].x - 50, points[i + 1].y };
     }
 
     // Spline config variables
@@ -93,8 +93,8 @@ int main(void)
         {
             points[pointCount] = rlGetMousePosition();
             int i = pointCount - 1;
-            control[i].start = (Vector2){ points[i].x + 50, points[i].y };
-            control[i].end = (Vector2){ points[i + 1].x - 50, points[i + 1].y };
+            control[i].start = (rlVector2){ points[i].x + 50, points[i].y };
+            control[i].end = (rlVector2){ points[i + 1].x - 50, points[i + 1].y };
             pointCount++;
         }
 
@@ -250,15 +250,15 @@ int main(void)
             if (splineTypeEditMode) GuiLock();
             
             // Draw spline config
-            GuiLabel((Rectangle){ 12, 62, 140, 24 }, rlTextFormat("Spline thickness: %i", (int)splineThickness));
-            GuiSliderBar((Rectangle){ 12, 60 + 24, 140, 16 }, NULL, NULL, &splineThickness, 1.0f, 40.0f);
+            GuiLabel((rlRectangle){ 12, 62, 140, 24 }, rlTextFormat("Spline thickness: %i", (int)splineThickness));
+            GuiSliderBar((rlRectangle){ 12, 60 + 24, 140, 16 }, NULL, NULL, &splineThickness, 1.0f, 40.0f);
 
-            GuiCheckBox((Rectangle){ 12, 110, 20, 20 }, "Show point helpers", &splineHelpersActive);
+            GuiCheckBox((rlRectangle){ 12, 110, 20, 20 }, "Show point helpers", &splineHelpersActive);
 
             GuiUnlock();
 
-            GuiLabel((Rectangle){ 12, 10, 140, 24 }, "Spline type:");
-            if (GuiDropdownBox((Rectangle){ 12, 8 + 24, 140, 28 }, "LINEAR;BSPLINE;CATMULLROM;BEZIER", &splineTypeActive, splineTypeEditMode)) splineTypeEditMode = !splineTypeEditMode;
+            GuiLabel((rlRectangle){ 12, 10, 140, 24 }, "Spline type:");
+            if (GuiDropdownBox((rlRectangle){ 12, 8 + 24, 140, 28 }, "LINEAR;BSPLINE;CATMULLROM;BEZIER", &splineTypeActive, splineTypeEditMode)) splineTypeEditMode = !splineTypeEditMode;
 
         rlEndDrawing();
         //----------------------------------------------------------------------------------

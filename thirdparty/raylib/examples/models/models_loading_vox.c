@@ -49,15 +49,15 @@ int main(void)
 
 	// Define the camera to look into our 3d world
 	Camera camera = { 0 };
-	camera.position = (Vector3){ 10.0f, 10.0f, 10.0f }; // Camera position
-	camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
-	camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+	camera.position = (rlVector3){ 10.0f, 10.0f, 10.0f }; // Camera position
+	camera.target = (rlVector3){ 0.0f, 0.0f, 0.0f };      // Camera looking at point
+	camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
 	camera.fovy = 45.0f;                                // Camera field-of-view Y
 	camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
 	//--------------------------------------------------------------------------------------
 	// Load MagicaVoxel files
-	Model models[MAX_VOX_FILES] = { 0 };
+	rlModel models[MAX_VOX_FILES] = { 0 };
 
 	for (int i = 0; i < MAX_VOX_FILES; i++)
 	{
@@ -69,12 +69,12 @@ int main(void)
 		rlTraceLog(LOG_WARNING, rlTextFormat("[%s] File loaded in %.3f ms", voxFileNames[i], t1 - t0));
 
 		// Compute model translation matrix to center model on draw position (0, 0 , 0)
-		BoundingBox bb = rlGetModelBoundingBox(models[i]);
-		Vector3 center = { 0 };
+		rlBoundingBox bb = rlGetModelBoundingBox(models[i]);
+		rlVector3 center = { 0 };
 		center.x = bb.min.x + (((bb.max.x - bb.min.x) / 2));
 		center.z = bb.min.z + (((bb.max.z - bb.min.z) / 2));
 
-		Matrix matTranslate = MatrixTranslate(-center.x, 0, -center.z);
+		rlMatrix matTranslate = MatrixTranslate(-center.x, 0, -center.z);
 		models[i].transform = matTranslate;
 	}
 
@@ -82,7 +82,7 @@ int main(void)
 
 	//--------------------------------------------------------------------------------------
 	// Load voxel shader
-	Shader shader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/voxel_lighting.vs", GLSL_VERSION),
+	rlShader shader = rlLoadShader(rlTextFormat("resources/shaders/glsl%i/voxel_lighting.vs", GLSL_VERSION),
 		rlTextFormat("resources/shaders/glsl%i/voxel_lighting.fs", GLSL_VERSION));
 
 	// Get some required shader locations
@@ -98,7 +98,7 @@ int main(void)
 	// Assign out lighting shader to model
 	for (int i = 0; i < MAX_VOX_FILES; i++)
 	{
-		Model m = models[i];
+		rlModel m = models[i];
 		for (int j = 0; j < m.materialCount; j++)
 		{
 			m.materials[j].shader = shader;
@@ -107,17 +107,17 @@ int main(void)
 
 	// Create lights
 	Light lights[MAX_LIGHTS] = { 0 };
-	lights[0] = CreateLight(LIGHT_POINT, (Vector3) { -20, 20, -20 }, Vector3Zero(), GRAY, shader);
-	lights[1] = CreateLight(LIGHT_POINT, (Vector3) { 20, -20, 20 }, Vector3Zero(), GRAY, shader);
-	lights[2] = CreateLight(LIGHT_POINT, (Vector3) { -20, 20, 20 }, Vector3Zero(), GRAY, shader);
-	lights[3] = CreateLight(LIGHT_POINT, (Vector3) { 20, -20, -20 }, Vector3Zero(), GRAY, shader);
+	lights[0] = CreateLight(LIGHT_POINT, (rlVector3) { -20, 20, -20 }, Vector3Zero(), GRAY, shader);
+	lights[1] = CreateLight(LIGHT_POINT, (rlVector3) { 20, -20, 20 }, Vector3Zero(), GRAY, shader);
+	lights[2] = CreateLight(LIGHT_POINT, (rlVector3) { -20, 20, 20 }, Vector3Zero(), GRAY, shader);
+	lights[3] = CreateLight(LIGHT_POINT, (rlVector3) { 20, -20, -20 }, Vector3Zero(), GRAY, shader);
 
 
 	rlSetTargetFPS(60);               // Set our game to run at 60 frames-per-second
 
 	//--------------------------------------------------------------------------------------
-	Vector3 modelpos = { 0 };
-	Vector3 camerarot = { 0 };
+	rlVector3 modelpos = { 0 };
+	rlVector3 camerarot = { 0 };
 
 	// Main game loop
 	while (!rlWindowShouldClose())    // Detect window close button or ESC key
@@ -126,7 +126,7 @@ int main(void)
 		//----------------------------------------------------------------------------------
 		if (rlIsMouseButtonDown(MOUSE_BUTTON_MIDDLE))
 		{
-			const Vector2 mouseDelta = rlGetMouseDelta();
+			const rlVector2 mouseDelta = rlGetMouseDelta();
 			camerarot.x = mouseDelta.x * 0.05f;
 			camerarot.y = mouseDelta.y * 0.05f;
 		}
@@ -137,7 +137,7 @@ int main(void)
 		}
 
 		rlUpdateCameraPro(&camera,
-			(Vector3) {
+			(rlVector3) {
 			(rlIsKeyDown(KEY_W) || rlIsKeyDown(KEY_UP)) * 0.1f -      // Move forward-backward
 				(rlIsKeyDown(KEY_S) || rlIsKeyDown(KEY_DOWN)) * 0.1f,
 				(rlIsKeyDown(KEY_D) || rlIsKeyDown(KEY_RIGHT)) * 0.1f -   // Move right-left

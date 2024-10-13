@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [models] example - Mesh picking in 3d mode, ground plane, triangle, mesh
+*   raylib [models] example - rlMesh picking in 3d mode, ground plane, triangle, mesh
 *
 *   Example originally created with raylib 1.7, last time updated with raylib 4.0
 *
@@ -32,36 +32,36 @@ int main(void)
 
     // Define the camera to look into our 3d world
     Camera camera = { 0 };
-    camera.position = (Vector3){ 20.0f, 20.0f, 20.0f }; // Camera position
-    camera.target = (Vector3){ 0.0f, 8.0f, 0.0f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.6f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 20.0f, 20.0f, 20.0f }; // Camera position
+    camera.target = (rlVector3){ 0.0f, 8.0f, 0.0f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.6f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
-    Ray ray = { 0 };        // Picking ray
+    rlRay ray = { 0 };        // Picking ray
 
-    Model tower = rlLoadModel("resources/models/obj/turret.obj");                 // Load OBJ model
+    rlModel tower = rlLoadModel("resources/models/obj/turret.obj");                 // Load OBJ model
     Texture2D texture = LoadTexture("resources/models/obj/turret_diffuse.png"); // Load model texture
     tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;            // Set model diffuse texture
 
-    Vector3 towerPos = { 0.0f, 0.0f, 0.0f };                        // Set model position
-    BoundingBox towerBBox = rlGetMeshBoundingBox(tower.meshes[0]);    // Get mesh bounding box
+    rlVector3 towerPos = { 0.0f, 0.0f, 0.0f };                        // Set model position
+    rlBoundingBox towerBBox = rlGetMeshBoundingBox(tower.meshes[0]);    // Get mesh bounding box
 
     // Ground quad
-    Vector3 g0 = (Vector3){ -50.0f, 0.0f, -50.0f };
-    Vector3 g1 = (Vector3){ -50.0f, 0.0f,  50.0f };
-    Vector3 g2 = (Vector3){  50.0f, 0.0f,  50.0f };
-    Vector3 g3 = (Vector3){  50.0f, 0.0f, -50.0f };
+    rlVector3 g0 = (rlVector3){ -50.0f, 0.0f, -50.0f };
+    rlVector3 g1 = (rlVector3){ -50.0f, 0.0f,  50.0f };
+    rlVector3 g2 = (rlVector3){  50.0f, 0.0f,  50.0f };
+    rlVector3 g3 = (rlVector3){  50.0f, 0.0f, -50.0f };
 
     // Test triangle
-    Vector3 ta = (Vector3){ -25.0f, 0.5f, 0.0f };
-    Vector3 tb = (Vector3){ -4.0f, 2.5f, 1.0f };
-    Vector3 tc = (Vector3){ -8.0f, 6.5f, 0.0f };
+    rlVector3 ta = (rlVector3){ -25.0f, 0.5f, 0.0f };
+    rlVector3 tb = (rlVector3){ -4.0f, 2.5f, 1.0f };
+    rlVector3 tc = (rlVector3){ -8.0f, 6.5f, 0.0f };
 
-    Vector3 bary = { 0.0f, 0.0f, 0.0f };
+    rlVector3 bary = { 0.0f, 0.0f, 0.0f };
 
     // Test sphere
-    Vector3 sp = (Vector3){ -30.0f, 5.0f, 5.0f };
+    rlVector3 sp = (rlVector3){ -30.0f, 5.0f, 5.0f };
     float sr = 4.0f;
 
     rlSetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
@@ -81,17 +81,17 @@ int main(void)
         }
 
         // Display information about closest hit
-        RayCollision collision = { 0 };
+        rlRayCollision collision = { 0 };
         char *hitObjectName = "None";
         collision.distance = FLT_MAX;
         collision.hit = false;
-        Color cursorColor = WHITE;
+        rlColor cursorColor = WHITE;
 
         // Get ray and test against objects
         ray = rlGetScreenToWorldRay(rlGetMousePosition(), camera);
 
         // Check ray collision against ground quad
-        RayCollision groundHitInfo = rlGetRayCollisionQuad(ray, g0, g1, g2, g3);
+        rlRayCollision groundHitInfo = rlGetRayCollisionQuad(ray, g0, g1, g2, g3);
 
         if ((groundHitInfo.hit) && (groundHitInfo.distance < collision.distance))
         {
@@ -101,7 +101,7 @@ int main(void)
         }
 
         // Check ray collision against test triangle
-        RayCollision triHitInfo = rlGetRayCollisionTriangle(ray, ta, tb, tc);
+        rlRayCollision triHitInfo = rlGetRayCollisionTriangle(ray, ta, tb, tc);
 
         if ((triHitInfo.hit) && (triHitInfo.distance < collision.distance))
         {
@@ -113,7 +113,7 @@ int main(void)
         }
 
         // Check ray collision against test sphere
-        RayCollision sphereHitInfo = rlGetRayCollisionSphere(ray, sp, sr);
+        rlRayCollision sphereHitInfo = rlGetRayCollisionSphere(ray, sp, sr);
 
         if ((sphereHitInfo.hit) && (sphereHitInfo.distance < collision.distance))
         {
@@ -123,7 +123,7 @@ int main(void)
         }
 
         // Check ray collision against bounding box first, before trying the full ray-mesh test
-        RayCollision boxHitInfo = rlGetRayCollisionBox(ray, towerBBox);
+        rlRayCollision boxHitInfo = rlGetRayCollisionBox(ray, towerBBox);
 
         if ((boxHitInfo.hit) && (boxHitInfo.distance < collision.distance))
         {
@@ -132,11 +132,11 @@ int main(void)
             hitObjectName = "Box";
 
             // Check ray collision against model meshes
-            RayCollision meshHitInfo = { 0 };
+            rlRayCollision meshHitInfo = { 0 };
             for (int m = 0; m < tower.meshCount; m++)
             {
                 // NOTE: We consider the model.transform for the collision check but 
-                // it can be checked against any transform Matrix, used when checking against same
+                // it can be checked against any transform rlMatrix, used when checking against same
                 // model drawn multiple times with multiple transforms
                 meshHitInfo = rlGetRayCollisionMesh(ray, tower.meshes[m], tower.transform);
                 if (meshHitInfo.hit)
@@ -152,7 +152,7 @@ int main(void)
             {
                 collision = meshHitInfo;
                 cursorColor = ORANGE;
-                hitObjectName = "Mesh";
+                hitObjectName = "rlMesh";
             }
         }
         //----------------------------------------------------------------------------------
@@ -187,7 +187,7 @@ int main(void)
                     rlDrawCube(collision.point, 0.3f, 0.3f, 0.3f, cursorColor);
                     rlDrawCubeWires(collision.point, 0.3f, 0.3f, 0.3f, RED);
 
-                    Vector3 normalEnd;
+                    rlVector3 normalEnd;
                     normalEnd.x = collision.point.x + collision.normal.x;
                     normalEnd.y = collision.point.y + collision.normal.y;
                     normalEnd.z = collision.point.z + collision.normal.z;

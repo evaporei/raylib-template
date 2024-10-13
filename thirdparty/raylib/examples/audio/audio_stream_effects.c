@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [audio] example - Music stream processing effects
+*   raylib [audio] example - rlMusic stream processing effects
 *
 *   Example originally created with raylib 4.2, last time updated with raylib 5.0
 *
@@ -41,7 +41,7 @@ int main(void)
 
     rlInitAudioDevice();              // Initialize audio device
 
-    Music music = rlLoadMusicStream("resources/country.mp3");
+    rlMusic music = rlLoadMusicStream("resources/country.mp3");
 
     // Allocate buffer for the delay effect
     delayBufferSize = 48000*2;      // 1 second delay (device sampleRate*channels)
@@ -50,7 +50,7 @@ int main(void)
     rlPlayMusicStream(music);
 
     float timePlayed = 0.0f;        // Time played normalized [0.0f..1.0f]
-    bool pause = false;             // Music playing paused
+    bool pause = false;             // rlMusic playing paused
     
     bool enableEffectLPF = false;   // Enable effect low-pass-filter
     bool enableEffectDelay = false; // Enable effect delay (1 second)

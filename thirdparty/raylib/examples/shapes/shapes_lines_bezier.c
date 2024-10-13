@@ -26,8 +26,8 @@ int main(void)
     rlSetConfigFlags(FLAG_MSAA_4X_HINT);
     rlInitWindow(screenWidth, screenHeight, "raylib [shapes] example - cubic-bezier lines");
 
-    Vector2 startPoint = { 30, 30 };
-    Vector2 endPoint = { (float)screenWidth - 30, (float)screenHeight - 30 };
+    rlVector2 startPoint = { 30, 30 };
+    rlVector2 endPoint = { (float)screenWidth - 30, (float)screenHeight - 30 };
     bool moveStartPoint = false;
     bool moveEndPoint = false;
 
@@ -39,7 +39,7 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-        Vector2 mouse = rlGetMousePosition();
+        rlVector2 mouse = rlGetMousePosition();
 
         if (rlCheckCollisionPointCircle(mouse, startPoint, 10.0f) && rlIsMouseButtonDown(MOUSE_BUTTON_LEFT)) moveStartPoint = true;
         else if (rlCheckCollisionPointCircle(mouse, endPoint, 10.0f) && rlIsMouseButtonDown(MOUSE_BUTTON_LEFT)) moveEndPoint = true;

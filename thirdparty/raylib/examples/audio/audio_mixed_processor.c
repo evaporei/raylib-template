@@ -59,8 +59,8 @@ int main(void)
 
     rlAttachAudioMixedProcessor(ProcessAudio);
 
-    Music music = rlLoadMusicStream("resources/country.mp3");
-    Sound sound = rlLoadSound("resources/coin.wav");
+    rlMusic music = rlLoadMusicStream("resources/country.mp3");
+    rlSound sound = rlLoadSound("resources/coin.wav");
 
     rlPlayMusicStream(music);
 

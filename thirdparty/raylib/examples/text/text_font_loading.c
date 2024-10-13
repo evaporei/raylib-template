@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [text] example - Font loading
+*   raylib [text] example - rlFont loading
 *
 *   NOTE: raylib can load fonts from multiple input file formats:
 *
@@ -40,12 +40,12 @@ int main(void)
 
     // NOTE: Textures/Fonts MUST be loaded after Window initialization (OpenGL context is required)
 
-    // BMFont (AngelCode) : Font data and image atlas have been generated using external program
-    Font fontBm = rlLoadFont("resources/pixantiqua.fnt");
+    // BMFont (AngelCode) : rlFont data and image atlas have been generated using external program
+    rlFont fontBm = rlLoadFont("resources/pixantiqua.fnt");
 
-    // TTF font : Font data and atlas are generated directly from TTF
+    // TTF font : rlFont data and atlas are generated directly from TTF
     // NOTE: We define a font base size of 32 pixels tall and up-to 250 characters
-    Font fontTtf = rlLoadFontEx("resources/pixantiqua.ttf", 32, 0, 250);
+    rlFont fontTtf = rlLoadFontEx("resources/pixantiqua.ttf", 32, 0, 250);
 
     rlSetTextLineSpacing(16);         // Set line spacing for multiline text (when line breaks are included '\n')
 
@@ -73,12 +73,12 @@ int main(void)
 
             if (!useTtf)
             {
-                rlDrawTextEx(fontBm, msg, (Vector2){ 20.0f, 100.0f }, (float)fontBm.baseSize, 2, MAROON);
+                rlDrawTextEx(fontBm, msg, (rlVector2){ 20.0f, 100.0f }, (float)fontBm.baseSize, 2, MAROON);
                 rlDrawText("Using BMFont (Angelcode) imported", 20, rlGetScreenHeight() - 30, 20, GRAY);
             }
             else
             {
-                rlDrawTextEx(fontTtf, msg, (Vector2){ 20.0f, 100.0f }, (float)fontTtf.baseSize, 2, LIME);
+                rlDrawTextEx(fontTtf, msg, (rlVector2){ 20.0f, 100.0f }, (float)fontTtf.baseSize, 2, LIME);
                 rlDrawText("Using TTF font generated", 20, rlGetScreenHeight() - 30, 20, GRAY);
             }
 
@@ -88,8 +88,8 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    rlUnloadFont(fontBm);     // AngelCode Font unloading
-    rlUnloadFont(fontTtf);    // TTF Font unloading
+    rlUnloadFont(fontBm);     // AngelCode rlFont unloading
+    rlUnloadFont(fontTtf);    // TTF rlFont unloading
 
     rlCloseWindow();          // Close window and OpenGL context
     //--------------------------------------------------------------------------------------

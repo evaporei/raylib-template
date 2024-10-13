@@ -30,13 +30,13 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [textures] example - mouse painting");
 
     // Colors to choose from
-    Color colors[MAX_COLORS_COUNT] = {
+    rlColor colors[MAX_COLORS_COUNT] = {
         RAYWHITE, YELLOW, GOLD, ORANGE, PINK, RED, MAROON, GREEN, LIME, DARKGREEN,
         SKYBLUE, BLUE, DARKBLUE, PURPLE, VIOLET, DARKPURPLE, BEIGE, BROWN, DARKBROWN,
         LIGHTGRAY, GRAY, DARKGRAY, BLACK };
 
     // Define colorsRecs data (for every rectangle)
-    Rectangle colorsRecs[MAX_COLORS_COUNT] = { 0 };
+    rlRectangle colorsRecs[MAX_COLORS_COUNT] = { 0 };
 
     for (int i = 0; i < MAX_COLORS_COUNT; i++)
     {
@@ -52,7 +52,7 @@ int main(void)
     float brushSize = 20.0f;
     bool mouseWasPressed = false;
 
-    Rectangle btnSaveRec = { 750, 10, 40, 30 };
+    rlRectangle btnSaveRec = { 750, 10, 40, 30 };
     bool btnSaveMouseHover = false;
     bool showSaveMessage = false;
     int saveMessageCounter = 0;
@@ -73,7 +73,7 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-        Vector2 mousePos = rlGetMousePosition();
+        rlVector2 mousePos = rlGetMousePosition();
 
         // Move between colors with keys
         if (rlIsKeyPressed(KEY_RIGHT)) colorSelected++;
@@ -147,11 +147,11 @@ int main(void)
         if (rlCheckCollisionPointRec(mousePos, btnSaveRec)) btnSaveMouseHover = true;
         else btnSaveMouseHover = false;
 
-        // Image saving logic
+        // rlImage saving logic
         // NOTE: Saving painted texture to a default named image
         if ((btnSaveMouseHover && rlIsMouseButtonReleased(MOUSE_BUTTON_LEFT)) || rlIsKeyPressed(KEY_S))
         {
-            Image image = rlLoadImageFromTexture(target.texture);
+            rlImage image = rlLoadImageFromTexture(target.texture);
             rlImageFlipVertical(&image);
             rlExportImage(image, "my_amazing_texture_painting.png");
             rlUnloadImage(image);
@@ -177,7 +177,7 @@ int main(void)
         rlClearBackground(RAYWHITE);
 
         // NOTE: Render texture must be y-flipped due to default OpenGL coordinates (left-bottom)
-        rlDrawTextureRec(target.texture, (Rectangle) { 0, 0, (float)target.texture.width, (float)-target.texture.height }, (Vector2) { 0, 0 }, WHITE);
+        rlDrawTextureRec(target.texture, (rlRectangle) { 0, 0, (float)target.texture.width, (float)-target.texture.height }, (rlVector2) { 0, 0 }, WHITE);
 
         // Draw drawing circle for reference
         if (mousePos.y > 50)
@@ -196,7 +196,7 @@ int main(void)
 
         if (colorMouseHover >= 0) rlDrawRectangleRec(colorsRecs[colorMouseHover], rlFade(WHITE, 0.6f));
 
-        rlDrawRectangleLinesEx((Rectangle){ colorsRecs[colorSelected].x - 2, colorsRecs[colorSelected].y - 2,
+        rlDrawRectangleLinesEx((rlRectangle){ colorsRecs[colorSelected].x - 2, colorsRecs[colorSelected].y - 2,
                              colorsRecs[colorSelected].width + 4, colorsRecs[colorSelected].height + 4 }, 2, BLACK);
 
         // Draw save image button

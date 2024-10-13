@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [text] example - Font filters
+*   raylib [text] example - rlFont filters
 *
 *   NOTE: After font loading, font texture atlas filter could be configured for a softer
 *   display of the font when scaling it to different sizes, that way, it's not required
@@ -29,20 +29,20 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [text] example - font filters");
 
-    const char msg[50] = "Loaded Font";
+    const char msg[50] = "Loaded rlFont";
 
     // NOTE: Textures/Fonts MUST be loaded after Window initialization (OpenGL context is required)
 
-    // TTF Font loading with custom generation parameters
-    Font font = rlLoadFontEx("resources/KAISG.ttf", 96, 0, 0);
+    // TTF rlFont loading with custom generation parameters
+    rlFont font = rlLoadFontEx("resources/KAISG.ttf", 96, 0, 0);
 
     // Generate mipmap levels to use trilinear filtering
     // NOTE: On 2D drawing it won't be noticeable, it looks like FILTER_BILINEAR
     GenTextureMipmaps(&font.texture);
 
     float fontSize = (float)font.baseSize;
-    Vector2 fontPosition = { 40.0f, screenHeight/2.0f - 80.0f };
-    Vector2 textSize = { 0.0f, 0.0f };
+    rlVector2 fontPosition = { 40.0f, screenHeight/2.0f - 80.0f };
+    rlVector2 textSize = { 0.0f, 0.0f };
 
     // Setup texture scaling filter
     rlSetTextureFilter(font.texture, TEXTURE_FILTER_POINT);
@@ -84,7 +84,7 @@ int main(void)
         // Load a dropped TTF file dynamically (at current fontSize)
         if (rlIsFileDropped())
         {
-            FilePathList droppedFiles = rlLoadDroppedFiles();
+            rlFilePathList droppedFiles = rlLoadDroppedFiles();
 
             // NOTE: We only support first ttf file dropped
             if (rlIsFileExtension(droppedFiles.paths[0], ".ttf"))
@@ -114,7 +114,7 @@ int main(void)
             //rlDrawRectangleLines(fontPosition.x, fontPosition.y, textSize.x, textSize.y, RED);
 
             rlDrawRectangle(0, screenHeight - 80, screenWidth, 80, LIGHTGRAY);
-            rlDrawText(rlTextFormat("Font size: %02.02f", fontSize), 20, screenHeight - 50, 10, DARKGRAY);
+            rlDrawText(rlTextFormat("rlFont size: %02.02f", fontSize), 20, screenHeight - 50, 10, DARKGRAY);
             rlDrawText(rlTextFormat("Text size: [%02.02f, %02.02f]", textSize.x, textSize.y), 20, screenHeight - 30, 10, DARKGRAY);
             rlDrawText("CURRENT TEXTURE FILTER:", 250, 400, 20, GRAY);
 
@@ -128,7 +128,7 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    rlUnloadFont(font);           // Font unloading
+    rlUnloadFont(font);           // rlFont unloading
 
     rlCloseWindow();              // Close window and OpenGL context
     //--------------------------------------------------------------------------------------

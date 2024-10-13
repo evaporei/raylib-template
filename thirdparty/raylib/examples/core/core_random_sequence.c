@@ -19,14 +19,14 @@
 #include <stdlib.h> // Required for: malloc() and free()
 
 typedef struct ColorRect{
-  Color c;
-  Rectangle r;
+  rlColor c;
+  rlRectangle r;
 } ColorRect;
 
-static Color GenerateRandomColor();
+static rlColor GenerateRandomColor();
 static ColorRect* GenerateRandomColorRectSequence(float rectCount, float rectWidth, float screenWidth, float screenHeight);
 static void ShuffleColorRectSequence(ColorRect* rectangles, int rectCount);
-static void DrawTextCenterKeyHelp(const char* key, const char* text, int posX, int posY, int fontSize, Color color);
+static void DrawTextCenterKeyHelp(const char* key, const char* text, int posX, int posY, int fontSize, rlColor color);
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -110,9 +110,9 @@ int main(void) {
   return 0;
 }
 
-static Color GenerateRandomColor()
+static rlColor GenerateRandomColor()
 {
-  return CLITERAL(Color){
+  return CLITERAL(rlColor){
     rlGetRandomValue(0, 255),
     rlGetRandomValue(0, 255),
     rlGetRandomValue(0, 255),
@@ -130,7 +130,7 @@ static ColorRect* GenerateRandomColorRectSequence(float rectCount, float rectWid
   for(int x=0;x<rectCount;x++){
     int rectHeight = (int)Remap((float)seq[x], 0, rectCount-1, 0, screenHeight);
     rectangles[x].c = GenerateRandomColor();
-    rectangles[x].r = CLITERAL(Rectangle){
+    rectangles[x].r = CLITERAL(rlRectangle){
       startX + x * rectWidth, screenHeight - rectHeight, rectWidth, (float)rectHeight
     };
   }
@@ -158,7 +158,7 @@ static void ShuffleColorRectSequence(ColorRect* rectangles, int rectCount)
   rlUnloadRandomSequence(seq);
 }
 
-static void DrawTextCenterKeyHelp(const char* key, const char* text, int posX, int posY, int fontSize, Color color)
+static void DrawTextCenterKeyHelp(const char* key, const char* text, int posX, int posY, int fontSize, rlColor color)
 {
   int spaceSize = rlMeasureText(" ", fontSize); 
   int pressSize = rlMeasureText("Press", fontSize); 

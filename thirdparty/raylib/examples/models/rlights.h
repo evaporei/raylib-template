@@ -46,12 +46,12 @@
 typedef struct {   
     int type;
     bool enabled;
-    Vector3 position;
-    Vector3 target;
-    Color color;
+    rlVector3 position;
+    rlVector3 target;
+    rlColor color;
     float attenuation;
     
-    // Shader locations
+    // rlShader locations
     int enabledLoc;
     int typeLoc;
     int positionLoc;
@@ -73,8 +73,8 @@ extern "C" {            // Prevents name mangling of functions
 //----------------------------------------------------------------------------------
 // Module Functions Declaration
 //----------------------------------------------------------------------------------
-Light CreateLight(int type, Vector3 position, Vector3 target, Color color, Shader shader);   // Create a light and get shader locations
-void UpdateLightValues(Shader shader, Light light);         // Send light properties to shader
+Light CreateLight(int type, rlVector3 position, rlVector3 target, rlColor color, rlShader shader);   // Create a light and get shader locations
+void UpdateLightValues(rlShader shader, Light light);         // Send light properties to shader
 
 #ifdef __cplusplus
 }
@@ -118,7 +118,7 @@ static int lightsCount = 0;    // Current amount of created lights
 //----------------------------------------------------------------------------------
 
 // Create a light and get shader locations
-Light CreateLight(int type, Vector3 position, Vector3 target, Color color, Shader shader)
+Light CreateLight(int type, rlVector3 position, rlVector3 target, rlColor color, rlShader shader)
 {
     Light light = { 0 };
 
@@ -147,7 +147,7 @@ Light CreateLight(int type, Vector3 position, Vector3 target, Color color, Shade
 
 // Send light properties to shader
 // NOTE: Light shader locations should be available 
-void UpdateLightValues(Shader shader, Light light)
+void UpdateLightValues(rlShader shader, Light light)
 {
     // Send to shader light enabled state and type
     rlSetShaderValue(shader, light.enabledLoc, &light.enabled, SHADER_UNIFORM_INT);

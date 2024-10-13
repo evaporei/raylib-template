@@ -51,24 +51,24 @@ int main(void)
             rlDrawCircleGradient(screenWidth/5, 220, 60, GREEN, SKYBLUE);
             rlDrawCircleLines(screenWidth/5, 340, 80, DARKBLUE);
 
-            // Rectangle shapes and lines
+            // rlRectangle shapes and lines
             rlDrawRectangle(screenWidth/4*2 - 60, 100, 120, 60, RED);
             rlDrawRectangleGradientH(screenWidth/4*2 - 90, 170, 180, 130, MAROON, GOLD);
             rlDrawRectangleLines(screenWidth/4*2 - 40, 320, 80, 60, ORANGE);  // NOTE: Uses QUADS internally, not lines
 
             // Triangle shapes and lines
-            rlDrawTriangle((Vector2){ screenWidth/4.0f *3.0f, 80.0f },
-                         (Vector2){ screenWidth/4.0f *3.0f - 60.0f, 150.0f },
-                         (Vector2){ screenWidth/4.0f *3.0f + 60.0f, 150.0f }, VIOLET);
+            rlDrawTriangle((rlVector2){ screenWidth/4.0f *3.0f, 80.0f },
+                         (rlVector2){ screenWidth/4.0f *3.0f - 60.0f, 150.0f },
+                         (rlVector2){ screenWidth/4.0f *3.0f + 60.0f, 150.0f }, VIOLET);
 
-            rlDrawTriangleLines((Vector2){ screenWidth/4.0f*3.0f, 160.0f },
-                              (Vector2){ screenWidth/4.0f*3.0f - 20.0f, 230.0f },
-                              (Vector2){ screenWidth/4.0f*3.0f + 20.0f, 230.0f }, DARKBLUE);
+            rlDrawTriangleLines((rlVector2){ screenWidth/4.0f*3.0f, 160.0f },
+                              (rlVector2){ screenWidth/4.0f*3.0f - 20.0f, 230.0f },
+                              (rlVector2){ screenWidth/4.0f*3.0f + 20.0f, 230.0f }, DARKBLUE);
 
             // Polygon shapes and lines
-            rlDrawPoly((Vector2){ screenWidth/4.0f*3, 330 }, 6, 80, rotation, BROWN);
-            rlDrawPolyLines((Vector2){ screenWidth/4.0f*3, 330 }, 6, 90, rotation, BROWN);
-            rlDrawPolyLinesEx((Vector2){ screenWidth/4.0f*3, 330 }, 6, 85, rotation, 6, BEIGE);
+            rlDrawPoly((rlVector2){ screenWidth/4.0f*3, 330 }, 6, 80, rotation, BROWN);
+            rlDrawPolyLines((rlVector2){ screenWidth/4.0f*3, 330 }, 6, 90, rotation, BROWN);
+            rlDrawPolyLinesEx((rlVector2){ screenWidth/4.0f*3, 330 }, 6, 85, rotation, 6, BEIGE);
 
             // NOTE: We draw all LINES based shapes together to optimize internal drawing,
             // this way, all LINES are rendered in a single draw pass

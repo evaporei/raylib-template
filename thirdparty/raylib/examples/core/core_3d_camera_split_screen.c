@@ -35,7 +35,7 @@ int main(void)
     cameraPlayer1.position.z = -3.0f;
     cameraPlayer1.position.y = 1.0f;
 
-    RenderTexture screenPlayer1 = rlLoadRenderTexture(screenWidth/2, screenHeight);
+    rlRenderTexture screenPlayer1 = rlLoadRenderTexture(screenWidth/2, screenHeight);
 
     // Setup player two camera and screen
     Camera cameraPlayer2 = { 0 };
@@ -45,10 +45,10 @@ int main(void)
     cameraPlayer2.position.x = -3.0f;
     cameraPlayer2.position.y = 3.0f;
 
-    RenderTexture screenPlayer2 = rlLoadRenderTexture(screenWidth / 2, screenHeight);
+    rlRenderTexture screenPlayer2 = rlLoadRenderTexture(screenWidth / 2, screenHeight);
 
     // Build a flipped rectangle the size of the split view to use for drawing later
-    Rectangle splitScreenRect = { 0.0f, 0.0f, (float)screenPlayer1.texture.width, (float)-screenPlayer1.texture.height };
+    rlRectangle splitScreenRect = { 0.0f, 0.0f, (float)screenPlayer1.texture.width, (float)-screenPlayer1.texture.height };
     
     // Grid data
     int count = 5;
@@ -100,14 +100,14 @@ int main(void)
             rlBeginMode3D(cameraPlayer1);
             
                 // Draw scene: grid of cube trees on a plane to make a "world"
-                rlDrawPlane((Vector3){ 0, 0, 0 }, (Vector2){ 50, 50 }, BEIGE); // Simple world plane
+                rlDrawPlane((rlVector3){ 0, 0, 0 }, (rlVector2){ 50, 50 }, BEIGE); // Simple world plane
 
                 for (float x = -count*spacing; x <= count*spacing; x += spacing)
                 {
                     for (float z = -count*spacing; z <= count*spacing; z += spacing)
                     {
-                        rlDrawCube((Vector3) { x, 1.5f, z }, 1, 1, 1, LIME);
-                        rlDrawCube((Vector3) { x, 0.5f, z }, 0.25f, 1, 0.25f, BROWN);
+                        rlDrawCube((rlVector3) { x, 1.5f, z }, 1, 1, 1, LIME);
+                        rlDrawCube((rlVector3) { x, 0.5f, z }, 0.25f, 1, 0.25f, BROWN);
                     }
                 }
 
@@ -129,14 +129,14 @@ int main(void)
             rlBeginMode3D(cameraPlayer2);
             
                 // Draw scene: grid of cube trees on a plane to make a "world"
-                rlDrawPlane((Vector3){ 0, 0, 0 }, (Vector2){ 50, 50 }, BEIGE); // Simple world plane
+                rlDrawPlane((rlVector3){ 0, 0, 0 }, (rlVector2){ 50, 50 }, BEIGE); // Simple world plane
 
                 for (float x = -count*spacing; x <= count*spacing; x += spacing)
                 {
                     for (float z = -count*spacing; z <= count*spacing; z += spacing)
                     {
-                        rlDrawCube((Vector3) { x, 1.5f, z }, 1, 1, 1, LIME);
-                        rlDrawCube((Vector3) { x, 0.5f, z }, 0.25f, 1, 0.25f, BROWN);
+                        rlDrawCube((rlVector3) { x, 1.5f, z }, 1, 1, 1, LIME);
+                        rlDrawCube((rlVector3) { x, 0.5f, z }, 0.25f, 1, 0.25f, BROWN);
                     }
                 }
 
@@ -155,8 +155,8 @@ int main(void)
         rlBeginDrawing();
             rlClearBackground(BLACK);
             
-            rlDrawTextureRec(screenPlayer1.texture, splitScreenRect, (Vector2){ 0, 0 }, WHITE);
-            rlDrawTextureRec(screenPlayer2.texture, splitScreenRect, (Vector2){ screenWidth/2.0f, 0 }, WHITE);
+            rlDrawTextureRec(screenPlayer1.texture, splitScreenRect, (rlVector2){ 0, 0 }, WHITE);
+            rlDrawTextureRec(screenPlayer2.texture, splitScreenRect, (rlVector2){ screenWidth/2.0f, 0 }, WHITE);
             
             rlDrawRectangle(rlGetScreenWidth()/2 - 2, 0, 4, rlGetScreenHeight(), LIGHTGRAY);
         rlEndDrawing();

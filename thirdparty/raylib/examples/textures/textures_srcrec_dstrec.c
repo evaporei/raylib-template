@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [textures] example - Texture source and destination rectangles
+*   raylib [textures] example - rlTexture source and destination rectangles
 *
 *   Example originally created with raylib 1.3, last time updated with raylib 1.3
 *
@@ -27,19 +27,19 @@ int main(void)
 
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
 
-    Texture2D scarfy = LoadTexture("resources/scarfy.png");        // Texture loading
+    Texture2D scarfy = LoadTexture("resources/scarfy.png");        // rlTexture loading
 
     int frameWidth = scarfy.width/6;
     int frameHeight = scarfy.height;
 
     // Source rectangle (part of the texture to use for drawing)
-    Rectangle sourceRec = { 0.0f, 0.0f, (float)frameWidth, (float)frameHeight };
+    rlRectangle sourceRec = { 0.0f, 0.0f, (float)frameWidth, (float)frameHeight };
 
     // Destination rectangle (screen rectangle where drawing part of texture)
-    Rectangle destRec = { screenWidth/2.0f, screenHeight/2.0f, frameWidth*2.0f, frameHeight*2.0f };
+    rlRectangle destRec = { screenWidth/2.0f, screenHeight/2.0f, frameWidth*2.0f, frameHeight*2.0f };
 
     // Origin of the texture (rotation/scale point), it's relative to destination rectangle size
-    Vector2 origin = { (float)frameWidth, (float)frameHeight };
+    rlVector2 origin = { (float)frameWidth, (float)frameHeight };
 
     int rotation = 0;
 
@@ -78,7 +78,7 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    UnloadTexture(scarfy);        // Texture unloading
+    UnloadTexture(scarfy);        // rlTexture unloading
 
     rlCloseWindow();                // Close window and OpenGL context
     //--------------------------------------------------------------------------------------

@@ -28,7 +28,7 @@ int main ()
 
     rlInitWindow(screenWidth, screenHeight, "raylib [core] example - 2d camera mouse zoom");
 
-    Camera2D camera = { 0 };
+    rlCamera2D camera = { 0 };
     camera.zoom = 1.0f;
 
     int zoomMode = 0;   // 0-Mouse Wheel, 1-Mouse Move
@@ -47,7 +47,7 @@ int main ()
         // Translate based on mouse right click
         if (rlIsMouseButtonDown(MOUSE_BUTTON_RIGHT))
         {
-            Vector2 delta = rlGetMouseDelta();
+            rlVector2 delta = rlGetMouseDelta();
             delta = Vector2Scale(delta, -1.0f/camera.zoom);
             camera.target = Vector2Add(camera.target, delta);
         }
@@ -59,7 +59,7 @@ int main ()
             if (wheel != 0)
             {
                 // Get the world point that is under the mouse
-                Vector2 mouseWorldPos = rlGetScreenToWorld2D(rlGetMousePosition(), camera);
+                rlVector2 mouseWorldPos = rlGetScreenToWorld2D(rlGetMousePosition(), camera);
 
                 // Set the offset to where the mouse is
                 camera.offset = rlGetMousePosition();
@@ -80,7 +80,7 @@ int main ()
             if (rlIsMouseButtonPressed(MOUSE_BUTTON_LEFT))
             {
                 // Get the world point that is under the mouse
-                Vector2 mouseWorldPos = rlGetScreenToWorld2D(rlGetMousePosition(), camera);
+                rlVector2 mouseWorldPos = rlGetScreenToWorld2D(rlGetMousePosition(), camera);
 
                 // Set the offset to where the mouse is
                 camera.offset = rlGetMousePosition();

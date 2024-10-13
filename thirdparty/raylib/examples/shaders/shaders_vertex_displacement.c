@@ -40,20 +40,20 @@ int main(void)
 
     // set up camera
     Camera camera = {0};
-    camera.position = (Vector3) {20.0f, 5.0f, -20.0f};
-    camera.target = (Vector3) {0.0f, 0.0f, 0.0f};
-    camera.up = (Vector3) {0.0f, 1.0f, 0.0f};
+    camera.position = (rlVector3) {20.0f, 5.0f, -20.0f};
+    camera.target = (rlVector3) {0.0f, 0.0f, 0.0f};
+    camera.up = (rlVector3) {0.0f, 1.0f, 0.0f};
     camera.fovy = 60.0f;
     camera.projection = CAMERA_PERSPECTIVE;
 
     // Load vertex and fragment shaders
-    Shader shader = rlLoadShader(
+    rlShader shader = rlLoadShader(
         rlTextFormat("resources/shaders/glsl%i/vertex_displacement.vs", GLSL_VERSION),
         rlTextFormat("resources/shaders/glsl%i/vertex_displacement.fs", GLSL_VERSION));
     
     // Load perlin noise texture
-    Image perlinNoiseImage = rlGenImagePerlinNoise(512, 512, 0, 0, 1.0f);
-    Texture perlinNoiseMap = rlLoadTextureFromImage(perlinNoiseImage);
+    rlImage perlinNoiseImage = rlGenImagePerlinNoise(512, 512, 0, 0, 1.0f);
+    rlTexture perlinNoiseMap = rlLoadTextureFromImage(perlinNoiseImage);
     rlUnloadImage(perlinNoiseImage);
 
     // Set shader uniform location
@@ -64,8 +64,8 @@ int main(void)
     rlSetUniformSampler(perlinNoiseMapLoc, 1);
     
     // Create a plane mesh and model
-    Mesh planeMesh = rlGenMeshPlane(50, 50, 50, 50);
-    Model planeModel = rlLoadModelFromMesh(planeMesh);
+    rlMesh planeMesh = rlGenMeshPlane(50, 50, 50, 50);
+    rlModel planeModel = rlLoadModelFromMesh(planeMesh);
     // Set plane model material
     planeModel.materials[0].shader = shader;
 
@@ -94,7 +94,7 @@ int main(void)
 
                 rlBeginShaderMode(shader);
                     // Draw plane model
-                    rlDrawModel(planeModel, (Vector3){ 0.0f, 0.0f, 0.0f }, 1.0f, (Color) {255, 255, 255, 255});
+                    rlDrawModel(planeModel, (rlVector3){ 0.0f, 0.0f, 0.0f }, 1.0f, (rlColor) {255, 255, 255, 255});
                 rlEndShaderMode();
 
             rlEndMode3D();

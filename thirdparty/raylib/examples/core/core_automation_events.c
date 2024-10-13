@@ -23,15 +23,15 @@
 #define MAX_ENVIRONMENT_ELEMENTS    5
 
 typedef struct Player {
-    Vector2 position;
+    rlVector2 position;
     float speed;
     bool canJump;
 } Player;
 
 typedef struct EnvElement {
-    Rectangle rect;
+    rlRectangle rect;
     int blocking;
-    Color color;
+    rlColor color;
 } EnvElement;
 
 
@@ -49,7 +49,7 @@ int main(void)
 
     // Define player
     Player player = { 0 };
-    player.position = (Vector2){ 400, 280 };
+    player.position = (rlVector2){ 400, 280 };
     player.speed = 0;
     player.canJump = false;
     
@@ -63,14 +63,14 @@ int main(void)
     };
 
     // Define camera
-    Camera2D camera = { 0 };
+    rlCamera2D camera = { 0 };
     camera.target = player.position;
-    camera.offset = (Vector2){ screenWidth/2.0f, screenHeight/2.0f };
+    camera.offset = (rlVector2){ screenWidth/2.0f, screenHeight/2.0f };
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
     
     // Automation events
-    AutomationEventList aelist = rlLoadAutomationEventList(0);  // Initialize list of automation events to record new events
+    rlAutomationEventList aelist = rlLoadAutomationEventList(0);  // Initialize list of automation events to record new events
     rlSetAutomationEventList(&aelist);
     bool eventRecording = false;
     bool eventPlaying = false;
@@ -93,7 +93,7 @@ int main(void)
         //----------------------------------------------------------------------------------
         if (rlIsFileDropped())
         {
-            FilePathList droppedFiles = rlLoadDroppedFiles();
+            rlFilePathList droppedFiles = rlLoadDroppedFiles();
 
             // Supports loading .rgs style files (text or binary) and .png style palette images
             if (rlIsFileExtension(droppedFiles.paths[0], ".txt;.rae"))
@@ -108,12 +108,12 @@ int main(void)
                 playFrameCounter = 0;
                 currentPlayFrame = 0;
                 
-                player.position = (Vector2){ 400, 280 };
+                player.position = (rlVector2){ 400, 280 };
                 player.speed = 0;
                 player.canJump = false;
 
                 camera.target = player.position;
-                camera.offset = (Vector2){ screenWidth/2.0f, screenHeight/2.0f };
+                camera.offset = (rlVector2){ screenWidth/2.0f, screenHeight/2.0f };
                 camera.rotation = 0.0f;
                 camera.zoom = 1.0f;
             }
@@ -136,7 +136,7 @@ int main(void)
         for (int i = 0; i < MAX_ENVIRONMENT_ELEMENTS; i++)
         {
             EnvElement *element = &envElements[i];
-            Vector2 *p = &(player.position);
+            rlVector2 *p = &(player.position);
             if (element->blocking &&
                 element->rect.x <= p->x &&
                 element->rect.x + element->rect.width >= p->x &&
@@ -160,12 +160,12 @@ int main(void)
         if (rlIsKeyPressed(KEY_R))
         {
             // Reset game state
-            player.position = (Vector2){ 400, 280 };
+            player.position = (rlVector2){ 400, 280 };
             player.speed = 0;
             player.canJump = false;
 
             camera.target = player.position;
-            camera.offset = (Vector2){ screenWidth/2.0f, screenHeight/2.0f };
+            camera.offset = (rlVector2){ screenWidth/2.0f, screenHeight/2.0f };
             camera.rotation = 0.0f;
             camera.zoom = 1.0f;
         }
@@ -201,7 +201,7 @@ int main(void)
         // Update camera
         //----------------------------------------------------------------------------------
         camera.target = player.position;
-        camera.offset = (Vector2){ screenWidth/2.0f, screenHeight/2.0f };
+        camera.offset = (rlVector2){ screenWidth/2.0f, screenHeight/2.0f };
         float minX = 1000, minY = 1000, maxX = -1000, maxY = -1000;
 
         // WARNING: On event replay, mouse-wheel internal value is set
@@ -218,8 +218,8 @@ int main(void)
             maxY = fmaxf(element->rect.y + element->rect.height, maxY);
         }
 
-        Vector2 max = rlGetWorldToScreen2D((Vector2){ maxX, maxY }, camera);
-        Vector2 min = rlGetWorldToScreen2D((Vector2){ minX, minY }, camera);
+        rlVector2 max = rlGetWorldToScreen2D((rlVector2){ maxX, maxY }, camera);
+        rlVector2 min = rlGetWorldToScreen2D((rlVector2){ minX, minY }, camera);
 
         if (max.x < screenWidth) camera.offset.x = screenWidth - (max.x - screenWidth/2);
         if (max.y < screenHeight) camera.offset.y = screenHeight - (max.y - screenHeight/2);
@@ -258,12 +258,12 @@ int main(void)
                 playFrameCounter = 0;
                 currentPlayFrame = 0;
 
-                player.position = (Vector2){ 400, 280 };
+                player.position = (rlVector2){ 400, 280 };
                 player.speed = 0;
                 player.canJump = false;
 
                 camera.target = player.position;
-                camera.offset = (Vector2){ screenWidth/2.0f, screenHeight/2.0f };
+                camera.offset = (rlVector2){ screenWidth/2.0f, screenHeight/2.0f };
                 camera.rotation = 0.0f;
                 camera.zoom = 1.0f;
             }
@@ -288,7 +288,7 @@ int main(void)
                 }
 
                 // Draw player rectangle
-                rlDrawRectangleRec((Rectangle){ player.position.x - 20, player.position.y - 40, 40, 40 }, RED);
+                rlDrawRectangleRec((rlRectangle){ player.position.x - 20, player.position.y - 40, 40, 40 }, RED);
 
             rlEndMode2D();
             
@@ -317,7 +317,7 @@ int main(void)
             {
                 rlDrawRectangle(10, 160, 290, 30, rlFade(LIME, 0.3f));
                 rlDrawRectangleLines(10, 160, 290, 30, rlFade(DARKGREEN, 0.8f));
-                rlDrawTriangle((Vector2){ 20, 155 + 10 }, (Vector2){ 20, 155 + 30 }, (Vector2){ 40, 155 + 20 }, DARKGREEN);
+                rlDrawTriangle((rlVector2){ 20, 155 + 10 }, (rlVector2){ 20, 155 + 30 }, (rlVector2){ 40, 155 + 20 }, DARKGREEN);
 
                 if (((frameCounter/15)%2) == 1) rlDrawText(rlTextFormat("PLAYING RECORDED EVENTS... [%i]", currentPlayFrame), 50, 170, 10, DARKGREEN);
             }

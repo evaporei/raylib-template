@@ -22,7 +22,7 @@
 #define MIN_POINTS 1000         // 1 thousand
 
 // Generate mesh using points
-Mesh GenMeshPoints(int numPoints);
+rlMesh GenMeshPoints(int numPoints);
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -44,13 +44,13 @@ int main()
         .projection = CAMERA_PERSPECTIVE
     };
 
-    Vector3 position = { 0.0f, 0.0f, 0.0f };
+    rlVector3 position = { 0.0f, 0.0f, 0.0f };
     bool useDrawModelPoints = true;
     bool numPointsChanged = false;
     int numPoints = 1000;
     
-    Mesh mesh = GenMeshPoints(numPoints);
-    Model model = rlLoadModelFromMesh(mesh);
+    rlMesh mesh = GenMeshPoints(numPoints);
+    rlModel model = rlLoadModelFromMesh(mesh);
     
     //rlSetTargetFPS(60);
     //--------------------------------------------------------------------------------------
@@ -101,12 +101,12 @@ int main()
                     // The old method must continually draw the "points" (lines)
                     for (int i = 0; i < numPoints; i++)
                     {
-                        Vector3 pos = {
+                        rlVector3 pos = {
                             .x = mesh.vertices[i*3 + 0],
                             .y = mesh.vertices[i*3 + 1],
                             .z = mesh.vertices[i*3 + 2],
                         };
-                        Color color = {
+                        rlColor color = {
                             .r = mesh.colors[i*4 + 0],
                             .g = mesh.colors[i*4 + 1],
                             .b = mesh.colors[i*4 + 2],
@@ -147,9 +147,9 @@ int main()
 }
 
 // Generate a spherical point cloud
-Mesh GenMeshPoints(int numPoints)
+rlMesh GenMeshPoints(int numPoints)
 {
-    Mesh mesh = { 
+    rlMesh mesh = { 
         .triangleCount = 1,
         .vertexCount = numPoints,
         .vertices = (float *)rlMemAlloc(numPoints*3*sizeof(float)),
@@ -167,7 +167,7 @@ Mesh GenMeshPoints(int numPoints)
         mesh.vertices[i*3 + 1] = r*sin(theta)*sin(phi);
         mesh.vertices[i*3 + 2] = r*cos(theta);
         
-        Color color = rlColorFromHSV(r*360.0f, 1.0f, 1.0f);
+        rlColor color = rlColorFromHSV(r*360.0f, 1.0f, 1.0f);
         
         mesh.colors[i*4 + 0] = color.r;
         mesh.colors[i*4 + 1] = color.g;

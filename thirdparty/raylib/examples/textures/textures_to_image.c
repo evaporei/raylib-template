@@ -29,8 +29,8 @@ int main(void)
 
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
 
-    Image image = rlLoadImage("resources/raylib_logo.png");  // Load image data into CPU memory (RAM)
-    Texture2D texture = rlLoadTextureFromImage(image);       // Image converted to texture, GPU memory (RAM -> VRAM)
+    rlImage image = rlLoadImage("resources/raylib_logo.png");  // Load image data into CPU memory (RAM)
+    Texture2D texture = rlLoadTextureFromImage(image);       // rlImage converted to texture, GPU memory (RAM -> VRAM)
     rlUnloadImage(image);                                    // Unload image data from CPU memory (RAM)
 
     image = rlLoadImageFromTexture(texture);                 // Load image from GPU texture (VRAM -> RAM)
@@ -66,7 +66,7 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    UnloadTexture(texture);       // Texture unloading
+    UnloadTexture(texture);       // rlTexture unloading
 
     rlCloseWindow();                // Close window and OpenGL context
     //--------------------------------------------------------------------------------------

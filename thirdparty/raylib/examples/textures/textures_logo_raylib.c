@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [textures] example - Texture loading and drawing
+*   raylib [textures] example - rlTexture loading and drawing
 *
 *   Example originally created with raylib 1.0, last time updated with raylib 1.0
 *
@@ -26,7 +26,7 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [textures] example - texture loading and drawing");
 
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
-    Texture2D texture = LoadTexture("resources/raylib_logo.png");        // Texture loading
+    Texture2D texture = LoadTexture("resources/raylib_logo.png");        // rlTexture loading
 
     rlSetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //---------------------------------------------------------------------------------------
@@ -55,7 +55,7 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    UnloadTexture(texture);       // Texture unloading
+    UnloadTexture(texture);       // rlTexture unloading
 
     rlCloseWindow();                // Close window and OpenGL context
     //--------------------------------------------------------------------------------------

@@ -36,15 +36,15 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [shaders] example - raymarching shapes");
 
     Camera camera = { 0 };
-    camera.position = (Vector3){ 2.5f, 2.5f, 3.0f };    // Camera position
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.7f };      // Camera looking at point
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
+    camera.position = (rlVector3){ 2.5f, 2.5f, 3.0f };    // Camera position
+    camera.target = (rlVector3){ 0.0f, 0.0f, 0.7f };      // Camera looking at point
+    camera.up = (rlVector3){ 0.0f, 1.0f, 0.0f };          // Camera up vector (rotation towards target)
     camera.fovy = 65.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
     // Load raymarching shader
     // NOTE: Defining 0 (NULL) for vertex shader forces usage of internal default vertex shader
-    Shader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/raymarching.fs", GLSL_VERSION));
+    rlShader shader = rlLoadShader(0, rlTextFormat("resources/shaders/glsl%i/raymarching.fs", GLSL_VERSION));
 
     // Get shader locations for required uniforms
     int viewEyeLoc = rlGetShaderLocation(shader, "viewEye");

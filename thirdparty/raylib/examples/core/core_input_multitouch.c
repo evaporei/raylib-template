@@ -29,7 +29,7 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [core] example - input multitouch");
 
-    Vector2 touchPositions[MAX_TOUCH_POINTS] = { 0 };
+    rlVector2 touchPositions[MAX_TOUCH_POINTS] = { 0 };
 
     rlSetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //---------------------------------------------------------------------------------------

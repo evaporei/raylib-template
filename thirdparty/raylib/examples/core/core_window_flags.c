@@ -44,8 +44,8 @@ int main(void)
     //rlSetConfigFlags(FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT | FLAG_WINDOW_HIGHDPI);
     rlInitWindow(screenWidth, screenHeight, "raylib [core] example - window flags");
 
-    Vector2 ballPosition = { rlGetScreenWidth() / 2.0f, rlGetScreenHeight() / 2.0f };
-    Vector2 ballSpeed = { 5.0f, 4.0f };
+    rlVector2 ballPosition = { rlGetScreenWidth() / 2.0f, rlGetScreenHeight() / 2.0f };
+    rlVector2 ballSpeed = { 5.0f, 4.0f };
     float ballRadius = 20;
 
     int framesCounter = 0;
@@ -144,7 +144,7 @@ int main(void)
         else rlClearBackground(RAYWHITE);
 
         rlDrawCircleV(ballPosition, ballRadius, MAROON);
-        rlDrawRectangleLinesEx((Rectangle) { 0, 0, (float)rlGetScreenWidth(), (float)rlGetScreenHeight() }, 4, RAYWHITE);
+        rlDrawRectangleLinesEx((rlRectangle) { 0, 0, (float)rlGetScreenWidth(), (float)rlGetScreenHeight() }, 4, RAYWHITE);
 
         rlDrawCircleV(rlGetMousePosition(), 10, DARKBLUE);
 

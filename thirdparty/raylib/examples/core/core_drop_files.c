@@ -51,7 +51,7 @@ int main(void)
         //----------------------------------------------------------------------------------
         if (rlIsFileDropped())
         {
-            FilePathList droppedFiles = rlLoadDroppedFiles();
+            rlFilePathList droppedFiles = rlLoadDroppedFiles();
 
             for (int i = 0, offset = filePathCounter; i < (int)droppedFiles.count; i++)
             {

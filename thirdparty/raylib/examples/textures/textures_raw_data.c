@@ -32,7 +32,7 @@ int main(void)
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
 
     // Load RAW image data (512x512, 32bit RGBA, no file header)
-    Image fudesumiRaw = rlLoadImageRaw("resources/fudesumi.raw", 384, 512, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8, 0);
+    rlImage fudesumiRaw = rlLoadImageRaw("resources/fudesumi.raw", 384, 512, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8, 0);
     Texture2D fudesumi = rlLoadTextureFromImage(fudesumiRaw);  // Upload CPU (RAM) image to GPU (VRAM)
     rlUnloadImage(fudesumiRaw);                                // Unload CPU (RAM) image data
 
@@ -40,8 +40,8 @@ int main(void)
     int width = 960;
     int height = 480;
 
-    // Dynamic memory allocation to store pixels data (Color type)
-    Color *pixels = (Color *)malloc(width*height*sizeof(Color));
+    // Dynamic memory allocation to store pixels data (rlColor type)
+    rlColor *pixels = (rlColor *)malloc(width*height*sizeof(rlColor));
 
     for (int y = 0; y < height; y++)
     {
@@ -53,7 +53,7 @@ int main(void)
     }
 
     // Load pixels data into an image structure and create texture
-    Image checkedIm = {
+    rlImage checkedIm = {
         .data = pixels,             // We can assign pixels directly to data
         .width = width,
         .height = height,
@@ -96,8 +96,8 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    UnloadTexture(fudesumi);    // Texture unloading
-    UnloadTexture(checked);     // Texture unloading
+    UnloadTexture(fudesumi);    // rlTexture unloading
+    UnloadTexture(checked);     // rlTexture unloading
 
     rlCloseWindow();              // Close window and OpenGL context
     //--------------------------------------------------------------------------------------

@@ -16,11 +16,11 @@
 #define MAX_CIRCLES  64
 
 typedef struct {
-    Vector2 position;
+    rlVector2 position;
     float radius;
     float alpha;
     float speed;
-    Color color;
+    rlColor color;
 } CircleWave;
 
 //------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ int main(void)
 
     rlInitAudioDevice();                  // Initialize audio device
 
-    Color colors[14] = { ORANGE, RED, GOLD, LIME, BLUE, VIOLET, BROWN, LIGHTGRAY, PINK,
+    rlColor colors[14] = { ORANGE, RED, GOLD, LIME, BLUE, VIOLET, BROWN, LIGHTGRAY, PINK,
                          YELLOW, GREEN, SKYBLUE, PURPLE, BEIGE };
 
     // Creates some circles for visual effect
@@ -55,7 +55,7 @@ int main(void)
         circles[i].color = colors[rlGetRandomValue(0, 13)];
     }
 
-    Music music = rlLoadMusicStream("resources/mini1111.xm");
+    rlMusic music = rlLoadMusicStream("resources/mini1111.xm");
     music.looping = false;
     float pitch = 1.0f;
 
@@ -99,7 +99,7 @@ int main(void)
         // Get timePlayed scaled to bar dimensions
         timePlayed = rlGetMusicTimePlayed(music)/rlGetMusicTimeLength(music)*(screenWidth - 40);
 
-        // Color circles animation
+        // rlColor circles animation
         for (int i = MAX_CIRCLES - 1; (i >= 0) && !pause; i--)
         {
             circles[i].alpha += circles[i].speed;

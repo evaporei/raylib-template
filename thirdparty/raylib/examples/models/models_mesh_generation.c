@@ -15,7 +15,7 @@
 
 #define NUM_MODELS  9               // Parametric 3d shapes to generate
 
-static Mesh GenMeshCustom(void);    // Generate a simple triangle mesh from code
+static rlMesh GenMeshCustom(void);    // Generate a simple triangle mesh from code
 
 //------------------------------------------------------------------------------------
 // Program main entry point
@@ -30,11 +30,11 @@ int main(void)
     rlInitWindow(screenWidth, screenHeight, "raylib [models] example - mesh generation");
 
     // We generate a checked image for texturing
-    Image checked = rlGenImageChecked(2, 2, 1, 1, RED, GREEN);
+    rlImage checked = rlGenImageChecked(2, 2, 1, 1, RED, GREEN);
     Texture2D texture = rlLoadTextureFromImage(checked);
     rlUnloadImage(checked);
 
-    Model models[NUM_MODELS] = { 0 };
+    rlModel models[NUM_MODELS] = { 0 };
 
     models[0] = rlLoadModelFromMesh(rlGenMeshPlane(2, 2, 4, 3));
     models[1] = rlLoadModelFromMesh(rlGenMeshCube(2.0f, 1.0f, 2.0f));
@@ -63,8 +63,8 @@ int main(void)
     // Define the camera to look into our 3d world
     Camera camera = { { 5.0f, 5.0f, 5.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, 45.0f, 0 };
 
-    // Model drawing position
-    Vector3 position = { 0.0f, 0.0f, 0.0f };
+    // rlModel drawing position
+    rlVector3 position = { 0.0f, 0.0f, 0.0f };
 
     int currentModel = 0;
 
@@ -144,9 +144,9 @@ int main(void)
 }
 
 // Generate a simple triangle mesh from code
-static Mesh GenMeshCustom(void)
+static rlMesh GenMeshCustom(void)
 {
-    Mesh mesh = { 0 };
+    rlMesh mesh = { 0 };
     mesh.triangleCount = 1;
     mesh.vertexCount = mesh.triangleCount*3;
     mesh.vertices = (float *)rlMemAlloc(mesh.vertexCount*3*sizeof(float));    // 3 vertices, 3 coordinates each (x, y, z)

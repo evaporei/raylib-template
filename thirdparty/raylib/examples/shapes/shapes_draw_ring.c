@@ -30,7 +30,7 @@ int main(void)
 
     rlInitWindow(screenWidth, screenHeight, "raylib [shapes] example - draw ring");
 
-    Vector2 center = {(rlGetScreenWidth() - 300)/2.0f, rlGetScreenHeight()/2.0f };
+    rlVector2 center = {(rlGetScreenWidth() - 300)/2.0f, rlGetScreenHeight()/2.0f };
 
     float innerRadius = 80.0f;
     float outerRadius = 190.0f;
@@ -69,17 +69,17 @@ int main(void)
 
             // Draw GUI controls
             //------------------------------------------------------------------------------
-            GuiSliderBar((Rectangle){ 600, 40, 120, 20 }, "StartAngle", rlTextFormat("%.2f", startAngle), &startAngle, -450, 450);
-            GuiSliderBar((Rectangle){ 600, 70, 120, 20 }, "EndAngle", rlTextFormat("%.2f", endAngle), &endAngle, -450, 450);
+            GuiSliderBar((rlRectangle){ 600, 40, 120, 20 }, "StartAngle", rlTextFormat("%.2f", startAngle), &startAngle, -450, 450);
+            GuiSliderBar((rlRectangle){ 600, 70, 120, 20 }, "EndAngle", rlTextFormat("%.2f", endAngle), &endAngle, -450, 450);
 
-            GuiSliderBar((Rectangle){ 600, 140, 120, 20 }, "InnerRadius", rlTextFormat("%.2f", innerRadius), &innerRadius, 0, 100);
-            GuiSliderBar((Rectangle){ 600, 170, 120, 20 }, "OuterRadius", rlTextFormat("%.2f", outerRadius), &outerRadius, 0, 200);
+            GuiSliderBar((rlRectangle){ 600, 140, 120, 20 }, "InnerRadius", rlTextFormat("%.2f", innerRadius), &innerRadius, 0, 100);
+            GuiSliderBar((rlRectangle){ 600, 170, 120, 20 }, "OuterRadius", rlTextFormat("%.2f", outerRadius), &outerRadius, 0, 200);
 
-            GuiSliderBar((Rectangle){ 600, 240, 120, 20 }, "Segments", rlTextFormat("%.2f", segments), &segments, 0, 100);
+            GuiSliderBar((rlRectangle){ 600, 240, 120, 20 }, "Segments", rlTextFormat("%.2f", segments), &segments, 0, 100);
 
-            GuiCheckBox((Rectangle){ 600, 320, 20, 20 }, "Draw Ring", &drawRing);
-            GuiCheckBox((Rectangle){ 600, 350, 20, 20 }, "Draw RingLines", &drawRingLines);
-            GuiCheckBox((Rectangle){ 600, 380, 20, 20 }, "Draw CircleLines", &drawCircleLines);
+            GuiCheckBox((rlRectangle){ 600, 320, 20, 20 }, "Draw Ring", &drawRing);
+            GuiCheckBox((rlRectangle){ 600, 350, 20, 20 }, "Draw RingLines", &drawRingLines);
+            GuiCheckBox((rlRectangle){ 600, 380, 20, 20 }, "Draw CircleLines", &drawCircleLines);
             //------------------------------------------------------------------------------
 
             int minSegments = (int)ceilf((endAngle - startAngle)/90);
