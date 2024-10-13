@@ -9,8 +9,8 @@ int main(void) {
 
     while (!WindowShouldClose()) {
         BeginDrawing();
-            ClearBackground(RAYWHITE);
-            DrawText("game content here.", 190, 200, 20, LIGHTGRAY);
+            ClearBackground(BLACK);
+            DrawText("game content here.", 190, 200, 20, RAYWHITE);
         EndDrawing();
     }
 
