@@ -5,16 +5,16 @@ int main(void) {
     SetTraceLogLevel(LOG_ERROR);
 #endif
 
-    InitWindow(800, 450, "game");
+    rlInitWindow(800, 450, "game");
 
-    while (!WindowShouldClose()) {
-        BeginDrawing();
-            ClearBackground(BLACK);
-            DrawText("game content here.", 190, 200, 20, RAYWHITE);
-        EndDrawing();
+    while (!rlWindowShouldClose()) {
+        rlBeginDrawing();
+            rlClearBackground(BLACK);
+            rlDrawText("game content here.", 190, 200, 20, RAYWHITE);
+        rlEndDrawing();
     }
 
-    CloseWindow();
+    rlCloseWindow();
 
     return 0;
 }
